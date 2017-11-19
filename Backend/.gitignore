@@ -1,7 +1,10 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 node_modules
 build
-
 db/
+/express-ts/app/*.map
+/express-ts/app/*.js
+/express-ts/app/controllers/*.map
+/express-ts/app/controllers/*.js
 
 
