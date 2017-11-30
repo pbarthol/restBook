@@ -3,6 +3,7 @@
 ## MongoDB
 
 Start the mongoDB Server
+- Open a command shell.
 - Execute 'cd C:\Program Files\MongoDB\Server\3.4\bin'
 - Execute 'mongod --dbpath D:\RestBook\Backend\db'
 

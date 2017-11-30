@@ -16,6 +16,7 @@ import { GET_RESTAURANT,
   GetRestaurantSuccessAction,
   GetRestaurantErrorAction} from './restaurant/actions';
 import { RestaurantService } from './services';
+import { Restaurant } from './restaurant/models';
 
 @Injectable()
 export class RestaurantEffects {
@@ -31,7 +32,7 @@ export class RestaurantEffects {
     .map(toPayload)
     .switchMap(payload => {
       return this.svc.getRestaurants()
-        .map(restaurants => new LoadRestaurantsSuccessAction({ restaurants: restaurants }))
+        .map((restaurants: Restaurant[]) => new LoadRestaurantsSuccessAction(restaurants))
         .catch(error => Observable.of(new LoadRestaurantsErrorAction({ error: error })));
     });
 

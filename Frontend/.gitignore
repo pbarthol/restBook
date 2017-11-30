@@ -40,5 +40,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
-/src/app/login/login.component.js.map
-/src/app/login/login.component.js
+/src/app/components/login/login.component.js.map
+/src/app/components/login/login.component.js

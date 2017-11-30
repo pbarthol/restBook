@@ -40,7 +40,7 @@ import { combineReducers } from '@ngrx/store';
  * notation packages up all of the exports into a single object.
  */
 import * as restaurantsReducers from '../store/restaurants/reducer';
-import * as restaurantReducers from '../store/restaurants/restaurant/reducer';
+// import * as restaurantReducers from '../store/restaurants/restaurant/reducer';
 
 
 /**
@@ -48,8 +48,8 @@ import * as restaurantReducers from '../store/restaurants/restaurant/reducer';
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  restaurants: restaurantsReducers.RestaurantListState;
-  restaurant: restaurantReducers.RestaurantState;
+  restaurants: restaurantsReducers.ListState;
+  // restaurant: restaurantReducers.RestaurantState;
 }
 
 
@@ -62,7 +62,7 @@ export interface State {
  */
 const reducers = {
   restaurants: restaurantsReducers.reducer,
-  restaurant: restaurantReducers.reducer,
+  // restaurant: restaurantReducers.reducer,
 };
 
 // const developmentReducer: ActionReducer<State> = compose(storeFreeze, combineReducers)(reducers);

@@ -8,15 +8,15 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 /** Own Components */
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
-import { RestaurantComponent } from './restaurant/restaurant.component';
-import { RestaurantEditComponent } from './restaurant-edit/restaurant-edit.component';
-import { UserComponent } from './user/user.component';
-import { UserEditComponent } from './user-edit/user-edit.component';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
+import { RestaurantListComponent } from './components/restaurant-list/restaurant-list.component';
+import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { RestaurantEditComponent } from './components/restaurant-edit/restaurant-edit.component';
+import { UserComponent } from './components/user/user.component';
+import { UserEditComponent } from './components/user-edit/user-edit.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { AutoCompleteModule } from 'primeng/primeng';
 import { EffectsModule } from "@ngrx/effects";
 import { RestaurantEffects } from './store/restaurants/effects';
@@ -39,15 +39,15 @@ import { RestaurantService } from './store/restaurants/services';
 
   ],
   imports: [
+    RouterModule.forRoot([
+      { path: 'home', component: HomeComponent },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' }
+    ]),
     BrowserModule,
     BrowserAnimationsModule,
     HttpModule,
     ReactiveFormsModule,
     EffectsModule.run(RestaurantEffects),
-    RouterModule.forRoot([
-      { path: 'home', component: HomeComponent },
-      { path: '**', redirectTo: 'home', pathMatch: 'full' }
-    ]),
     AutoCompleteModule,
     StoreModule.provideStore(reducer),
     StoreDevtoolsModule.instrumentStore({

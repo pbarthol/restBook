@@ -17,7 +17,8 @@ export class RestaurantService {
 
   public getRestaurants(): Observable<Array<Restaurant>> {
     return this.http.get(this.URL)
-      .map(response => response.text() ? response.json() : response)
+      // .map(response => response.text() ? response.json(): response)
+      .map(response => response.json() || [])
       .do(res => console.log('map = ', res))
   }
 

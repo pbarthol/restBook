@@ -15,7 +15,8 @@ const router: Router = Router();
 // get restaurants
 router.get('/', function(req, res, next) {
     Restaurant.find().then(restaurants => {
-        res.json(restaurants.map(restaurant => restaurant.toObject()));
+        // res.json(restaurants.map(restaurant => restaurant.toObject()));
+        res.json(restaurants);
         next();
     }).catch(next);
 });
