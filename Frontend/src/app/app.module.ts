@@ -5,6 +5,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from "@ngrx/store";
+import { AutoCompleteModule } from 'primeng/primeng';
 
 /** Own Components */
 import { AppComponent } from './app.component';
@@ -17,10 +20,7 @@ import { UserComponent } from './components/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { AutoCompleteModule } from 'primeng/primeng';
-import { EffectsModule } from "@ngrx/effects";
 import { RestaurantEffects } from './store/restaurants/effects';
-import { StoreModule } from "@ngrx/store";
 import { reducer } from './reducers';
 import { RestaurantService } from './store/restaurants/services';
 
@@ -47,10 +47,12 @@ import { RestaurantService } from './store/restaurants/services';
     BrowserAnimationsModule,
     HttpModule,
     ReactiveFormsModule,
-    EffectsModule.run(RestaurantEffects),
+    EffectsModule.forRoot([
+      RestaurantEffects,
+    ]),
     AutoCompleteModule,
-    StoreModule.provideStore(reducer),
-    StoreDevtoolsModule.instrumentStore({
+    StoreModule.forRoot(reducer),
+    StoreDevtoolsModule.instrument({
       maxAge: 5,
       monitor: reducer
     })

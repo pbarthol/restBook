@@ -13,7 +13,7 @@ import { environment } from '../../environments/environment';
  *
  * More: https://drboolean.gitbooks.io/mostly-adequate-guide/content/ch5.html
  */
-import { compose } from '@ngrx/core/compose';
+import { compose } from '@ngrx/store';
 
 /**
  * storeFreeze prevents state from being mutated. When mutation occurs, an
@@ -48,7 +48,7 @@ import * as restaurantsReducers from '../store/restaurants/reducer';
  * our top level state interface is just a map of keys to inner state types.
  */
 export interface State {
-  restaurants: restaurantsReducers.ListState;
+  restaurants: restaurantsReducers.State;
   // restaurant: restaurantReducers.RestaurantState;
 }
 

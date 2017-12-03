@@ -19,14 +19,14 @@ const initialState: RestaurantState = {
   webpage: ''
 };
 
-export function reducer(state = initialState, action: Action): RestaurantState {
-  switch (action.type) {
-    case  GET_RESTAURANT_SUCCESS:
-      return action.payload;
-    default:
-      return state;
-  }
-}
-
-export const getRestaurant = (state: RestaurantState) => state._id;
+// export function reducer(state = initialState, action: Actions): RestaurantState {
+//   switch (action.type) {
+//     case  GET_RESTAURANT_SUCCESS:
+//       return action.payload;
+//     default:
+//       return state;
+//   }
+// }
+//
+// export const getRestaurant = (state: RestaurantState) => state._id;
 

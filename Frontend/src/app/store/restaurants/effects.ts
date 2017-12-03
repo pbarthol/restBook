@@ -2,7 +2,7 @@
  * Created by Peter on 17.11.2017.
  */
 import { Injectable } from '@angular/core';
-import { Effect, Actions, toPayload } from '@ngrx/effects';
+import { Effect, Actions } from '@ngrx/effects';
 import { Action } from "@ngrx/store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/catch";
@@ -10,6 +10,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
 
 import { LOAD_RESTAURANTS,
+  LoadRestaurantsAction,
   LoadRestaurantsSuccessAction,
   LoadRestaurantsErrorAction} from './actions';
 import { GET_RESTAURANT,
@@ -22,17 +23,19 @@ import { Restaurant } from './restaurant/models';
 export class RestaurantEffects {
 
   constructor (
-    private actions: Actions,
+    private actions$: Actions,
     private svc: RestaurantService,
   ) {}
 
-  @Effect()
-  loadRestaurants$: Observable<Action> = this.actions
-    .ofType(LOAD_RESTAURANTS)
-    .map(toPayload)
-    .switchMap(payload => {
+  @Effect({dispatch: true})
+  loadRestaurants$: Observable<Action> = this.actions$
+    .ofType<LoadRestaurantsAction>(LOAD_RESTAURANTS)
+    .switchMap(() => {
       return this.svc.getRestaurants()
-        .map((restaurants: Restaurant[]) => new LoadRestaurantsSuccessAction(restaurants))
+        .do(res => console.log('from service: ', res))
+        .map(data => {
+          return new LoadRestaurantsSuccessAction({restaurants: data})
+        })
         .catch(error => Observable.of(new LoadRestaurantsErrorAction({ error: error })));
     });
 

@@ -26,7 +26,7 @@ export const DELETE_RESTAURANT_SUCCESS = '[Restaurant] Delete Restaurant Success
 
 export class GetRestaurantSuccessAction implements Action {
   readonly type = GET_RESTAURANT_SUCCESS;
-  constructor(public payload: { restaurant: Restaurant }) {}
+  constructor(public payload: { restaurant: null }) {}
 }
 
 export class GetRestaurantErrorAction implements Action {
