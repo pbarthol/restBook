@@ -21,7 +21,7 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { RestaurantEffects } from './store/restaurants/effects';
-import { reducer } from './reducers';
+import { reducers } from './reducers/index';
 import { RestaurantService } from './store/restaurants/services';
 
 @NgModule({
@@ -51,10 +51,9 @@ import { RestaurantService } from './store/restaurants/services';
       RestaurantEffects,
     ]),
     AutoCompleteModule,
-    StoreModule.forRoot(reducer),
+    StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
-      maxAge: 5,
-      monitor: reducer
+      maxAge: 5
     })
  ],
   providers: [

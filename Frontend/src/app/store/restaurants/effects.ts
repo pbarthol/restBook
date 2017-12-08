@@ -27,17 +27,28 @@ export class RestaurantEffects {
     private svc: RestaurantService,
   ) {}
 
+  // @Effect({dispatch: true})
+  // loadRestaurants$: Observable<Action> = this.actions$
+  //   .ofType<LoadRestaurantsAction>(LOAD_RESTAURANTS)
+  //   .switchMap(() => {
+  //     return this.svc.getRestaurants()
+  //       .do(res => console.log('from service: ', res))
+  //       .map(data =>  new LoadRestaurantsSuccessAction({restaurants: data}))
+  //       .catch(error => Observable.of(new LoadRestaurantsErrorAction({ error: error })));
+  //   });
+
   @Effect({dispatch: true})
   loadRestaurants$: Observable<Action> = this.actions$
     .ofType<LoadRestaurantsAction>(LOAD_RESTAURANTS)
     .switchMap(() => {
       return this.svc.getRestaurants()
         .do(res => console.log('from service: ', res))
-        .map(data => {
-          return new LoadRestaurantsSuccessAction({restaurants: data})
-        })
+        .map(data =>  new LoadRestaurantsSuccessAction(data))
         .catch(error => Observable.of(new LoadRestaurantsErrorAction({ error: error })));
     });
+
+
+
 
   // @Effect()
   // getRestaurant$: Observable<Action> = this.actions

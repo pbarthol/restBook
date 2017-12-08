@@ -23,7 +23,7 @@ export class LoadRestaurantsAction implements Action {
 
 export class LoadRestaurantsSuccessAction implements Action {
   readonly type = LOAD_RESTAURANTS_SUCCESS;
-  constructor(public payload: { restaurants: Restaurant[]}) {
+  constructor(public payload: Restaurant[]) {
     var i = 0; // just debugging
   }
 }
@@ -32,8 +32,3 @@ export class LoadRestaurantsErrorAction implements Action {
   readonly type = LOAD_RESTAURANTS_ERROR;
   constructor(public payload: { error: Error }) {}
 }
-
-export type Actions =
-  LoadRestaurantsSuccessAction
-  | LoadRestaurantsErrorAction
-  | LoadRestaurantsAction;
