@@ -308,8 +308,8 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -421,14 +421,17 @@
       <workItem from="1512497573415" duration="606000" />
       <workItem from="1512586422433" duration="773000" />
       <workItem from="1512765751723" duration="663000" />
+      <workItem from="1512810539398" duration="696000" />
+      <workItem from="1512829346170" duration="659000" />
+      <workItem from="1512911011782" duration="693000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="47183000" />
+    <option name="totallyTimeSpent" value="49231000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-11" y="-11" width="1942" height="1042" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17294429" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />

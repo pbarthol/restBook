@@ -7,7 +7,9 @@ import { HttpModule } from '@angular/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
+/** PrimeNG Modules */
 import { AutoCompleteModule } from 'primeng/primeng';
+import { PanelModule } from 'primeng/primeng';
 
 /** Own Components */
 import { AppComponent } from './app.component';
@@ -23,6 +25,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { RestaurantEffects } from './store/restaurants/effects';
 import { reducers } from './reducers/index';
 import { RestaurantService } from './store/restaurants/services';
+import { RestaurantTeaserComponent } from './components/restaurant-teaser/restaurant-teaser.component';
+
+/** Pipes */
+import { RestaurantPipe } from './components/pipes/restaurant';
 
 @NgModule({
   declarations: [
@@ -35,8 +41,9 @@ import { RestaurantService } from './store/restaurants/services';
     UserComponent,
     UserEditComponent,
     HeaderComponent,
-    FooterComponent
-
+    FooterComponent,
+    RestaurantTeaserComponent,
+    RestaurantPipe,
   ],
   imports: [
     RouterModule.forRoot([
@@ -51,6 +58,7 @@ import { RestaurantService } from './store/restaurants/services';
       RestaurantEffects,
     ]),
     AutoCompleteModule,
+    PanelModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 5

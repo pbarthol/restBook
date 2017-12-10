@@ -10,6 +10,8 @@ export interface Restaurant {
   village: string;
   phoneNumber: string;
   webpage: string;
+  category: string;
+  teaserTitle: string;
 }
   // greet() {
   //   return "Hello, " + this.greeting;

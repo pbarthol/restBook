@@ -6,17 +6,30 @@ import {Action} from '@ngrx/store';
 import { GET_RESTAURANT_SUCCESS, Actions } from "./actions";
 import { Restaurant } from "./models";
 
-export type RestaurantState = Restaurant;
+export interface State {
+  _id: string;
+  name: string;
+  street: string;
+  streetNumber: string;
+  postalCode: string;
+  village: string;
+  phoneNumber: string;
+  webpage: string;
+  category: string;
+  teaserTitle: string;
+}
 
-const initialState: RestaurantState = {
-  _id: '',
-  name: '',
-  street: '',
-  streetNumber: '',
-  postalCode: '',
-  village: '',
-  phoneNumber: '',
-  webpage: ''
+const initialState: State = {
+    _id: '',
+    name: '',
+    street: '',
+    streetNumber: '',
+    postalCode: '',
+    village: '',
+    phoneNumber: '',
+    webpage: '',
+    category: '',
+    teaserTitle: '',
 };
 
 // export function reducer(state = initialState, action: Actions): RestaurantState {

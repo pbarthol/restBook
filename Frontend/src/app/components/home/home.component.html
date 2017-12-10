@@ -1,0 +1,61 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <app-header></app-header>
+</nav>
+
+<!--<mat-grid-list cols="6">-->
+  <!--<mat-grid-tile [colspan]="2" [rowspan]="1"></mat-grid-tile>-->
+  <!--<mat-grid-tile [colspan]="4" [rowspan]="1">-->
+
+<!--<div class="ra-search-box">-->
+  <!--<p>Wo möchtest du essen?</p>-->
+  <!--<mat-form-field>-->
+      <!--&lt;!&ndash;<mat-icon>search</mat-icon>&ndash;&gt;-->
+    <!--<input type="text"  placeholder="Dein Wunschort" aria-label="Number"matInput [formControl]="myControl" [matAutocomplete]="auto">-->
+    <!--<mat-autocomplete #auto="matAutocomplete">-->
+      <!--<mat-option class="ra-search-box ra-search-box-option" *ngFor="let option of filteredOptions | async" [value]="option">-->
+        <!--{{ option }}-->
+      <!--</mat-option>-->
+    <!--</mat-autocomplete>-->
+  <!--</mat-form-field>-->
+<!--</div>-->
+  <!--</mat-grid-tile>-->
+<!--</mat-grid-list>-->
+
+<!--<p-autoComplete formControlName="city" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>-->
+<!--<div *ngIf="restaurants|async; let restaurantsItems">-->
+  <!--<ul *ngIf="restaurantsItems.length > 0">-->
+    <!--<li *ngFor="let restaurant of restaurantsItems">{{restaurant.name}}</li>-->
+  <!--</ul>-->
+<!--</div>-->
+
+
+<!--<div>-->
+  <!--&lt;!&ndash;<ul *ngIf ="(restaurantList | async)?.length!=0 ">&ndash;&gt;-->
+  <!--<ul *ngIf ="(restaurantList | async)?.length !=0 ">-->
+    <!--<li style="background-color:white;">alle</li>-->
+    <!--<li style="background-color:white;" *ngFor="let restaurant of restaurantList | async">{{restaurant.name}}</li>-->
+  <!--</ul>-->
+<!--</div>-->
+<!--<p *ngIf ="(restaurantList | async)?.length>0" style="background-color:white;">There are no restaurants.</p>-->
+
+<!--<div style="background-color:white;">alle</div>-->
+<!--<div>-->
+  <!--&lt;!&ndash;<ul *ngIf ="(restaurantList | async)?.length!=0 ">&ndash;&gt;-->
+  <!--<ul>-->
+    <!--<li style="background-color:white;" *ngFor="let restaurant of restaurantList | async">{{restaurant.name}}</li>-->
+  <!--</ul>-->
+<!--</div>-->
+
+<div>
+  <p style="background-color:white;" *ngFor="let restaurant of (restaurantList$ | async)">
+    {{restaurant.name}}
+  </p>
+</div>
+
+<div class="ui-grid ui-grid-responsive ui-fluid">
+  <div class="ui-g">
+      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamMeat' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
+      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamVegetarian' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
+      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamVegan' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
+  </div>
+</div>

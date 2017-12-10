@@ -1,0 +1,26 @@
+INSERT {
+    "_id": ObjectId("5a14836082c1085372edb873"),
+    "name": "Hornegg",
+    "street": "Seefeldstrasse",
+    "streetNumber": "201",
+    "postalCode": "8008",
+    "village": "Zürich",
+    "phoneNumber" : "044 422 41 40",
+    "webpage": "https://www.restaurant-hornegg.ch/",
+	"category": "Meat",
+	"teaserTitle": "Ihr traditionsreiches Quartierrestaurant im Zürcher Seefeld",
+	"teaserImage": ""
+}INTO restaurants OPTIONS { ignoreErrors: true }
+INSERT{
+    "_id" : ObjectId("5a14838882c1085372edb887"),
+    "name" : "Riviera Enoteca con Cucina",
+    "street" : "Dufourstrasse",
+    "streetNumber" : "161",
+    "postalCode" : "8008",
+    "village" : "Zürich",
+    "phoneNumber" : "044 422 04 26",
+    "webpage" : "http://www.http://enoteca-riviera.ch//",
+	"category": "Meat",
+	"teaserTitle": "Italienisches Restaurant im Zürcher Seefeld",
+	"teaserImage": ""
+} INTO restaurants OPTIONS { ignoreErrors: true }
