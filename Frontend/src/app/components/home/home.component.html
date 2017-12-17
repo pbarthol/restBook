@@ -2,25 +2,9 @@
   <app-header></app-header>
 </nav>
 
-<!--<mat-grid-list cols="6">-->
-  <!--<mat-grid-tile [colspan]="2" [rowspan]="1"></mat-grid-tile>-->
-  <!--<mat-grid-tile [colspan]="4" [rowspan]="1">-->
-
-<!--<div class="ra-search-box">-->
-  <!--<p>Wo möchtest du essen?</p>-->
-  <!--<mat-form-field>-->
-      <!--&lt;!&ndash;<mat-icon>search</mat-icon>&ndash;&gt;-->
-    <!--<input type="text"  placeholder="Dein Wunschort" aria-label="Number"matInput [formControl]="myControl" [matAutocomplete]="auto">-->
-    <!--<mat-autocomplete #auto="matAutocomplete">-->
-      <!--<mat-option class="ra-search-box ra-search-box-option" *ngFor="let option of filteredOptions | async" [value]="option">-->
-        <!--{{ option }}-->
-      <!--</mat-option>-->
-    <!--</mat-autocomplete>-->
-  <!--</mat-form-field>-->
-<!--</div>-->
-  <!--</mat-grid-tile>-->
-<!--</mat-grid-list>-->
-
+<div *ngIf="(registerIsVisible$ | async) === true">
+  <app-user-edit></app-user-edit>
+</div>
 <!--<p-autoComplete formControlName="city" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>-->
 <!--<div *ngIf="restaurants|async; let restaurantsItems">-->
   <!--<ul *ngIf="restaurantsItems.length > 0">-->
@@ -46,16 +30,56 @@
   <!--</ul>-->
 <!--</div>-->
 
-<div>
-  <p style="background-color:white;" *ngFor="let restaurant of (restaurantList$ | async)">
-    {{restaurant.name}}
-  </p>
+<!--<div>-->
+  <!--<p style="background-color:white;" *ngFor="let restaurant of (restaurantList$ | async)">-->
+    <!--{{restaurant.name}}-->
+  <!--</p>-->
+<!--</div>-->
+<div class="ui-grid ui-grid-responsive ui-fluid">
+  <div class="ui-g">
+    <div class="ui-g-2"></div>
+    <div class="ui-g-8">
+      <div class="rb-search-box">
+        <p>Wo möchtest du essen?</p>
+        <div class="form-group">
+          <input placeholder="Dein Wunschort"
+                 autocorrect="on"
+                 autocapitalize="on"
+                 spellcheck="off"
+                 type="text"
+                 class="form-control"
+                 #search
+                 [(formControl)]="searchControl"
+                 name="search">
+        </div>
+        <div class="rb-msg error">
+          {{msgError}}
+        </div>
+      </div>
+      <div class="ui-g-1 rb-search-button">
+        <button type="button" class="btn btn-secondary" (click)="goPageList()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+  </div>
 </div>
 
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <div class="ui-g">
-      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamMeat' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
-      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamVegetarian' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
-      <div class="ui-g-4"><app-restaurant-list [listParams]='listParamVegan' [restaurants$]="(restaurantList$ | async)"></app-restaurant-list></div>
+      <div class="ui-g-4">
+        <app-restaurant-list
+          [listParams]='listParamMeat'
+          [restaurants$]="(restaurantList$ | async)">
+        </app-restaurant-list></div>
+      <div class="ui-g-4">
+        <app-restaurant-list
+          [listParams]='listParamVegetarian'
+          [restaurants$]="(restaurantList$ | async)">
+        </app-restaurant-list></div>
+      <div class="ui-g-4">
+        <app-restaurant-list
+          [listParams]='listParamVegan'
+          [restaurants$]="(restaurantList$ | async)">
+        </app-restaurant-list></div>
   </div>
 </div>

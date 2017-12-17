@@ -1,0 +1,17 @@
+body .ui-dropdown-panel .ui-dropdown-item.ui-state-highlight {
+  background-color: #22a981;
+  color: #fefefe;
+}
+
+body .ui-button, body .ui-datepicker-buttonpane > button {
+  background-color: #22a981;
+  color: #fefefe;
+}
+
+.ui-g {
+  margin-top: 0;
+}
+
+.card.card-w-title {
+  margin-top: 50px;
+}

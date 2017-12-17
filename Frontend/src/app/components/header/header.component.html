@@ -1,0 +1,23 @@
+<p-toolbar>
+  <div class="ui-toolbar-group-left">
+    <a [routerLink] = "['/']">
+      <!--<img class="logo-rentany" src="../../../images/logo_rentany.png">-->
+    </a>
+  </div>
+
+  <div class="ui-toolbar-group-right">
+    <!--<button pButton type="button" icon="fa-search">Registrierung</button>-->
+    <!--<button pButton type="button" icon="fa-trash">Login</button>-->
+    <!--<ul *ngIf="!userIsLoggedIn" class="nav navbar-nav  navbar-right">-->
+      <!--<li><a (click)="register()">Registrierung</a></li>-->
+      <!--<li><a (click)="login()">Login</a></li>-->
+    <!--</ul>-->
+
+    <!--<a (click)="register()">Registrierung</a>-->
+    <!--<a (click)="login()">Login</a>-->
+    <button pButton type="button" (click)="register()" label="Registrierung" class="ui-button-secondary"></button>
+    <button pButton type="button" (click)="login()" label="Login" class="ui-button-secondary"></button>
+
+  </div>
+</p-toolbar>
+

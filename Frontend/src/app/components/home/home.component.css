@@ -6,3 +6,41 @@ body {
   padding-bottom: 0;
   font-size: 16px;
 }
+
+.ui-g {
+  margin-top: 300px;
+}
+
+.rb-header-box {
+  position: relative;
+  width: auto;
+  background: transparent;
+  background-color: rgba(66, 66, 66, 0.8);
+  margin: 420px 0 0 0;
+  padding: 40px 0 40px 0;
+}
+
+.rb-search-box {
+  background-color: rgba(255, 255, 255, 0.2);
+  font-weight: 400;
+  color: #fefefe;
+  padding: 20px 0 18px 20px;
+  width: 85%;
+  height: 80px;
+  float: left;
+}
+
+.rb-search-button .btn {
+  background-color: #22a981;
+  color: #fefefe;
+  margin-left: 10px;
+  border: none;
+  box-shadow: none;
+  border-radius: 0px;
+  height: 120px;
+}
+
+button {
+  font-size: 80px;
+}
+

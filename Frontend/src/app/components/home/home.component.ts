@@ -6,11 +6,16 @@ import 'rxjs/add/operator/toArray';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/filter';
-// import 'rxjs/add/operator/flatMap';
+
+/** Store */
 import { Store } from '@ngrx/store';
 import { State, getRestaurants } from '../../store/restaurants/reducer';
 import { LoadRestaurantsAction } from '../../store/restaurants/actions';
+import { UIState, getRegisterVisible } from '../../store/user-interface/reducer';
+import { AppState } from '../../reducers/index';
+import { ShowRegisterAction, HideRegisterAction } from '../../store/user-interface/actions';
 import { Restaurant } from '../../store/restaurants/restaurant/models';
+
 
 @Component({
   selector: 'app-home',
@@ -24,7 +29,7 @@ export class HomeComponent implements OnInit {
   public listParamMeat = {
     "id": 1,
     "title": 'Fleisch',
-    "icon": 'fa fa-check',
+    "icon": 'fa fa-cutlery',
     "image": "../images/unterkuenfte.jpg",
     "filter": false,
     "category": 'Meat'
@@ -40,7 +45,7 @@ export class HomeComponent implements OnInit {
   public listParamVegan = {
     "id": 3,
     "title": 'Vegan',
-    "icon": 'fa fa-car',
+    "icon": 'fa fa-envira',
     "image": "../img/partyraeume.jpg",
     "filter": false,
     "category": 'Vegan'
@@ -59,35 +64,25 @@ export class HomeComponent implements OnInit {
 
   filteredOptions: Observable<Array<Restaurant>>;
 
-  // public restaurants: Observable<Array<Restaurant>>;
-  // private restaurantList$: Observable<Restaurant[]>;
   private stringList$: Observable<string[]>;
   private restaurantList$: Observable<Restaurant[]>;
-  public restaurantsMeat$: Observable<Array<Restaurant>>;
+  public registerIsVisible$: Observable<any>;
 
-  constructor(private store: Store<State>) {
+  constructor(private store: Store<State>,
+              private appStore: Store<AppState>) {
     this.restaurantList$ = this.store.select(getRestaurants)
       .do(res => console.log("store.select: ", res));
-    // this.stringList$ = Observable.of(['1', '2', '3'])
-    // this.restaurantsMeat$ = this.restaurantList$
-    // filter(restaurant => restaurant.category === 'Meat')
-    this.restaurantsMeat$ = this.store.select(getRestaurants)
-      .map(restaurant => restaurant.filter(restaurant => restaurant.category === "Meat"))
+    // this.registerIsVisible$ = this.uiStore.select(getRegisterVisible)
+    //   .do(res => console.log("store.userinterface.registerVisible: ", res));
 
-      // .map((restaurants) => restaurants)
-      // .map((restaurant) => restaurant.category)
-      // .filter((category) => (category === "Meat"))
-
-
-      // .map(restaurants => restaurants)
-      // .filter((restaurant: Restaurant) => restaurant.category === 'Meat')
-      .do(res => console.log("After tow maps: ", res));
-      // .filter((restaurant: Restaurant) => restaurant.category === 'Meat');
-    var i = 0; // just for debugging
+    this.registerIsVisible$ = this.appStore.select(state => state.userinterface.registerVisible)
+    // this.registerIsVisible$ = Observable.of(true)
+    .do(res => console.log("store.userinterface.registerVisible: ", res));
   }
 
   ngOnInit() {
     this.store.dispatch(new LoadRestaurantsAction());
+    this.store.dispatch(new HideRegisterAction()); // set registerIsVisible false
   }
 
 }

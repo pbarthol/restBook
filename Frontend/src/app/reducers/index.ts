@@ -81,9 +81,19 @@
 // export function reducer(state: any, action: any) {
 //     return developmentReducer(state, action);
 // }
-
 import * as fromRestaurants from '../store/restaurants/reducer'
+import * as fromUserInterface from '../store/user-interface/reducer';
+import * as fromUser from '../store/user/reducer';
+
+export interface AppState {
+  restaurants: fromRestaurants.State,
+  userinterface: fromUserInterface.UIState,
+  user: fromUser.UserState
+};
+
 export const reducers = {
-  restaurants: fromRestaurants.reducer
+  restaurants: fromRestaurants.reducer,
+  userinterface: fromUserInterface.reducer,
+  user: fromUser.reducer
 };
 

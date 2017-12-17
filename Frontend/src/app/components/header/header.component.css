@@ -1,0 +1,10 @@
+.logo-rentany {
+  height: 40px;
+  width: 194px;
+  margin: 10px 0 0 15px;
+}
+
+.ui-button.ui-button-secondary.ui-state-default, .ui-splitbutton.ui-button-secondary .ui-button.ui-state-default {
+  border-color: transparent;
+  background-color: transparent;
+}
