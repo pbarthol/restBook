@@ -54,3 +54,34 @@
 	"outDir": "build"
   }
 }
+
+//{
+//  "compilerOptions": {
+//    "declaration": false,
+//    "emitDecoratorMetadata": true,
+//    "experimentalDecorators": true,
+//    //    "lib": ["es6", "dom"],
+//    "mapRoot": "./",
+//    "module": "commonjs",
+//    "moduleResolution": "node",
+//    //    "outDir": "./dist/out-tsc",
+//    "sourceMap": true,
+//    "target": "es5",
+//    "inlineSources": true
+//    //    "typeRoots": [
+//    //      "../node_modules/@types"
+//    //    ]
+//  },
+//
+//  "include": [
+//    "app/**/*"
+//  ],
+//  "exclude": [
+//    "node_modules",
+//    "**/*.spec.ts"
+//  ],
+//  "atom": {
+//    "rewriteTsconfig": true
+//  }
+//
+//}

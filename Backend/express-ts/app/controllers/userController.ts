@@ -22,4 +22,17 @@ router.get('/:name', (req: Request, res: Response) => {
     console.log('getUser');
 });
 
+
+router.post('/', function(req, res, next) {
+    console.log(req.body.user);
+    var newUser = new User(req.body.user);
+    newUser.save(function (err, user) {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({error: 'User save() failed.'});
+        }
+        return res.json(user);
+    })
+});
+
 export const UserController: Router = router;

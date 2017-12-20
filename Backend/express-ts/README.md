@@ -24,3 +24,8 @@ Testing the backend
 
 Stop Backend Server:
 -
+
+
+Problems during development:
+Can't bind to 'ngModel' since it isn't a known property of 'p-dropdown'.:
+    import { FormsModule } from '@angular/forms'; was not in app.module.ts

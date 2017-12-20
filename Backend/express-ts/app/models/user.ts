@@ -9,31 +9,38 @@ let Schema = mongoose.Schema;
 let user = new Schema({
     username: String,
     password: String,
-    firstname: {type: String, default: "First Name"},
-    lastname: String,
+    salutation: String,
+    firstName: String,
+    lastName: String,
+    street: String,
+    postalcode: String,
+    city: String,
     email: String,
-    createddate: Date,
+    phone: String,
+    createdDate: Date,
     admin: Boolean
 });
-// encrypt password before saving
-user.pre('save', function (next) {
-    let user = this;
-    if (user.isModified('password') || user.isNew) {
-        bcrypt.genSalt(10, function (err, salt) {
-            if (err) {
-                return next(err);
-            }
-            bcrypt.hash(user.password, salt, function (err, hash) {
-                if (err) {
-                    return next(err);
-                }
-                user.password = hash;
-                next();
-            });
-        });
-    } else {
-        return next();
-    }
-});
+// // encrypt password before saving
+// user.pre('save', function (next) {
+//     let user = this;
+//     if (user.isModified('password') || user.isNew) {
+//         bcrypt.genSalt(10, function (err, salt) {
+//             if (err) {
+//                 return next(err);
+//             }
+//             bcrypt.hash(user.password, salt, function (err, hash) {
+//                 if (err) {
+//                     return next(err);
+//                 }
+//                 user.password = hash;
+//                 next();
+//             });
+//         });
+//     } else {
+//         return next();
+//     }
+// });
+
+
 // Create a model based on the schema
 module.exports = mongoose.model('User', user);
