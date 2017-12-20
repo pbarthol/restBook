@@ -30,8 +30,8 @@ export class LoadUserErrorAction implements Action {
 }
 
 export class CreateUserAction implements Action {
-  readonly type = CREATE_USER;
-  constructor(public payload: { user: User }) {}
+  type = CREATE_USER;
+  constructor(public payload: User) {}
   // constructor(public payload: User ) {}
 }
 

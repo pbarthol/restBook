@@ -3,6 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/do'
@@ -20,12 +21,17 @@ export class UserService {
       .do(res => console.log('map = ', res))
   }
 
-  public saveUser(user) {
-    if (user.id === 0) {
-      return this.http.post('/api/user', user)
-        .map(res => res.json());
+  public saveUser(user: User) {
+    if (user._id === '0') {
+      delete user._id;
+      let body = JSON.stringify({user});
+      let headers = new Headers({ 'Content-Type': 'application/json' });
+      let options = new RequestOptions({ headers: headers });
+      return this.http.post(this.URL, body, options)
+      // return this.http.post(this.URL, user)
+        .map(res => res.json())
     } else {
-      return this.http.put('/api/user/' + user.id, user)
+      return this.http.put(this.URL + user._id, user)
         .map(res => res.json());
     }
   }

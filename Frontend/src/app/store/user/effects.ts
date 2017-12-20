@@ -23,8 +23,9 @@ import { UserService } from './services';
 @Injectable()
 export class UserEffects {
 
-  constructor(private actions$: Actions,
-              private svc: UserService,) {
+  constructor(
+    private actions$: Actions,
+    private svc: UserService,) {
   }
 
   @Effect({dispatch: true})
@@ -37,13 +38,14 @@ export class UserEffects {
         .catch(error => Observable.of(new LoadUserErrorAction({error: error})));
     });
 
-  @Effect({dispatch: true})
+  @Effect({dispatch: false})
   saveUser$: Observable<Action> = this.actions$
     .ofType<CreateUserAction>(CREATE_USER)
     .map((action) => action.payload)
-    .switchMap((payload) =>
-      this.svc.saveUser(payload)
-        .catch(error => Observable.of(new CreateUserErrorAction({ error: error })))
-      );
+    .switchMap((payload) => {
+      return this.svc.saveUser(payload)
+        .map(data => new LoadUserSuccessAction(data))
+        .catch(error => Observable.of(new CreateUserErrorAction({error: error})))
+    });
 
 }

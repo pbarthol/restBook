@@ -15,7 +15,7 @@ export const initialState: UserState = {
 
 export function reducer(state = initialState, action: userActions.Actions) {
   switch (action.type) {
-    // case userActions.CREATE_USER: {
+    // case userActions.CREATE_USER:
     //   return {
     //     ...state, ...{
     //       error: undefined,

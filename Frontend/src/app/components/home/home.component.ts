@@ -66,23 +66,29 @@ export class HomeComponent implements OnInit {
 
   private stringList$: Observable<string[]>;
   private restaurantList$: Observable<Restaurant[]>;
-  public registerIsVisible$: Observable<any>;
+  public registerIsVisible$: Observable<boolean>;
+  loginVisible: boolean;
 
   constructor(private store: Store<State>,
               private appStore: Store<AppState>) {
     this.restaurantList$ = this.store.select(getRestaurants)
+    // this.restaurantList$ = this.appStore.select(state => state.restaurants.restaurants)
       .do(res => console.log("store.select: ", res));
     // this.registerIsVisible$ = this.uiStore.select(getRegisterVisible)
     //   .do(res => console.log("store.userinterface.registerVisible: ", res));
 
-    this.registerIsVisible$ = this.appStore.select(state => state.userinterface.registerVisible)
     // this.registerIsVisible$ = Observable.of(true)
+    this.registerIsVisible$ = this.appStore.select(state => state.userinterface.registerVisible)
     .do(res => console.log("store.userinterface.registerVisible: ", res));
   }
 
   ngOnInit() {
     this.store.dispatch(new LoadRestaurantsAction());
     this.store.dispatch(new HideRegisterAction()); // set registerIsVisible false
+  }
+
+  login() {
+
   }
 
 }

@@ -2,39 +2,36 @@
   <app-header></app-header>
 </nav>
 
-<div *ngIf="(registerIsVisible$ | async) === true">
+<div *ngIf="(registerIsVisible$ | async)">
   <app-user-edit></app-user-edit>
 </div>
-<!--<p-autoComplete formControlName="city" [suggestions]="results" (completeMethod)="search($event)"></p-autoComplete>-->
-<!--<div *ngIf="restaurants|async; let restaurantsItems">-->
-  <!--<ul *ngIf="restaurantsItems.length > 0">-->
-    <!--<li *ngFor="let restaurant of restaurantsItems">{{restaurant.name}}</li>-->
-  <!--</ul>-->
-<!--</div>-->
 
 
-<!--<div>-->
-  <!--&lt;!&ndash;<ul *ngIf ="(restaurantList | async)?.length!=0 ">&ndash;&gt;-->
-  <!--<ul *ngIf ="(restaurantList | async)?.length !=0 ">-->
-    <!--<li style="background-color:white;">alle</li>-->
-    <!--<li style="background-color:white;" *ngFor="let restaurant of restaurantList | async">{{restaurant.name}}</li>-->
-  <!--</ul>-->
-<!--</div>-->
-<!--<p *ngIf ="(restaurantList | async)?.length>0" style="background-color:white;">There are no restaurants.</p>-->
+<p-dialog header="Login" [resizable]="false" responsive="true" [(visible)]="loginVisible">
+  <div class="ui-g form-group" style="margin-bottom: 16px;">
+    <div class="ui-g-12">
+      <span class="md-inputfield">
+          <input type="text" pInputText>
+          <label>Username</label>
+      </span>
+    </div>
+    <div class="ui-g-12">
+      <span class="md-inputfield">
+          <input type="password" pInputText>
+          <label>Password</label>
+      </span>
+    </div>
+  </div>
 
-<!--<div style="background-color:white;">alle</div>-->
-<!--<div>-->
-  <!--&lt;!&ndash;<ul *ngIf ="(restaurantList | async)?.length!=0 ">&ndash;&gt;-->
-  <!--<ul>-->
-    <!--<li style="background-color:white;" *ngFor="let restaurant of restaurantList | async">{{restaurant.name}}</li>-->
-  <!--</ul>-->
-<!--</div>-->
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-helper-clearfix">
+      <button type="button" label="Login" icon="ui-icon-person" (click)="login()" pButton></button>
+    </div>
+  </p-footer>
+</p-dialog>
 
-<!--<div>-->
-  <!--<p style="background-color:white;" *ngFor="let restaurant of (restaurantList$ | async)">-->
-    <!--{{restaurant.name}}-->
-  <!--</p>-->
-<!--</div>-->
+
+
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <div class="ui-g">
     <div class="ui-g-2"></div>

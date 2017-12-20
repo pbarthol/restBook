@@ -2,7 +2,7 @@
  * Created by Peter on 11.11.2017.
  */
 export class User {
-  id: string;
+  _id: string;
   salutation: string;
   username: string;
   password: string;
