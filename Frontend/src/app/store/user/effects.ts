@@ -17,6 +17,7 @@ import {
   LoadUserSuccessAction,
   LoadUserErrorAction,
   CreateUserAction,
+  CreateUserSuccessAction,
   CreateUserErrorAction } from './actions';
 import { UserService } from './services';
 
@@ -38,13 +39,14 @@ export class UserEffects {
         .catch(error => Observable.of(new LoadUserErrorAction({error: error})));
     });
 
-  @Effect({dispatch: false})
+  @Effect({dispatch: true})
   saveUser$: Observable<Action> = this.actions$
     .ofType<CreateUserAction>(CREATE_USER)
     .map((action) => action.payload)
     .switchMap((payload) => {
-      return this.svc.saveUser(payload)
-        .map(data => new LoadUserSuccessAction(data))
+      return this.svc.saveUser(payload.user)
+        .do(res => console.log('Back after user.save: ', res))
+        .map(data => new CreateUserSuccessAction(data))
         .catch(error => Observable.of(new CreateUserErrorAction({error: error})))
     });
 

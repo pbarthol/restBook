@@ -2,35 +2,38 @@
   <app-header></app-header>
 </nav>
 
-<div *ngIf="(registerIsVisible$ | async)">
+<div *ngIf="(showRegister$ | async)">
   <app-user-edit></app-user-edit>
 </div>
 
-
-<p-dialog header="Login" [resizable]="false" responsive="true" [(visible)]="loginVisible">
-  <div class="ui-g form-group" style="margin-bottom: 16px;">
-    <div class="ui-g-12">
-      <span class="md-inputfield">
-          <input type="text" pInputText>
-          <label>Username</label>
-      </span>
+<div *ngIf="(showLogin$ | async)">
+  <p-dialog header="Login" [resizable]="false" responsive="true" [(visible)]="showLogin">
+    <div class="ui-g form-group" style="margin-bottom: 16px;">
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+            <input type="text" pInputText>
+            <label>Username</label>
+        </span>
+      </div>
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+            <input type="password" pInputText>
+            <label>Password</label>
+        </span>
+      </div>
     </div>
-    <div class="ui-g-12">
-      <span class="md-inputfield">
-          <input type="password" pInputText>
-          <label>Password</label>
-      </span>
-    </div>
-  </div>
-
-  <p-footer>
-    <div class="ui-dialog-buttonpane ui-helper-clearfix">
-      <button type="button" label="Login" icon="ui-icon-person" (click)="login()" pButton></button>
-    </div>
-  </p-footer>
-</p-dialog>
-
-
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-helper-clearfix">
+        <button type="button"
+                label="Login"
+                icon="ui-icon-person"
+                (click)="login()"
+                pButton>
+        </button>
+      </div>
+    </p-footer>
+  </p-dialog>
+</div>
 
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <div class="ui-g">

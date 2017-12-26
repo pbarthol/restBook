@@ -1,9 +1,15 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { AppState } from '../../reducers/index';
 
 /** Store */
 import { Store } from '@ngrx/store';
-import { UIState, getRegisterVisible } from '../../store/user-interface/reducer';
-import { ShowRegisterAction, HideRegisterAction } from '../../store/user-interface/actions';
+import { UIState } from '../../store/user-interface/reducer';
+import { ShowRegisterAction,
+  HideRegisterAction,
+  ShowLoginAction,
+  HideLoginAction,
+  LogoutAction} from '../../store/user-interface/actions';
 
 
 @Component({
@@ -15,17 +21,31 @@ import { ShowRegisterAction, HideRegisterAction } from '../../store/user-interfa
 
 export class HeaderComponent implements OnInit {
 
-  constructor(private uiStore: Store<UIState>) { }
+  private userIsLoggedIn$: Observable<boolean>;
+
+  constructor(private appStore: Store<AppState>) {
+    this.userIsLoggedIn$ = this.appStore.select(state => state.userinterface.userIsLoggedIn)
+      .do(res => console.log("store.userinterface.userIsLoggedIn: ", res));;
+  }
 
   ngOnInit() {
   }
 
-  register() {
-    this.uiStore.dispatch(new ShowRegisterAction()); // set registerIsVisible true
+  showRegister() {
+    this.appStore.dispatch(new HideLoginAction());
+    this.appStore.dispatch(new ShowRegisterAction());
   }
 
-  login() {
-    this.uiStore.dispatch(new HideRegisterAction()); // set registerIsVisible false
+  showLogin() {
+    this.appStore.dispatch(new HideRegisterAction());
+    this.appStore.dispatch(new ShowLoginAction());
+  }
 
+  logout() {
+    this.appStore.dispatch(new LogoutAction());
+  }
+
+  editUser() {
+    this.appStore.dispatch(new ShowRegisterAction());
   }
 }

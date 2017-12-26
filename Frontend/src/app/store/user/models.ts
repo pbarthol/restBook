@@ -11,9 +11,7 @@ export class User {
   street: string;
   streetNumber: string;
   postalCode: string;
-  village: string;
+  city: string;
   email:    string;
-  avatar:   string;
-  avataroriginal: string;
   createddate:  Date;
 }

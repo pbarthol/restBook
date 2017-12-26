@@ -2,64 +2,112 @@
   <div class="ui-g-4 ui-lg-4 ui-md-offset-4">
     <!-- Left Side -->
     <div class="card card-w-title">
-      <h1>Register</h1>
+      <h1>{{formTitle}}</h1>
       <div class="ui-g form-group">
         <div class="ui-g-12">
-            <p-dropdown [options]="salutations" [(ngModel)]="selectedSalutation" [autoWidth]="false"></p-dropdown>
+            <p-dropdown [options]="salutations"
+                        [(ngModel)]="selectedSalutation"
+                        [autoWidth]="false"></p-dropdown>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText [(ngModel)]="user.firstName">
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.firstName">
               <label>First Name</label>
+              <div *ngIf="firstNameRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText [(ngModel)]="user.lastName">
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.lastName">
               <label>Last Name</label>
+              <div *ngIf="lastNameRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText>
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.street">
               <label>Street</label>
+              <div *ngIf="streetRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText>
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.postalCode">
               <label>Postalcode</label>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText>
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.city">
               <label>City</label>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText>
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.email">
               <label>Email</label>
           </span>
         </div>
         <div class="ui-g-12">
           <span class="md-inputfield">
-              <input type="text" pInputText>
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.phone">
               <label>Phone</label>
           </span>
         </div>
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+              <input id="password"
+                     pPassword type="password"
+                     [(ngModel)]="user.password"/>
+              <label>Password (at least 8 characters)</label>
+              <div *ngIf="passwordRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+              <input id="passwordrepeat"
+                     pPassword type="password"
+                     [(ngModel)]="passwordRepeat"/>
+              <label>Password repeat</label>
+              <div *ngIf="passwordRepeatRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
+          </span>
+        </div>
+
         <div class="ui-g-3">
           <span class="md-inputfield">
             <button pButton type="button"
-                    label="Register"
+                    label="{{labelSaveButton}}"
                     (click)="saveUser()"
-                    style="margin-bottom:10px;width:auto">
+                    style="margin-bottom:10px;width:auto"
+                    [hidden]="userIsLoggedIn$">
             </button>
           </span>
         </div>
-        <div class="ui-g-5">
-        </div>
+        <div class="ui-g-5"></div>
         <div class="ui-g-3">
           <span class="md-inputfield">
             <button pButton type="button"
@@ -71,7 +119,7 @@
           </span>
         </div>
         <!--<p-messages [value]="msgs"></p-messages>-->
-        <!--<p-growl [value]="msgs" sticky="sticky"></p-growl>-->
+        <p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>
       </div>
   </div>
 </div>

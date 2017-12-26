@@ -9,13 +9,11 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
 
-import { LOAD_RESTAURANTS,
+import {
+  LOAD_RESTAURANTS,
   LoadRestaurantsAction,
   LoadRestaurantsSuccessAction,
   LoadRestaurantsErrorAction} from './actions';
-import { GET_RESTAURANT,
-  GetRestaurantSuccessAction,
-  GetRestaurantErrorAction} from './restaurant/actions';
 import { RestaurantService } from './services';
 import { Restaurant } from './restaurant/models';
 
@@ -26,16 +24,6 @@ export class RestaurantEffects {
     private actions$: Actions,
     private svc: RestaurantService,
   ) {}
-
-  // @Effect({dispatch: true})
-  // loadRestaurants$: Observable<Action> = this.actions$
-  //   .ofType<LoadRestaurantsAction>(LOAD_RESTAURANTS)
-  //   .switchMap(() => {
-  //     return this.svc.getRestaurants()
-  //       .do(res => console.log('from service: ', res))
-  //       .map(data =>  new LoadRestaurantsSuccessAction({restaurants: data}))
-  //       .catch(error => Observable.of(new LoadRestaurantsErrorAction({ error: error })));
-  //   });
 
   @Effect({dispatch: true})
   loadRestaurants$: Observable<Action> = this.actions$

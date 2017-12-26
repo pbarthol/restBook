@@ -44,3 +44,6 @@ button {
   font-size: 80px;
 }
 
+body .ui-button .ui-button-text, body .ui-datepicker-buttonpane > button .ui-button-text {
+  color: black;
+}

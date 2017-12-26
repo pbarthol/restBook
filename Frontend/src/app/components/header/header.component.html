@@ -15,9 +15,37 @@
 
     <!--<a (click)="register()">Registrierung</a>-->
     <!--<a (click)="login()">Login</a>-->
-    <button pButton type="button" (click)="register()" label="Registrierung" class="ui-button-secondary"></button>
-    <button pButton type="button" (click)="login()" label="Login" class="ui-button-secondary"></button>
-
+    <button
+      *ngIf="(userIsLoggedIn$ | async) === false"
+      pButton type="button"
+      (click)="showRegister()"
+      label="Register"
+      class="ui-button-secondary">
+    </button>
+    <button
+      pButton
+      *ngIf="(userIsLoggedIn$ | async) === false"
+      type="button"
+      (click)="showLogin()"
+      label="Login"
+      class="ui-button-secondary">
+    </button>
+    <button
+      *ngIf="(userIsLoggedIn$ | async) === true"
+      pButton
+      type="button"
+      (click)="editUser()"
+      label="Edit Profile"
+      class="ui-button-secondary">
+    </button>
+    <button
+      pButton
+      *ngIf="(userIsLoggedIn$ | async) === true"
+      type="button"
+      (click)="logout()"
+      label="Logout"
+      class="ui-button-secondary">
+    </button>
   </div>
 </p-toolbar>
 

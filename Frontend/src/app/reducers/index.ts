@@ -87,13 +87,13 @@ import * as fromUser from '../store/user/reducer';
 
 export interface AppState {
   restaurants: fromRestaurants.State,
-  user: fromUser.UserState,
-  userinterface: fromUserInterface.UIState
+  userinterface: fromUserInterface.UIState,
+  user: fromUser.UserState
 };
 
 export const reducers = {
   restaurants: fromRestaurants.reducer,
-  user: fromUser.reducer,
-  userinterface: fromUserInterface.reducer
+  userinterface: fromUserInterface.reducer,
+  user: fromUser.reducer
 };
 

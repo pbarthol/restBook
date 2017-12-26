@@ -2,27 +2,29 @@
  * Created by Peter on 13.12.2017.
  */
 
-import * as userActions from './actions';
+import { Action } from '@ngrx/store';
 import { User } from './models';
+import * as userActions from './actions';
+// import {
+//   UserActions,
+//   CREATE_USER_SUCCESS,
+//   CreateUserSuccessAction
+// } from './actions';
+
 
 export interface UserState {
   user: User;
 };
 
-export const initialState: UserState = {
+const initialState: UserState = {
   user: null
 };
 
-export function reducer(state = initialState, action: userActions.Actions) {
+export function reducer(state = initialState, action: userActions.CreateUserSuccessAction) {
   switch (action.type) {
-    // case userActions.CREATE_USER:
-    //   return {
-    //     ...state, ...{
-    //       error: undefined,
-    //       user: undefined
-    //     }
-    //   };
-    // }
+    case userActions.CREATE_USER_SUCCESS: {
+      return Object.assign({}, state, { user: action.payload});
+    }
 
     default: {
       return state;
