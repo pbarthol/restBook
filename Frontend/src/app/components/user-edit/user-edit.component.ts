@@ -4,9 +4,9 @@ import { SelectItem } from 'primeng/primeng';
 import { User } from '../../store/user/models';
 /** Store */
 import { Store } from '@ngrx/store';
-import {HideRegisterAction, LoginAction, LogoutAction} from '../../store/user-interface/actions';
+import {HideRegisterAction } from '../../store/user-interface/actions';
 import { UserState } from '../../store/user/reducer';
-import { CreateUserAction } from '../../store/user/actions';
+import { CreateOrEditUserAction, LoginAction, LogoutAction } from '../../store/user/actions';
 import { AppState } from '../../reducers/index';
 
 import {Message} from 'primeng/primeng';
@@ -22,9 +22,8 @@ import {Message} from 'primeng/primeng';
 export class UserEditComponent implements OnInit {
 
   private msgs: Message[] = [];
-  private selectedSalutation: string;
+  // private selectedSalutation: string;
   private salutations: SelectItem[];
-  private user: User;
   private passwordRepeat: String;
   /** Input checks */
   private firstNameRequired: boolean;
@@ -32,11 +31,13 @@ export class UserEditComponent implements OnInit {
   private streetRequired: boolean;
   private passwordRequired: boolean;
   private passwordRepeatRequired: boolean;
+  private userNameRequired: boolean;
   private formTitle: String;
   private labelSaveButton: String;
 
   private userIsLoggedIn$: Observable<boolean>;
   private user$: Observable<User>;
+  private user: User;
   private editUser: boolean;
 
   constructor(private appStore: Store<AppState>) {
@@ -45,7 +46,8 @@ export class UserEditComponent implements OnInit {
     this.streetRequired = false;
     this.passwordRequired = false;
     this.passwordRepeatRequired = false;
-    this.userIsLoggedIn$ = this.appStore.select(state => state.userinterface.userIsLoggedIn);
+    this.userNameRequired = false;
+    this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn);
     this.user$ = this.appStore.select(state => state.user.user);
   }
 
@@ -60,6 +62,9 @@ export class UserEditComponent implements OnInit {
         this.editUser = true;
         this.formTitle = 'Update Profile';
         this.labelSaveButton = 'Update Profile';
+        // password is hashed -> not usable, not editable
+        this.user.password = '';
+        this.passwordRepeat = '';
       } else {
         this.user = new User();
         this.editUser = false;
@@ -103,6 +108,15 @@ export class UserEditComponent implements OnInit {
       this.streetRequired = false;
     }
 
+    if (this.user.username === null ||
+      this.user.username === undefined ||
+      this.user.username === '') {
+      this.userNameRequired = true;
+      failure = true;
+    } else {
+      this.userNameRequired = false;
+    }
+
     if (this.user.password === null ||
       this.user.password === undefined ||
       this.user.password === '') {
@@ -137,13 +151,18 @@ export class UserEditComponent implements OnInit {
   saveUser() {
     this.userIsLoggedIn$.subscribe(loggedIn => {
       if (!loggedIn) {
-        if (this.checkInputs()) {
-          this.user._id = '0';
-          this.appStore.dispatch(new CreateUserAction({user: this.user}));
-          // show success save message
-          this.msgs = [];
-          this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is saved.'});
-          this.appStore.dispatch(new LoginAction());
+        // new User
+        this.user._id = '0';
+      }
+      if (this.checkInputs()) {
+        this.appStore.dispatch(new CreateOrEditUserAction({user: this.user}));
+        // show success save message
+        this.msgs = [];
+        if (!loggedIn) {
+          this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
+          this.appStore.dispatch(new LoginAction({username: this.user.username, password: this.user.password}));
+        } else {
+          this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
         }
       }
     })

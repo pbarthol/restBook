@@ -11,13 +11,17 @@
     <div class="ui-g form-group" style="margin-bottom: 16px;">
       <div class="ui-g-12">
         <span class="md-inputfield">
-            <input type="text" pInputText>
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="username">
             <label>Username</label>
         </span>
       </div>
       <div class="ui-g-12">
         <span class="md-inputfield">
-            <input type="password" pInputText>
+            <input type="password"
+                   pInputText
+                   [(ngModel)]="password">>
             <label>Password</label>
         </span>
       </div>
@@ -33,6 +37,7 @@
       </div>
     </p-footer>
   </p-dialog>
+  <p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>
 </div>
 
 <div class="ui-grid ui-grid-responsive ui-fluid">

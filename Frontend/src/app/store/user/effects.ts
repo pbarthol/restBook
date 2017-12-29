@@ -12,13 +12,20 @@ import "rxjs/add/operator/switchMap";
 
 import {
   LOAD_USER,
-  CREATE_USER,
+  CREATE_OR_EDIT_USER,
+  LOGIN,
+  LOGGED_IN,
   LoadUserAction,
   LoadUserSuccessAction,
   LoadUserErrorAction,
-  CreateUserAction,
-  CreateUserSuccessAction,
-  CreateUserErrorAction } from './actions';
+  CreateOrEditUserAction,
+  CreateOrEditUserSuccessAction,
+  CreateOrEditUserErrorAction,
+  LoginAction,
+  LoginSuccessAction,
+  LoginErrorAction,
+  LoggedInAction
+} from './actions';
 import { UserService } from './services';
 
 @Injectable()
@@ -32,8 +39,9 @@ export class UserEffects {
   @Effect({dispatch: true})
   loadUser$: Observable<Action> = this.actions$
     .ofType<LoadUserAction>(LOAD_USER)
-    .switchMap(() => {
-      return this.svc.getUser()
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.getUser(payload.userid)
         .do(res => console.log('from user service: ', res))
         .map(data => new LoadUserSuccessAction(data))
         .catch(error => Observable.of(new LoadUserErrorAction({error: error})));
@@ -41,13 +49,27 @@ export class UserEffects {
 
   @Effect({dispatch: true})
   saveUser$: Observable<Action> = this.actions$
-    .ofType<CreateUserAction>(CREATE_USER)
+    .ofType<CreateOrEditUserAction>(CREATE_OR_EDIT_USER)
     .map((action) => action.payload)
     .switchMap((payload) => {
       return this.svc.saveUser(payload.user)
         .do(res => console.log('Back after user.save: ', res))
-        .map(data => new CreateUserSuccessAction(data))
-        .catch(error => Observable.of(new CreateUserErrorAction({error: error})))
+        .map(user => new CreateOrEditUserSuccessAction(user))
+        .catch(error => Observable.of(new CreateOrEditUserErrorAction({error: error})))
     });
 
+  @Effect({dispatch: true})
+  loginUser$: Observable<Action> = this.actions$
+    .ofType<LoginAction>(LOGIN)
+    .map((action) => action.payload)
+    .switchMap(payload => {
+      return this.svc.login(payload.username, payload.password)
+        .do(res => console.log('Login: ', res))
+        .switchMap((res) => Observable.from([
+          new LoginSuccessAction({webtoken: res.token, userid: res.userid}),
+          new LoadUserAction({userid: res.userid}),
+          new LoggedInAction()
+        ]))
+        .catch(error => Observable.of(new LoginErrorAction({ error: error })))
+    });
 }

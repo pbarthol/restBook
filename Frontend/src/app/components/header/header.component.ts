@@ -9,7 +9,8 @@ import { ShowRegisterAction,
   HideRegisterAction,
   ShowLoginAction,
   HideLoginAction,
-  LogoutAction} from '../../store/user-interface/actions';
+} from '../../store/user-interface/actions';
+import { LogoutAction } from '../../store/user/actions';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
   private userIsLoggedIn$: Observable<boolean>;
 
   constructor(private appStore: Store<AppState>) {
-    this.userIsLoggedIn$ = this.appStore.select(state => state.userinterface.userIsLoggedIn)
+    this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn)
       .do(res => console.log("store.userinterface.userIsLoggedIn: ", res));;
   }
 

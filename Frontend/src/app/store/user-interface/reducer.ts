@@ -7,13 +7,11 @@ import * as uiActions from './actions';
 export interface UIState {
   showRegister: boolean;
   showLogin: boolean;
-  userIsLoggedIn: boolean;
 };
 
 export const initialState: UIState = {
   showRegister: false,
-  showLogin: false,
-  userIsLoggedIn: false,
+  showLogin: false
 };
 
 export function reducer(state = initialState, action: uiActions.Actions) {
@@ -32,14 +30,6 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.HIDE_LOGIN: {
       return Object.assign({}, state, {showLogin: false});
-    }
-
-    case uiActions.LOGIN: {
-      return Object.assign({}, state, {userIsLoggedIn: true});
-    }
-
-    case uiActions.LOGOUT: {
-      return Object.assign({}, state, {userIsLoggedIn: false});
     }
 
     default: {

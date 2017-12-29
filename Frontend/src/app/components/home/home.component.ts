@@ -6,6 +6,7 @@ import 'rxjs/add/operator/toArray';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/filter';
+import {Message} from 'primeng/primeng';
 
 /** Store, State */
 import { Store } from '@ngrx/store';
@@ -15,7 +16,8 @@ import { AppState } from '../../reducers/index';
 
 /** Actions */
 import { LoadRestaurantsAction } from '../../store/restaurants/actions';
-import { HideRegisterAction, HideLoginAction, LoginAction, LogoutAction } from '../../store/user-interface/actions';
+import { HideRegisterAction, HideLoginAction } from '../../store/user-interface/actions';
+import { LoginAction, LogoutAction } from '../../store/user/actions';
 
 /** Models */
 import { Restaurant } from '../../store/restaurants/restaurant/models';
@@ -73,6 +75,9 @@ export class HomeComponent implements OnInit {
   private showRegister$: Observable<boolean>;
   private showLogin$: Observable<boolean>;
   private showLogin: boolean;
+  private username: String;
+  private password: String;
+  private msgs: Message[] = [];
 
   constructor(private store: Store<State>,
               private appStore: Store<AppState>) {
@@ -92,9 +97,17 @@ export class HomeComponent implements OnInit {
   }
 
   login() {
-    this.showLogin = false;
-    this.store.dispatch(new HideLoginAction());
-    this.store.dispatch(new LoginAction());
+    this.appStore.dispatch(new LoginAction({username: this.username, password: this.password}));
+    // show success save message
+    this.appStore.select(state => state.user.userIsLoggedIn).subscribe(loggedIn => {
+      if (loggedIn) {
+        this.msgs = [];
+        this.msgs.push({severity: 'success', summary: 'Login', detail: 'Your are logged in.'});
+      }
+    })
   }
 
+  hideLogin() {
+    this.appStore.dispatch(new HideLoginAction());
+  }
 }

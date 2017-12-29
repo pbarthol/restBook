@@ -6,7 +6,7 @@
       <div class="ui-g form-group">
         <div class="ui-g-12">
             <p-dropdown [options]="salutations"
-                        [(ngModel)]="selectedSalutation"
+                        [(ngModel)]="user.salutation"
                         [autoWidth]="false"></p-dropdown>
         </div>
         <div class="ui-g-12">
@@ -72,6 +72,17 @@
                      pInputText
                      [(ngModel)]="user.phone">
               <label>Phone</label>
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="user.username">
+              <label>Username</label>
+              <div *ngIf="userNameRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
           </span>
         </div>
         <div class="ui-g-12">
