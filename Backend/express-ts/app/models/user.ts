@@ -14,7 +14,7 @@ let userSchema = new Schema({
     firstName: String,
     lastName: String,
     street: String,
-    postalcode: String,
+    postalCode: String,
     city: String,
     email: String,
     phone: String,
@@ -43,6 +43,21 @@ userSchema.pre('save', function (next) {
     }
 });
 
+userSchema.methods.comparePassword = function (passw, callback) {
+    console.log("Compare Password");
+    console.log("Password", passw);
+    bcrypt.compare(passw, this.password, function (err, isMatch) {
+        if (err) {
+            console.log(err);
+            return callback(err);
+        }
+        if (isMatch)
+            console.log("Password ok");
+        else
+            console.log("Wrong Password");
+        callback(null, isMatch);
+    });
+};
 
 // Create a model based on the schema
 module.exports = mongoose.model('User', userSchema);

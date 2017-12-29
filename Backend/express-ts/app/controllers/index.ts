@@ -2,3 +2,4 @@
 export * from './userController';
 export * from './restaurantController';
 export * from './bookingController';
+export * from './loginController';

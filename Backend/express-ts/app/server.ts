@@ -6,6 +6,7 @@ import * as configDatabase from './config/database';
 
 // Import Controllers from controllers entry point
 import { UserController } from './controllers';
+import { LoginController } from './controllers';
 import { RestaurantController } from './controllers';
 import { BookingController } from './controllers';
 
@@ -32,6 +33,7 @@ app.use(cors())
 
 // Mount the UserController at the /user route
 app.use('/api/user', UserController);
+app.use('/api/user/login', LoginController);
 app.use('/api/restaurant', RestaurantController);
 app.use('/api/booking', BookingController);
 
