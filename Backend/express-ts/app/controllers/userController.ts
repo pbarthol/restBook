@@ -10,8 +10,8 @@ const router: Router = Router();
 // });
 let ObjectId = mongoose.Types.ObjectId;
 
-router.get('/:userid', function(req, res, next) {
-    var userid = req.params.userid;
+router.get('/:id', function(req, res, next) {
+    var userid = req.params['id'];
     console.log(typeof(userid));
     console.log("User Id: " + userid);
     var idObj = ObjectId(userid);
