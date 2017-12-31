@@ -32,8 +32,8 @@ app.use(cors())
 
 
 // Mount the UserController at the /user route
+app.use('/api/login', LoginController);
 app.use('/api/user', UserController);
-app.use('/api/user/login', LoginController);
 app.use('/api/restaurant', RestaurantController);
 app.use('/api/booking', BookingController);
 
