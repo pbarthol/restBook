@@ -14,6 +14,7 @@ export const CREATE_OR_EDIT_USER_ERROR = '[User] Create User Error';
 export const LOGIN = '[User] Login';
 export const LOGIN_SUCCESS = '[User] Login Success';
 export const LOGIN_ERROR = '[User] Login Error';
+export const CLEAR_ERRORS = '[User] Clear Errors';
 export const LOGGED_IN = '[User] Logged in';
 export const LOGOUT = '[User] Logout';
 
@@ -48,22 +49,26 @@ export class CreateOrEditUserSuccessAction implements Action {
 
 export class CreateOrEditUserErrorAction implements Action {
   readonly type = CREATE_OR_EDIT_USER_ERROR;
-  constructor(public payload: { error: Error }) {}
+  constructor(public payload: { error: string }) {}
 }
 
 export class LoginAction implements Action {
   readonly type = LOGIN;
-  constructor(public payload: { username: String, password: String }) {}
+  constructor(public payload: { username: string, password: string }) {}
 }
 
 export class LoginSuccessAction implements Action {
   readonly type = LOGIN_SUCCESS;
-  constructor(public payload: { webtoken: String, userid: String }) {}
+  constructor(public payload: { webtoken: string, userid: string }) {}
 }
 
 export class LoginErrorAction implements Action {
   readonly type = LOGIN_ERROR;
   constructor(public payload: { error: Error }) {}
+}
+
+export class ClearErrorsAction implements Action {
+  readonly type = CLEAR_ERRORS;
 }
 
 export class LoggedInAction implements Action {
@@ -82,6 +87,7 @@ export type Actions =
   | CreateOrEditUserAction
   | CreateOrEditUserSuccessAction
   | CreateOrEditUserErrorAction
+    | ClearErrorsAction
     | LoginAction
     | LoginSuccessAction
     | LoginErrorAction

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
@@ -119,7 +119,7 @@ import { RestaurantPipe } from './components/pipes/restaurant';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     ReactiveFormsModule,
     EffectsModule.forRoot([
       RestaurantEffects,

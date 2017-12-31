@@ -130,7 +130,12 @@
           </span>
         </div>
         <!--<p-messages [value]="msgs"></p-messages>-->
-        <p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>
+        <div *ngIf="errorDetected === false">
+          <p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>
+        </div>
+        <div *ngIf="errorDetected === true">
+          <p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>
+        </div>
       </div>
   </div>
 </div>

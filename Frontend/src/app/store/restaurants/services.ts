@@ -2,7 +2,7 @@
  * Created by Peter on 17.11.2017.
  */
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/do'
@@ -13,12 +13,12 @@ import { Restaurant } from './restaurant/models';
 @Injectable()
 export class RestaurantService {
   private readonly URL = "http://localhost:3000/api/restaurant"
-  constructor (private http: Http) {}
+  constructor (private http: HttpClient) {}
 
   public getRestaurants(): Observable<Array<Restaurant>> {
-    return this.http.get(this.URL)
+    return this.http.get<Restaurant[]>(this.URL)
       // .map(response => response.text() ? response.json(): response)
-      .map(response => response.json() || [])
+      .map(response => response)
       .do(res => console.log('map = ', res))
   }
 

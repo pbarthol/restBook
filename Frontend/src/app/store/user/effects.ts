@@ -9,12 +9,10 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
 
-
 import {
   LOAD_USER,
   CREATE_OR_EDIT_USER,
   LOGIN,
-  LOGGED_IN,
   LoadUserAction,
   LoadUserSuccessAction,
   LoadUserErrorAction,
@@ -27,6 +25,7 @@ import {
   LoggedInAction
 } from './actions';
 import { UserService } from './services';
+import { User } from './models';
 
 @Injectable()
 export class UserEffects {
@@ -54,8 +53,15 @@ export class UserEffects {
     .switchMap((payload) => {
       return this.svc.saveUser(payload.user)
         .do(res => console.log('Back after user.save: ', res))
-        .map(user => new CreateOrEditUserSuccessAction(user))
-        .catch(error => Observable.of(new CreateOrEditUserErrorAction({error: error})))
+        .switchMap((user: User) => Observable.from([
+          new CreateOrEditUserSuccessAction(user),
+          new LoginAction({username: user.username, password: user.password})
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new CreateOrEditUserErrorAction({error: error.error}))
+          }
+        })
     });
 
   @Effect({dispatch: true})
@@ -70,6 +76,10 @@ export class UserEffects {
           new LoadUserAction({userid: res.userid}),
           new LoggedInAction()
         ]))
-        .catch(error => Observable.of(new LoginErrorAction({ error: error })))
+        .catch((error) => {
+          if (error.status === 500 || error.status === 403) {
+            return Observable.of(new LoginErrorAction({error: error.error}))
+          }
+        })
     });
 }

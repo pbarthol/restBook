@@ -22,6 +22,7 @@ import {Message} from 'primeng/primeng';
 export class UserEditComponent implements OnInit {
 
   private msgs: Message[] = [];
+  private errorDetected: boolean;
   // private selectedSalutation: string;
   private salutations: SelectItem[];
   private passwordRepeat: String;
@@ -39,6 +40,7 @@ export class UserEditComponent implements OnInit {
   private user$: Observable<User>;
   private user: User;
   private editUser: boolean;
+  private errorMessage$: Observable<string>;
 
   constructor(private appStore: Store<AppState>) {
     this.firstNameRequired = false;
@@ -49,13 +51,22 @@ export class UserEditComponent implements OnInit {
     this.userNameRequired = false;
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn);
     this.user$ = this.appStore.select(state => state.user.user);
+    this.errorMessage$ = this.appStore.select(state => state.user.error);
   }
 
   ngOnInit() {
+    this.errorDetected = false;
     this.salutations = [];
     this.salutations.push({label: 'Select Salutation', value: 0});
     this.salutations.push({label: 'Herr', value: 'Herr'});
     this.salutations.push({label: 'Frau', value: 'Frau'});
+    this.errorMessage$.subscribe(error => {
+      if (error !== undefined && error !== null) {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Error Message', detail: error['error']});
+        this.errorDetected = true;
+      }
+    });
     this.userIsLoggedIn$.subscribe(loggedIn => {
       if (loggedIn){
         this.user$.subscribe(user => this.user = user);
@@ -157,14 +168,21 @@ export class UserEditComponent implements OnInit {
       if (this.checkInputs()) {
         this.appStore.dispatch(new CreateOrEditUserAction({user: this.user}));
         // show success save message
-        this.msgs = [];
-        if (!loggedIn) {
-          this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
-          this.appStore.dispatch(new LoginAction({username: this.user.username, password: this.user.password}));
-        } else {
-          this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
-        }
+        this.user$.subscribe(user => {
+          if (user !== null) {
+            this.msgs = [];
+            if (!loggedIn) {
+              this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
+            } else {
+              this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
+            }
+          }
+        })
       }
     })
+  }
+
+  clearErrors() {
+    this.errorDetected = false;
   }
 }

@@ -21,7 +21,7 @@
         <span class="md-inputfield">
             <input type="password"
                    pInputText
-                   [(ngModel)]="password">>
+                   [(ngModel)]="password">
             <label>Password</label>
         </span>
       </div>
@@ -37,7 +37,13 @@
       </div>
     </p-footer>
   </p-dialog>
+  <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>-->
+</div>
+<div *ngIf="errorDetected === false">
   <p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>
+</div>
+<div *ngIf="errorDetected === true">
+  <p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>
 </div>
 
 <div class="ui-grid ui-grid-responsive ui-fluid">

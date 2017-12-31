@@ -12,13 +12,15 @@ export interface UserState {
   user: User;
   webtoken: string;
   userid: string;
+  error: string;
 };
 
 const initialState: UserState = {
   userIsLoggedIn: false,
   user: null,
   webtoken: null,
-  userid: null
+  userid: null,
+  error: null,
 };
 
 export function reducer(state = initialState, action: userActions.Actions) {
@@ -27,12 +29,20 @@ export function reducer(state = initialState, action: userActions.Actions) {
       return Object.assign({}, state, { user: action.payload});
     }
 
-    // case userActions.LOGIN: {
-    //   return Object.assign({}, state, {userIsLoggedIn: true});
-    // }
+    case userActions.CREATE_OR_EDIT_USER_ERROR: {
+      return Object.assign({}, state, { error: action.payload.error});
+    }
 
     case userActions.LOGIN_SUCCESS: {
       return Object.assign({}, state, {webtoken: action.payload.webtoken, userid: action.payload.userid});
+    }
+
+    case userActions.LOGIN_ERROR: {
+      return Object.assign({}, state, { error: action.payload.error});
+    }
+
+    case userActions.CLEAR_ERRORS: {
+      return Object.assign({}, state, { error: null});
     }
 
     case userActions.LOGGED_IN: {

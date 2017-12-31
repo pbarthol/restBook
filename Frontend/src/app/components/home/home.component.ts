@@ -17,11 +17,10 @@ import { AppState } from '../../reducers/index';
 /** Actions */
 import { LoadRestaurantsAction } from '../../store/restaurants/actions';
 import { HideRegisterAction, HideLoginAction } from '../../store/user-interface/actions';
-import { LoginAction, LogoutAction } from '../../store/user/actions';
+import { LoginAction, LogoutAction, ClearErrorsAction } from '../../store/user/actions';
 
 /** Models */
 import { Restaurant } from '../../store/restaurants/restaurant/models';
-
 
 @Component({
   selector: 'app-home',
@@ -75,9 +74,11 @@ export class HomeComponent implements OnInit {
   private showRegister$: Observable<boolean>;
   private showLogin$: Observable<boolean>;
   private showLogin: boolean;
-  private username: String;
-  private password: String;
+  private username: string;
+  private password: string;
   private msgs: Message[] = [];
+  private errorMessage$: Observable<string>;
+  private errorDetected: boolean;
 
   constructor(private store: Store<State>,
               private appStore: Store<AppState>) {
@@ -87,6 +88,7 @@ export class HomeComponent implements OnInit {
       .do(res => console.log("store.userinterface.showRegister: ", res));
     this.showLogin$ = this.appStore.select(state => state.userinterface.showLogin);
     this.showLogin$.subscribe( bool => this.showLogin = bool);
+    this.errorMessage$ = this.appStore.select(state => state.user.error);
   }
 
   ngOnInit() {
@@ -105,9 +107,23 @@ export class HomeComponent implements OnInit {
         this.msgs.push({severity: 'success', summary: 'Login', detail: 'Your are logged in.'});
       }
     })
+    this.errorMessage$.subscribe(error => {
+      if (error !== undefined && error !== null) {
+        this.msgs = [];
+        this.msgs.push({severity: 'error', summary: 'Error Message', detail: error['error']});
+        this.errorDetected = true;
+      }
+    });
   }
 
   hideLogin() {
     this.appStore.dispatch(new HideLoginAction());
   }
+
+  clearErrors() {
+    this.msgs = [];
+    this.errorDetected = false;
+    this.appStore.dispatch(new ClearErrorsAction());
+  }
+
 }
