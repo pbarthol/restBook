@@ -2,16 +2,25 @@
  * Created by Peter on 13.12.2017.
  */
 
+import {Message} from 'primeng/primeng';
 import * as uiActions from './actions';
 
 export interface UIState {
   showRegister: boolean;
   showLogin: boolean;
+  messages: {
+    type: string,
+    title: string,
+    message: string,
+    acknowledgeAction: string
+  }[];
+  // messages: { severity: string; summary: string; detail: string; }[];
 };
 
 export const initialState: UIState = {
   showRegister: false,
-  showLogin: false
+  showLogin: false,
+  messages: []
 };
 
 export function reducer(state = initialState, action: uiActions.Actions) {
@@ -30,6 +39,20 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.HIDE_LOGIN: {
       return Object.assign({}, state, {showLogin: false});
+    }
+
+    case uiActions.SET_MESSAGE: {
+      return Object.assign({}, state, { messages: [...state.messages, {
+          type: action.payload.message.type,
+          title: action.payload.message.title,
+          message: action.payload.message.message,
+          acknowledgeAction: action.payload.message.acknowledgeAction
+        }]
+      })
+    }
+
+    case uiActions.CLEAR_MESSAGE: {
+      return Object.assign({}, state, { messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]});
     }
 
     default: {

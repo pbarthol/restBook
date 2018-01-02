@@ -11,19 +11,25 @@ import "rxjs/add/operator/switchMap";
 
 import {
   LOAD_USER,
-  CREATE_OR_EDIT_USER,
+  CREATE_USER,
+  UPDATE_USER,
   LOGIN,
   LoadUserAction,
   LoadUserSuccessAction,
   LoadUserErrorAction,
-  CreateOrEditUserAction,
-  CreateOrEditUserSuccessAction,
-  CreateOrEditUserErrorAction,
+  CreateUserAction,
+  CreateUserSuccessAction,
+  CreateUserErrorAction,
+  UpdateUserAction,
+  UpdateUserSuccessAction,
+  UpdateUserErrorAction,
   LoginAction,
   LoginSuccessAction,
   LoginErrorAction,
   LoggedInAction
 } from './actions';
+import {SetMessageAction, HideLoginAction, HideRegisterAction} from '../user-interface/actions';
+
 import { UserService } from './services';
 import { User } from './models';
 
@@ -47,19 +53,68 @@ export class UserEffects {
     });
 
   @Effect({dispatch: true})
-  saveUser$: Observable<Action> = this.actions$
-    .ofType<CreateOrEditUserAction>(CREATE_OR_EDIT_USER)
+  addUser$: Observable<Action> = this.actions$
+    .ofType<CreateUserAction>(CREATE_USER)
     .map((action) => action.payload)
     .switchMap((payload) => {
       return this.svc.saveUser(payload.user)
         .do(res => console.log('Back after user.save: ', res))
         .switchMap((user: User) => Observable.from([
-          new CreateOrEditUserSuccessAction(user),
-          new LoginAction({username: user.username, password: user.password})
+          new CreateUserSuccessAction(user),
+          new LoginAction({username: user.username, password: user.password}),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Register',
+              message: 'Your profile is registered. You are logged in.',
+              acknowledgeAction: ''
+            }
+          }),
+          new HideRegisterAction()
         ]))
         .catch((error) => {
           if (error.status === 500) {
-            return Observable.of(new CreateOrEditUserErrorAction({error: error.error}))
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Register Profile',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  updateUser$: Observable<Action> = this.actions$
+    .ofType<UpdateUserAction>(UPDATE_USER)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.saveUser(payload.user)
+        .do(res => console.log('Back after user.save: ', res))
+        .switchMap((user: User) => Observable.from([
+          new UpdateUserSuccessAction(user),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Edit Profile',
+              message: 'Your profile is updated.',
+              acknowledgeAction: 'HideRegisterAction'
+            }
+          }),
+          new HideRegisterAction()
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Edit Profile',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
           }
         })
     });
@@ -74,11 +129,28 @@ export class UserEffects {
         .switchMap((res) => Observable.from([
           new LoginSuccessAction({webtoken: res.token, userid: res.userid}),
           new LoadUserAction({userid: res.userid}),
-          new LoggedInAction()
+          new LoggedInAction(),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Login',
+              message: 'Your are logged in.',
+              acknowledgeAction: ''
+            }
+          }),
+          new HideLoginAction()
         ]))
         .catch((error) => {
           if (error.status === 500 || error.status === 403) {
-            return Observable.of(new LoginErrorAction({error: error.error}))
+            // return Observable.of(new LoginErrorAction({error: error.error}))
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Login',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
           }
         })
     });

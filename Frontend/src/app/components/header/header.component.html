@@ -47,5 +47,7 @@
       class="ui-button-secondary">
     </button>
   </div>
+  <!--<p-growl [value]="msgs" sticky="sticky" (click)="handleMessage()"></p-growl>-->
+  <adv-growl  (onClose)="handleMessage($event)"></adv-growl>
 </p-toolbar>
 

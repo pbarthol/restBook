@@ -74,6 +74,7 @@ import {ToolbarModule} from 'primeng/primeng';
 import {TooltipModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
+import {AdvGrowlModule} from 'primeng-advanced-growl';
 
 /** Own Components */
 import { AppComponent } from './app.component';
@@ -190,6 +191,7 @@ import { RestaurantPipe } from './components/pipes/restaurant';
     TooltipModule,
     TreeModule,
     TreeTableModule,
+    AdvGrowlModule,
     StoreModule.forRoot(reducers),
     StoreDevtoolsModule.instrument({
       maxAge: 5

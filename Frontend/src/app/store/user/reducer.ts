@@ -25,11 +25,19 @@ const initialState: UserState = {
 
 export function reducer(state = initialState, action: userActions.Actions) {
   switch (action.type) {
-    case userActions.CREATE_OR_EDIT_USER_SUCCESS: {
+    case userActions.CREATE_USER_SUCCESS: {
       return Object.assign({}, state, { user: action.payload});
     }
 
-    case userActions.CREATE_OR_EDIT_USER_ERROR: {
+    case userActions.CREATE_USER_ERROR: {
+      return Object.assign({}, state, { error: action.payload.error});
+    }
+
+    case userActions.UPDATE_USER_SUCCESS: {
+      return Object.assign({}, state, { user: action.payload});
+    }
+
+    case userActions.UPDATE_USER_ERROR: {
       return Object.assign({}, state, { error: action.payload.error});
     }
 
@@ -38,11 +46,11 @@ export function reducer(state = initialState, action: userActions.Actions) {
     }
 
     case userActions.LOGIN_ERROR: {
-      return Object.assign({}, state, { error: action.payload.error});
+      return Object.assign({}, state, {error: action.payload.error});
     }
 
     case userActions.CLEAR_ERRORS: {
-      return Object.assign({}, state, { error: null});
+      return Object.assign({}, state, {error: null});
     }
 
     case userActions.LOGGED_IN: {

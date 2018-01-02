@@ -85,7 +85,7 @@
               </div>
           </span>
         </div>
-        <div class="ui-g-12">
+        <div *ngIf="(!userIsLoggedIn$ | async )" class="ui-g-12">
           <span class="md-inputfield">
               <input id="password"
                      pPassword type="password"
@@ -96,7 +96,7 @@
               </div>
           </span>
         </div>
-        <div class="ui-g-12">
+        <div *ngIf="(!userIsLoggedIn$ | async )" class="ui-g-12">
           <span class="md-inputfield">
               <input id="passwordrepeat"
                      pPassword type="password"
@@ -129,13 +129,14 @@
             </button>
           </span>
         </div>
+        <p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>
         <!--<p-messages [value]="msgs"></p-messages>-->
-        <div *ngIf="errorDetected === false">
-          <p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>
-        </div>
-        <div *ngIf="errorDetected === true">
-          <p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>
-        </div>
+        <!--<div *ngIf="errorDetected === false">-->
+          <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideRegister()"></p-growl>-->
+        <!--</div>-->
+        <!--<div *ngIf="errorDetected === true">-->
+          <!--<p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>-->
+        <!--</div>-->
       </div>
   </div>
 </div>

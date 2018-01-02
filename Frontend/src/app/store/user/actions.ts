@@ -8,9 +8,12 @@ import { User } from './models';
 export const LOAD_USER = '[User] Load User';
 export const LOAD_USER_SUCCESS = '[User] Load User Success';
 export const LOAD_USER_ERROR = '[User] Load User Error';
-export const CREATE_OR_EDIT_USER = '[User] Create User';
-export const CREATE_OR_EDIT_USER_SUCCESS = '[User] Create User Success';
-export const CREATE_OR_EDIT_USER_ERROR = '[User] Create User Error';
+export const CREATE_USER = '[User] Create User';
+export const CREATE_USER_SUCCESS = '[User] Create User Success';
+export const CREATE_USER_ERROR = '[User] Create User Error';
+export const UPDATE_USER = '[User] Update User';
+export const UPDATE_USER_SUCCESS = '[User] Update User Success';
+export const UPDATE_USER_ERROR = '[User] Update User Error';
 export const LOGIN = '[User] Login';
 export const LOGIN_SUCCESS = '[User] Login Success';
 export const LOGIN_ERROR = '[User] Login Error';
@@ -37,18 +40,33 @@ export class LoadUserErrorAction implements Action {
   constructor(public payload: { error: Error }) {}
 }
 
-export class CreateOrEditUserAction implements Action {
-  type = CREATE_OR_EDIT_USER;
+export class CreateUserAction implements Action {
+  type = CREATE_USER;
   constructor(public payload: { user: User }) {}
 }
 
-export class CreateOrEditUserSuccessAction implements Action {
-  type = CREATE_OR_EDIT_USER_SUCCESS;
+export class CreateUserSuccessAction implements Action {
+  type = CREATE_USER_SUCCESS;
   constructor(public payload: User) {}
 }
 
-export class CreateOrEditUserErrorAction implements Action {
-  readonly type = CREATE_OR_EDIT_USER_ERROR;
+export class CreateUserErrorAction implements Action {
+  readonly type = CREATE_USER_ERROR;
+  constructor(public payload: { error: string }) {}
+}
+
+export class UpdateUserAction implements Action {
+  type = UPDATE_USER;
+  constructor(public payload: { user: User }) {}
+}
+
+export class UpdateUserSuccessAction implements Action {
+  type = UPDATE_USER_SUCCESS;
+  constructor(public payload: User) {}
+}
+
+export class UpdateUserErrorAction implements Action {
+  readonly type = UPDATE_USER_ERROR;
   constructor(public payload: { error: string }) {}
 }
 
@@ -69,6 +87,7 @@ export class LoginErrorAction implements Action {
 
 export class ClearErrorsAction implements Action {
   readonly type = CLEAR_ERRORS;
+  constructor(public payload: any = null) {}
 }
 
 export class LoggedInAction implements Action {
@@ -84,9 +103,12 @@ export class LogoutAction implements Action {
 export type Actions =
   LoadUserAction
   | LoadUserSuccessAction
-  | CreateOrEditUserAction
-  | CreateOrEditUserSuccessAction
-  | CreateOrEditUserErrorAction
+  | CreateUserAction
+  | CreateUserSuccessAction
+  | CreateUserErrorAction
+    | UpdateUserAction
+    | UpdateUserSuccessAction
+    | UpdateUserErrorAction
     | ClearErrorsAction
     | LoginAction
     | LoginSuccessAction

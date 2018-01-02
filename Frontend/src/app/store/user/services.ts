@@ -62,9 +62,4 @@ export class UserService {
         return {token: token, userid: userid};
       })
   }
-  //
-  // deleteRestaurant(restaurant) {
-  //   return this.http.delete('/api/restaurant/' + restaurant.id)
-  //     .map(res => restaurant);
-  // }
 }

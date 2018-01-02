@@ -6,7 +6,11 @@ import { User } from '../../store/user/models';
 import { Store } from '@ngrx/store';
 import {HideRegisterAction } from '../../store/user-interface/actions';
 import { UserState } from '../../store/user/reducer';
-import { CreateOrEditUserAction, LoginAction, LogoutAction } from '../../store/user/actions';
+import { CreateUserAction,
+  UpdateUserAction,
+  LoginAction,
+  LogoutAction } from '../../store/user/actions';
+import { SetMessageAction } from '../../store/user-interface/actions';
 import { AppState } from '../../reducers/index';
 
 import {Message} from 'primeng/primeng';
@@ -22,7 +26,6 @@ import {Message} from 'primeng/primeng';
 export class UserEditComponent implements OnInit {
 
   private msgs: Message[] = [];
-  private errorDetected: boolean;
   // private selectedSalutation: string;
   private salutations: SelectItem[];
   private passwordRepeat: String;
@@ -40,7 +43,6 @@ export class UserEditComponent implements OnInit {
   private user$: Observable<User>;
   private user: User;
   private editUser: boolean;
-  private errorMessage$: Observable<string>;
 
   constructor(private appStore: Store<AppState>) {
     this.firstNameRequired = false;
@@ -51,22 +53,20 @@ export class UserEditComponent implements OnInit {
     this.userNameRequired = false;
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn);
     this.user$ = this.appStore.select(state => state.user.user);
-    this.errorMessage$ = this.appStore.select(state => state.user.error);
+    // this.errorMessage$ = this.appStore.select(state => state.user.error);
   }
 
   ngOnInit() {
-    this.errorDetected = false;
     this.salutations = [];
     this.salutations.push({label: 'Select Salutation', value: 0});
     this.salutations.push({label: 'Herr', value: 'Herr'});
     this.salutations.push({label: 'Frau', value: 'Frau'});
-    this.errorMessage$.subscribe(error => {
-      if (error !== undefined && error !== null) {
-        this.msgs = [];
-        this.msgs.push({severity: 'error', summary: 'Error Message', detail: error['error']});
-        this.errorDetected = true;
-      }
-    });
+    // this.errorMessage$.subscribe(error => {
+    //   if (error !== undefined && error !== null) {
+    //     this.msgs = [];
+    //     this.msgs.push({severity: 'error', summary: 'Error Message', detail: error['error']});
+    //   }
+    // });
     this.userIsLoggedIn$.subscribe(loggedIn => {
       if (loggedIn){
         this.user$.subscribe(user => this.user = user);
@@ -90,7 +90,7 @@ export class UserEditComponent implements OnInit {
   }
 
   checkInputs() {
-    // check passwords
+    // Check First Name input
     let failure: boolean = false;
     if (this.user.firstName === null ||
       this.user.firstName === undefined ||
@@ -100,7 +100,7 @@ export class UserEditComponent implements OnInit {
     } else {
       this.firstNameRequired = false;
     }
-
+    // Check Last Name input
     if (this.user.lastName === null ||
       this.user.lastName === undefined ||
       this.user.lastName === '') {
@@ -109,7 +109,7 @@ export class UserEditComponent implements OnInit {
     } else {
       this.lastNameRequired = false;
     }
-
+    // Check Street input
     if (this.user.street === null ||
       this.user.street === undefined ||
       this.user.street === '') {
@@ -118,7 +118,7 @@ export class UserEditComponent implements OnInit {
     } else {
       this.streetRequired = false;
     }
-
+    // Check username input
     if (this.user.username === null ||
       this.user.username === undefined ||
       this.user.username === '') {
@@ -127,30 +127,38 @@ export class UserEditComponent implements OnInit {
     } else {
       this.userNameRequired = false;
     }
-
-    if (this.user.password === null ||
-      this.user.password === undefined ||
-      this.user.password === '') {
-      this.passwordRequired = true;
-      failure = true;
-    } else {
-      this.passwordRequired = false;
-    }
-
-    if (this.passwordRepeat === null ||
-      this.passwordRepeat === undefined ||
-      this.passwordRepeat === '') {
-      this.passwordRepeatRequired = true;
-      failure = true;
-    } else {
-      this.passwordRepeatRequired = false;
-    }
-
-    if (this.passwordRepeat != this.user.password) {
-      this.msgs = [];
-      this.msgs.push({severity: 'error', summary: 'Registering', detail: 'Passwords are not identical.'});
-      return false;
-    }
+    // check Passwords if user is not logged in
+    this.userIsLoggedIn$.subscribe(loggedIn => {
+      if (!loggedIn) {
+        if (this.user.password === null ||
+          this.user.password === undefined ||
+          this.user.password === '') {
+          this.passwordRequired = true;
+          failure = true;
+        } else {
+          this.passwordRequired = false;
+        }
+        if (this.passwordRepeat === null ||
+          this.passwordRepeat === undefined ||
+          this.passwordRepeat === '') {
+          this.passwordRepeatRequired = true;
+          failure = true;
+        } else {
+          this.passwordRepeatRequired = false;
+        }
+        if (this.passwordRepeat != this.user.password) {
+          new SetMessageAction({
+            message: {
+              type: 'error',
+              title: 'Registering',
+              message: 'Passwords are not identical!',
+              acknowledgeAction: ''
+            }
+          });
+          failure = true;
+        }
+      }
+    })
 
     if (failure) {
       return false;
@@ -166,23 +174,24 @@ export class UserEditComponent implements OnInit {
         this.user._id = '0';
       }
       if (this.checkInputs()) {
-        this.appStore.dispatch(new CreateOrEditUserAction({user: this.user}));
+        if (!loggedIn) {
+          this.appStore.dispatch(new CreateUserAction({user: this.user}));
+        } else {
+          this.appStore.dispatch(new UpdateUserAction({user: this.user}));
+        }
         // show success save message
-        this.user$.subscribe(user => {
-          if (user !== null) {
-            this.msgs = [];
-            if (!loggedIn) {
-              this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
-            } else {
-              this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
-            }
-          }
-        })
+        // this.user$.subscribe(user => {
+        //   if (user !== null) {
+        //     this.msgs = [];
+        //     if (!loggedIn) {
+        //       this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
+        //     } else {
+        //       this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
+        //     }
+        //   }
+        // })
       }
     })
   }
 
-  clearErrors() {
-    this.errorDetected = false;
-  }
 }

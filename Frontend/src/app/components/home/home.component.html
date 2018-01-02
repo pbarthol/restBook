@@ -39,12 +39,13 @@
   </p-dialog>
   <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>-->
 </div>
-<div *ngIf="errorDetected === false">
-  <p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>
-</div>
-<div *ngIf="errorDetected === true">
-  <p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>
-</div>
+<p-growl [value]="msgs" sticky="sticky" (click)="handleMessage()"></p-growl>
+<!--<div *ngIf="errorDetected === false">-->
+  <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>-->
+<!--</div>-->
+<!--<div *ngIf="errorDetected === true">-->
+  <!--<p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>-->
+<!--</div>-->
 
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <div class="ui-g">
