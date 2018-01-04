@@ -2,12 +2,12 @@
  * Created by Peter on 13.12.2017.
  */
 
-import {Message} from 'primeng/primeng';
 import * as uiActions from './actions';
 
 export interface UIState {
   showRegister: boolean;
   showLogin: boolean;
+  showPasswordChange: boolean;
   messages: {
     type: string,
     title: string,
@@ -20,6 +20,7 @@ export interface UIState {
 export const initialState: UIState = {
   showRegister: false,
   showLogin: false,
+  showPasswordChange: false,
   messages: []
 };
 
@@ -41,6 +42,14 @@ export function reducer(state = initialState, action: uiActions.Actions) {
       return Object.assign({}, state, {showLogin: false});
     }
 
+    case uiActions.SHOW_PASSWORD_CHANGE: {
+      return Object.assign({}, state, {showPasswordChange: true});
+    }
+
+    case uiActions.HIDE_PASSWORD_CHANGE: {
+      return Object.assign({}, state, {showPasswordChange: false});
+    }
+
     case uiActions.SET_MESSAGE: {
       return Object.assign({}, state, { messages: [...state.messages, {
           type: action.payload.message.type,
@@ -52,7 +61,9 @@ export function reducer(state = initialState, action: uiActions.Actions) {
     }
 
     case uiActions.CLEAR_MESSAGE: {
-      return Object.assign({}, state, { messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]});
+      return Object.assign({}, state, {
+        messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]
+      });
     }
 
     default: {

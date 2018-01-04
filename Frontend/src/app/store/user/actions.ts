@@ -20,6 +20,7 @@ export const LOGIN_ERROR = '[User] Login Error';
 export const CLEAR_ERRORS = '[User] Clear Errors';
 export const LOGGED_IN = '[User] Logged in';
 export const LOGOUT = '[User] Logout';
+export const CHANGE_PASSWORD = '[User] Change Password';
 
 
 @Injectable()
@@ -97,7 +98,12 @@ export class LoggedInAction implements Action {
 
 export class LogoutAction implements Action {
   readonly type = LOGOUT;
-  constructor(public payload: any = null) { }
+  constructor(public payload: any = null) {}
+}
+
+export class ChangePasswordAction implements Action {
+  type = CHANGE_PASSWORD;
+  constructor(public payload: { user: User }) {}
 }
 
 export type Actions =
@@ -115,3 +121,4 @@ export type Actions =
     | LoginErrorAction
     | LoggedInAction
     | LogoutAction
+  | ChangePasswordAction

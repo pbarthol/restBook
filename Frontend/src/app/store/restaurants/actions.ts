@@ -13,6 +13,7 @@ export const LOAD_RESTAURANTS_ERROR = '[Restaurant] Load Restaurants Error';
 
 export class LoadRestaurantsAction implements Action {
   readonly type = LOAD_RESTAURANTS;
+  constructor(public payload: any = null) {}
 }
 
 export class LoadRestaurantsSuccessAction implements Action {
@@ -26,3 +27,7 @@ export class LoadRestaurantsErrorAction implements Action {
   readonly type = LOAD_RESTAURANTS_ERROR;
   constructor(public payload: { error: Error }) {}
 }
+
+export type Actions = LoadRestaurantsAction
+  | LoadRestaurantsSuccessAction
+  | LoadRestaurantsErrorAction

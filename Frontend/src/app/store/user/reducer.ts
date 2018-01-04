@@ -6,13 +6,11 @@ import { Action } from '@ngrx/store';
 import { User } from './models';
 import * as userActions from './actions';
 
-
 export interface UserState {
   userIsLoggedIn: boolean;
   user: User;
   webtoken: string;
   userid: string;
-  error: string;
 };
 
 const initialState: UserState = {
@@ -20,7 +18,6 @@ const initialState: UserState = {
   user: null,
   webtoken: null,
   userid: null,
-  error: null,
 };
 
 export function reducer(state = initialState, action: userActions.Actions) {

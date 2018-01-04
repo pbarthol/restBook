@@ -5,7 +5,6 @@ import { User } from '../../store/user/models';
 /** Store */
 import { Store } from '@ngrx/store';
 import {HideRegisterAction } from '../../store/user-interface/actions';
-import { UserState } from '../../store/user/reducer';
 import { CreateUserAction,
   UpdateUserAction,
   LoginAction,
@@ -25,7 +24,6 @@ import {Message} from 'primeng/primeng';
 
 export class UserEditComponent implements OnInit {
 
-  private msgs: Message[] = [];
   // private selectedSalutation: string;
   private salutations: SelectItem[];
   private passwordRepeat: String;
@@ -36,10 +34,13 @@ export class UserEditComponent implements OnInit {
   private passwordRequired: boolean;
   private passwordRepeatRequired: boolean;
   private userNameRequired: boolean;
+  private emailRequired: boolean;
+  private emailError: string;
   private formTitle: String;
   private labelSaveButton: String;
 
   private userIsLoggedIn$: Observable<boolean>;
+  private userIsLoggedIn: boolean;
   private user$: Observable<User>;
   private user: User;
   private editUser: boolean;
@@ -51,8 +52,11 @@ export class UserEditComponent implements OnInit {
     this.passwordRequired = false;
     this.passwordRepeatRequired = false;
     this.userNameRequired = false;
+    this.emailRequired = false;
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn);
+    this.userIsLoggedIn = false;
     this.user$ = this.appStore.select(state => state.user.user);
+    this.emailError = ''
     // this.errorMessage$ = this.appStore.select(state => state.user.error);
   }
 
@@ -67,22 +71,21 @@ export class UserEditComponent implements OnInit {
     //     this.msgs.push({severity: 'error', summary: 'Error Message', detail: error['error']});
     //   }
     // });
-    this.userIsLoggedIn$.subscribe(loggedIn => {
-      if (loggedIn){
-        this.user$.subscribe(user => this.user = user);
-        this.editUser = true;
-        this.formTitle = 'Update Profile';
-        this.labelSaveButton = 'Update Profile';
-        // password is hashed -> not usable, not editable
-        this.user.password = '';
-        this.passwordRepeat = '';
-      } else {
-        this.user = new User();
-        this.editUser = false;
-        this.formTitle = 'Register';
-        this.labelSaveButton = 'Register';
-      }
-    })
+    this.userIsLoggedIn$.subscribe(loggedIn => {this.userIsLoggedIn = loggedIn});
+    if (this.userIsLoggedIn){
+      this.user$.subscribe(user => this.user = user);
+      this.editUser = true;
+      this.formTitle = 'Update Profile';
+      this.labelSaveButton = 'Update Profile';
+      // password is hashed -> not usable, not editable
+      this.user.password = '';
+      this.passwordRepeat = '';
+    } else {
+      this.user = new User();
+      this.editUser = false;
+      this.formTitle = 'Register';
+      this.labelSaveButton = 'Register';
+    }
   }
 
   hideRegister() {
@@ -127,38 +130,56 @@ export class UserEditComponent implements OnInit {
     } else {
       this.userNameRequired = false;
     }
-    // check Passwords if user is not logged in
-    this.userIsLoggedIn$.subscribe(loggedIn => {
-      if (!loggedIn) {
-        if (this.user.password === null ||
-          this.user.password === undefined ||
-          this.user.password === '') {
-          this.passwordRequired = true;
-          failure = true;
-        } else {
-          this.passwordRequired = false;
-        }
-        if (this.passwordRepeat === null ||
-          this.passwordRepeat === undefined ||
-          this.passwordRepeat === '') {
-          this.passwordRepeatRequired = true;
-          failure = true;
-        } else {
-          this.passwordRepeatRequired = false;
-        }
-        if (this.passwordRepeat != this.user.password) {
-          new SetMessageAction({
-            message: {
-              type: 'error',
-              title: 'Registering',
-              message: 'Passwords are not identical!',
-              acknowledgeAction: ''
-            }
-          });
+    // Check email input
+    this.emailError = '';
+    if (this.user.email === null ||
+      this.user.email === undefined ||
+      this.user.email === '') {
+      this.emailRequired = true;
+      failure = true;
+    } else {
+      this.emailRequired = false;
+      let atPos: number = this.user.email.search('@')
+      if (atPos === -1) {
+        this.emailError = ' No @ found in your email address';
+        failure = true;
+      } else {
+        if (atPos === 0 || atPos === this.user.email.length - 1) {
+          this.emailError = '@ found in front or end of your email address';
           failure = true;
         }
       }
-    })
+    }
+    // check Passwords if user is not logged in
+    if (!this.userIsLoggedIn) {
+      if (this.user.password === null ||
+        this.user.password === undefined ||
+        this.user.password === '') {
+        this.passwordRequired = true;
+        failure = true;
+      } else {
+        this.passwordRequired = false;
+      }
+      if (this.passwordRepeat === null ||
+        this.passwordRepeat === undefined ||
+        this.passwordRepeat === '') {
+        this.passwordRepeatRequired = true;
+        failure = true;
+      } else {
+        this.passwordRepeatRequired = false;
+      }
+      if (this.passwordRepeat != this.user.password) {
+        new SetMessageAction({
+          message: {
+            type: 'error',
+            title: 'Register',
+            message: 'Passwords are not identical!',
+            acknowledgeAction: ''
+          }
+        });
+        failure = true;
+      }
+    }
 
     if (failure) {
       return false;
@@ -168,30 +189,17 @@ export class UserEditComponent implements OnInit {
   }
 
   saveUser() {
-    this.userIsLoggedIn$.subscribe(loggedIn => {
-      if (!loggedIn) {
-        // new User
-        this.user._id = '0';
+    if (!this.userIsLoggedIn) {
+      // new User
+      this.user._id = '0';
+    }
+    if (this.checkInputs()) {
+      if (!this.userIsLoggedIn) {
+        this.appStore.dispatch(new CreateUserAction({user: this.user}));
+      } else {
+        this.appStore.dispatch(new UpdateUserAction({user: this.user}));
       }
-      if (this.checkInputs()) {
-        if (!loggedIn) {
-          this.appStore.dispatch(new CreateUserAction({user: this.user}));
-        } else {
-          this.appStore.dispatch(new UpdateUserAction({user: this.user}));
-        }
-        // show success save message
-        // this.user$.subscribe(user => {
-        //   if (user !== null) {
-        //     this.msgs = [];
-        //     if (!loggedIn) {
-        //       this.msgs.push({severity: 'success', summary: 'Registering', detail: 'Your profile is registered.'});
-        //     } else {
-        //       this.msgs.push({severity: 'success', summary: 'Edit User', detail: 'Your profile is updated.'});
-        //     }
-        //   }
-        // })
-      }
-    })
+    }
   }
 
 }

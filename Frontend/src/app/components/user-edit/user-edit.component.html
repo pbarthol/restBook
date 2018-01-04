@@ -64,6 +64,12 @@
                      pInputText
                      [(ngModel)]="user.email">
               <label>Email</label>
+              <div *ngIf="emailRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
+              <div class="ui-message ui-messages-error ui-corner-all">
+                   {{emailError}}
+              </div>
           </span>
         </div>
         <div class="ui-g-12">
@@ -85,7 +91,7 @@
               </div>
           </span>
         </div>
-        <div *ngIf="(!userIsLoggedIn$ | async )" class="ui-g-12">
+        <div *ngIf="(userIsLoggedIn$ | async) === false" class="ui-g-12">
           <span class="md-inputfield">
               <input id="password"
                      pPassword type="password"
@@ -96,7 +102,7 @@
               </div>
           </span>
         </div>
-        <div *ngIf="(!userIsLoggedIn$ | async )" class="ui-g-12">
+        <div *ngIf="(userIsLoggedIn$ | async) === false" class="ui-g-12">
           <span class="md-inputfield">
               <input id="passwordrepeat"
                      pPassword type="password"

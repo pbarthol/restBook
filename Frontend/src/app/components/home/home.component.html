@@ -2,50 +2,11 @@
   <app-header></app-header>
 </nav>
 
-<div *ngIf="(showRegister$ | async)">
-  <app-user-edit></app-user-edit>
-</div>
+<!--<div *ngIf="(showPasswordChange$ | async)">-->
+  <!--<app-password-change></app-password-change>-->
+<!--</div>-->
 
-<div *ngIf="(showLogin$ | async)">
-  <p-dialog header="Login" [resizable]="false" responsive="true" [(visible)]="showLogin">
-    <div class="ui-g form-group" style="margin-bottom: 16px;">
-      <div class="ui-g-12">
-        <span class="md-inputfield">
-            <input type="text"
-                   pInputText
-                   [(ngModel)]="username">
-            <label>Username</label>
-        </span>
-      </div>
-      <div class="ui-g-12">
-        <span class="md-inputfield">
-            <input type="password"
-                   pInputText
-                   [(ngModel)]="password">
-            <label>Password</label>
-        </span>
-      </div>
-    </div>
-    <p-footer>
-      <div class="ui-dialog-buttonpane ui-helper-clearfix">
-        <button type="button"
-                label="Login"
-                icon="ui-icon-person"
-                (click)="login()"
-                pButton>
-        </button>
-      </div>
-    </p-footer>
-  </p-dialog>
-  <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>-->
-</div>
-<p-growl [value]="msgs" sticky="sticky" (click)="handleMessage()"></p-growl>
-<!--<div *ngIf="errorDetected === false">-->
-  <!--<p-growl [value]="msgs" sticky="sticky" (click)="hideLogin()"></p-growl>-->
-<!--</div>-->
-<!--<div *ngIf="errorDetected === true">-->
-  <!--<p-growl [value]="msgs" sticky="sticky" (click)="clearErrors()"></p-growl>-->
-<!--</div>-->
+
 
 <div class="ui-grid ui-grid-responsive ui-fluid">
   <div class="ui-g">
@@ -61,7 +22,6 @@
                  type="text"
                  class="form-control"
                  #search
-                 [(formControl)]="searchControl"
                  name="search">
         </div>
         <div class="rb-msg error">

@@ -87,6 +87,7 @@ import { UserComponent } from './components/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { PasswordChangeComponent } from './components/password-change/password-change.component';
 import { RestaurantEffects } from './store/restaurants/effects';
 import { UserEffects } from './store/user/effects';
 import { reducers } from './reducers/index';
@@ -111,6 +112,7 @@ import { RestaurantPipe } from './components/pipes/restaurant';
     FooterComponent,
     RestaurantTeaserComponent,
     RestaurantPipe,
+    PasswordChangeComponent,
   ],
   imports: [
     RouterModule.forRoot([

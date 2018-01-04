@@ -3,7 +3,7 @@
  */
 import { Action } from '@ngrx/store';
 import { Restaurant } from "./restaurant/models";
-import * as restaurants from './actions';
+import * as restaurantsActions from './actions';
 
 export interface State {
   restaurants: Restaurant[];
@@ -11,9 +11,9 @@ export interface State {
 
 const initialState: State = {restaurants: []};
 
-export function reducer(state = initialState, action: restaurants.LoadRestaurantsSuccessAction) {
+export function reducer(state = initialState, action: restaurantsActions.Actions) {
   switch (action.type) {
-    case  restaurants.LOAD_RESTAURANTS_SUCCESS: {
+    case  restaurantsActions.LOAD_RESTAURANTS_SUCCESS: {
       return Object.assign({}, state, {restaurants: action.payload});
       // return action.payload;
     }

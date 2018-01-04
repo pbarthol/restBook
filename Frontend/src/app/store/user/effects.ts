@@ -14,22 +14,25 @@ import {
   CREATE_USER,
   UPDATE_USER,
   LOGIN,
+  CHANGE_PASSWORD,
   LoadUserAction,
   LoadUserSuccessAction,
   LoadUserErrorAction,
   CreateUserAction,
   CreateUserSuccessAction,
-  CreateUserErrorAction,
   UpdateUserAction,
   UpdateUserSuccessAction,
-  UpdateUserErrorAction,
   LoginAction,
   LoginSuccessAction,
-  LoginErrorAction,
-  LoggedInAction
+  LoggedInAction,
+  ChangePasswordAction
 } from './actions';
-import {SetMessageAction, HideLoginAction, HideRegisterAction} from '../user-interface/actions';
-
+import {
+  SetMessageAction,
+  HideLoginAction,
+  HideRegisterAction,
+  HidePasswordChangeAction
+} from '../user-interface/actions';
 import { UserService } from './services';
 import { User } from './models';
 
@@ -57,19 +60,21 @@ export class UserEffects {
     .ofType<CreateUserAction>(CREATE_USER)
     .map((action) => action.payload)
     .switchMap((payload) => {
-      return this.svc.saveUser(payload.user)
+      let pwd = payload.user.password; // not hashed
+      return this.svc.addUser(payload.user)
         .do(res => console.log('Back after user.save: ', res))
-        .switchMap((user: User) => Observable.from([
+        .switchMap((user: User) =>
+          Observable.from([
           new CreateUserSuccessAction(user),
-          new LoginAction({username: user.username, password: user.password}),
           new SetMessageAction({
             message: {
               type: 'success',
               title: 'Register',
-              message: 'Your profile is registered. You are logged in.',
+              message: 'Your profile is registered.',
               acknowledgeAction: ''
             }
           }),
+          new LoginAction({username: user.username, password: pwd}),
           new HideRegisterAction()
         ]))
         .catch((error) => {
@@ -91,7 +96,7 @@ export class UserEffects {
     .ofType<UpdateUserAction>(UPDATE_USER)
     .map((action) => action.payload)
     .switchMap((payload) => {
-      return this.svc.saveUser(payload.user)
+      return this.svc.updateUser(payload.user)
         .do(res => console.log('Back after user.save: ', res))
         .switchMap((user: User) => Observable.from([
           new UpdateUserSuccessAction(user),
@@ -111,6 +116,38 @@ export class UserEffects {
               message: {
                 type: 'error',
                 title: 'Edit Profile',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  changePasswords: Observable<Action> = this.actions$
+    .ofType<ChangePasswordAction>(CHANGE_PASSWORD)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.updateUser(payload.user)
+        .do(res => console.log('Back after user.change password: ', res))
+        .switchMap((user: User) => Observable.from([
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Change Password',
+              message: 'Your password is changed.',
+              acknowledgeAction: 'HideChangePassword'
+            }
+          }),
+          new HidePasswordChangeAction()
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Change Password',
                 message: error.error.error,
                 acknowledgeAction: ''
               }

@@ -12,7 +12,10 @@ import {
   ShowRegisterAction,
   HideRegisterAction,
   ShowLoginAction,
-  HideLoginAction, ClearMessageAction,
+  HideLoginAction,
+  ClearMessageAction,
+  ShowPasswordChangeAction,
+  HidePasswordChangeAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
 
@@ -28,25 +31,22 @@ export class HeaderComponent implements OnInit {
 
   private userIsLoggedIn$: Observable<boolean>;
   private messages$: Observable<{}[]>;
-  private msgs: Message[] = [];
   messages = [];
+  private showRegister$: Observable<boolean>;
+  private showLogin$: Observable<boolean>;
+  private showPasswordChange$: Observable<boolean>;
 
   constructor(private appStore: Store<AppState>,
               private advGrowlService: AdvGrowlService) {
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn)
       .do(res => console.log("store.userinterface.userIsLoggedIn: ", res));
     this.messages$ = appStore.select(state => state.userinterface.messages);
+    this.showRegister$ = this.appStore.select(state => state.userinterface.showRegister);
+    this.showLogin$ = this.appStore.select(state => state.userinterface.showLogin);
+    this.showPasswordChange$ = this.appStore.select(state => state.userinterface.showPasswordChange);
   }
 
   ngOnInit() {
-    // this.messages$.subscribe((messages: {}[]) => {
-    //   this.msgs = [];
-    //   messages.forEach(
-    //     (message: {type: string, title: string, message: string, acknowledgeAction: string}) => {
-    //     let msg = {severity: message.type, summary: message.title, detail: message.message}
-    //     this.msgs.push(msg);
-    //   })
-    // });
     this.messages$.subscribe((messages: {}[]) => {
       this.advGrowlService.clearMessages();
       let index = 0;
@@ -77,19 +77,24 @@ export class HeaderComponent implements OnInit {
 
   showRegister() {
     this.appStore.dispatch(new HideLoginAction());
+    this.appStore.dispatch(new HidePasswordChangeAction());
     this.appStore.dispatch(new ShowRegisterAction());
   }
 
-  showLogin() {
+  showLoginForm() {
     this.appStore.dispatch(new HideRegisterAction());
+    this.appStore.dispatch(new HidePasswordChangeAction());
     this.appStore.dispatch(new ShowLoginAction());
   }
 
   logout() {
     this.appStore.dispatch(new LogoutAction());
+    this.appStore.dispatch(new HidePasswordChangeAction());
   }
 
   editUser() {
+    this.appStore.dispatch(new HidePasswordChangeAction());
+    this.appStore.dispatch(new HideLoginAction());
     this.appStore.dispatch(new ShowRegisterAction());
   }
 
@@ -99,8 +104,8 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  onMessages(messages) {
-    this.messages = messages;
+  changePassword() {
+    this.appStore.dispatch(new ShowPasswordChangeAction());
   }
 
 }

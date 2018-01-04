@@ -47,3 +47,12 @@ button {
 body .ui-button .ui-button-text, body .ui-datepicker-buttonpane > button .ui-button-text {
   color: black;
 }
+
+ul.ultima-menu {
+  &.ultima-main-menu {
+     margin-top: 0px;
+     margin-right: 0px;
+     padding-bottom: 0px;
+   }
+}
+

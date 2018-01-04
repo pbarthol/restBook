@@ -13,8 +13,10 @@ import {isUndefined} from "util";
 
 @Injectable()
 export class UserService {
+
   private readonly UserURL = "http://localhost:3000/api/user"
   private readonly LoginURL = "http://localhost:3000/api/login"
+
   constructor (private http: HttpClient) {}
 
   public getUser(userid: string): Observable<User>{
@@ -30,7 +32,7 @@ export class UserService {
       .map(data => data)
   }
 
-  public saveUser(user: User) {
+  public addUser(user: User) {
     if (user._id === '0') {
       delete user._id;
     }
@@ -38,15 +40,19 @@ export class UserService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    if (typeof user._id === 'undefined') {
-      return this.http.post(this.UserURL, body, httpOptions)
-      // return this.http.post(this.UserURL, user)
-        .map(res => res)
-    } else {
-      return this.http.put(this.UserURL, body, httpOptions)
-        .map(res => res);
-    }
+    return this.http.post(this.UserURL, body, httpOptions)
+      .map(res => res)
   }
+
+  public updateUser(user: User) {
+    let body = JSON.stringify({user});
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.put(this.UserURL, body, httpOptions)
+      .map(res => res);
+  }
+
   public login(username: string, password: string) {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
