@@ -15,9 +15,13 @@ import {
   HideLoginAction,
   ClearMessageAction,
   ShowPasswordChangeAction,
-  HidePasswordChangeAction
+  HidePasswordChangeAction,
+  SetMessageAction,
+  ShowRestaurantOverviewAction,
+  HideRestaurantOverviewAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
+import { User } from '../../store/user/models';
 
 
 @Component({
@@ -29,48 +33,58 @@ import { LogoutAction } from '../../store/user/actions';
 
 export class HeaderComponent implements OnInit {
 
+  messages = [];
   private userIsLoggedIn$: Observable<boolean>;
   private messages$: Observable<{}[]>;
-  messages = [];
   private showRegister$: Observable<boolean>;
   private showLogin$: Observable<boolean>;
   private showPasswordChange$: Observable<boolean>;
+  private loggedInUser$: Observable<User>;
+  private loggedInUser: User;
+  private showRestaurantOverview$: Observable<boolean>;
 
   constructor(private appStore: Store<AppState>,
               private advGrowlService: AdvGrowlService) {
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn)
-      .do(res => console.log("store.userinterface.userIsLoggedIn: ", res));
     this.messages$ = appStore.select(state => state.userinterface.messages);
     this.showRegister$ = this.appStore.select(state => state.userinterface.showRegister);
     this.showLogin$ = this.appStore.select(state => state.userinterface.showLogin);
     this.showPasswordChange$ = this.appStore.select(state => state.userinterface.showPasswordChange);
+    this.loggedInUser$ = this.appStore.select(state => state.user.user)
+    this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
   }
 
   ngOnInit() {
-    this.messages$.subscribe((messages: {}[]) => {
+    this.messages$.subscribe((storeMessages: {}[]) => {
+      let index: number;
+      let additionalProperty: {};
       this.advGrowlService.clearMessages();
-      let index = 0;
-      messages.forEach(
-        (message: {type: string, title: string, message: string, acknowledgeAction: string}) => {
-          let additionalProperty = {
-            itemIndex: index,
-            acknowledgeAction: message.acknowledgeAction
+      storeMessages.forEach(
+        (oneMessage: {type: string, title: string, message: string, acknowledgeAction: string}) => {
+          const msgIndex = this.messages.findIndex((message: AdvPrimeMessage) =>
+            message.severity === oneMessage.type
+            && message.summary === oneMessage.title
+            && message.detail === oneMessage.message
+          );
+          if (msgIndex < 0) {
+            additionalProperty = {
+              acknowledgeAction: oneMessage.acknowledgeAction
+            };
+            if (oneMessage.type === 'success') {
+              this.advGrowlService.createSuccessMessage(
+                oneMessage.message,
+                oneMessage.title,
+                additionalProperty
+              );
+            }
+            if (oneMessage.type === 'error') {
+              this.advGrowlService.createErrorMessage(
+                oneMessage.message,
+                oneMessage.title,
+                additionalProperty
+              );
+            }
           }
-          if (message.type === 'success') {
-            this.advGrowlService.createSuccessMessage(
-              message.message,
-              message.title,
-              additionalProperty
-            );
-          }
-          if (message.type === 'error') {
-            this.advGrowlService.createErrorMessage(
-              message.message,
-              message.title,
-              additionalProperty
-            );
-          }
-          index++;
         })
     });
   }
@@ -90,6 +104,15 @@ export class HeaderComponent implements OnInit {
   logout() {
     this.appStore.dispatch(new LogoutAction());
     this.appStore.dispatch(new HidePasswordChangeAction());
+    this.appStore.dispatch(new SetMessageAction({
+      message: {
+        type: 'success',
+        title: 'Logout',
+        message: 'You are logged out!',
+        acknowledgeAction: ''
+      }
+    }));
+
   }
 
   editUser() {
@@ -100,12 +123,26 @@ export class HeaderComponent implements OnInit {
 
   handleMessage(message: AdvPrimeMessage) {
     if (message.additionalProperties) {
-      this.appStore.dispatch(new ClearMessageAction({itemIndex: message.additionalProperties.itemIndex}));
+      // this.appStore.dispatch(new ClearMessageAction({itemIndex: message.additionalProperties.itemIndex}));
+      this.appStore.dispatch(new ClearMessageAction(
+        {
+          severity: message.severity,
+          summary: message.summary,
+          detail: message.detail
+        }));
     }
+  }
+
+  public onMessages(messages) {
+    this.messages = messages;
   }
 
   changePassword() {
     this.appStore.dispatch(new ShowPasswordChangeAction());
+  }
+
+  showRestaurantOverview(){
+    this.appStore.dispatch(new ShowRestaurantOverviewAction())
   }
 
 }

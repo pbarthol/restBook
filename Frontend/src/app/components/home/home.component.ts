@@ -19,7 +19,7 @@ import {
   HideRegisterAction,
   HideLoginAction,
 } from '../../store/user-interface/actions';
-import { LoginAction, LogoutAction, ClearErrorsAction } from '../../store/user/actions';
+import { LoginAction, LogoutAction } from '../../store/user/actions';
 
 /** Models */
 import { Restaurant } from '../../store/restaurants/restaurant/models';
@@ -85,16 +85,6 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(new HideRegisterAction());
     this.store.dispatch(new HideLoginAction());
     this.store.dispatch(new LogoutAction()); // User is logged out
-  }
-
-  handleMessage() {
-    if (this.msgs[0]['severity'] === 'error') {
-      this.appStore.dispatch(new ClearErrorsAction());
-    }
-    if (this.msgs[0]['severity'] === 'success' &&
-      this.msgs[0]['detail'] === 'Your are logged in.') {
-      this.appStore.dispatch(new HideLoginAction());
-    }
   }
 
 }

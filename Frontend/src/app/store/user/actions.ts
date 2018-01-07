@@ -27,7 +27,7 @@ export const CHANGE_PASSWORD = '[User] Change Password';
 
 export class LoadUserAction implements Action {
   readonly type = LOAD_USER;
-  constructor(public payload: {userid: string}) { }
+  constructor(public payload: { userid: string }) { }
 }
 
 export class LoadUserSuccessAction implements Action {
@@ -86,11 +86,6 @@ export class LoginErrorAction implements Action {
   constructor(public payload: { error: Error }) {}
 }
 
-export class ClearErrorsAction implements Action {
-  readonly type = CLEAR_ERRORS;
-  constructor(public payload: any = null) {}
-}
-
 export class LoggedInAction implements Action {
   readonly type = LOGGED_IN;
   constructor(public payload: any = null) {}
@@ -115,7 +110,6 @@ export type Actions =
     | UpdateUserAction
     | UpdateUserSuccessAction
     | UpdateUserErrorAction
-    | ClearErrorsAction
     | LoginAction
     | LoginSuccessAction
     | LoginErrorAction

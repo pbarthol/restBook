@@ -8,6 +8,7 @@ export interface UIState {
   showRegister: boolean;
   showLogin: boolean;
   showPasswordChange: boolean;
+  showRestaurantOverview: boolean;
   messages: {
     type: string,
     title: string,
@@ -21,6 +22,7 @@ export const initialState: UIState = {
   showRegister: false,
   showLogin: false,
   showPasswordChange: false,
+  showRestaurantOverview: false,
   messages: []
 };
 
@@ -62,8 +64,20 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.CLEAR_MESSAGE: {
       return Object.assign({}, state, {
-        messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]
+        // messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]
+        messages: [...state.messages.filter((item, index) =>
+          item.type !== action.payload.severity ||
+          item.title !== action.payload.summary ||
+          item.message !== action.payload.detail)]
       });
+    }
+
+    case uiActions.SHOW_RESTAURANT_OVERVIEW: {
+      return Object.assign({}, state, {showRestaurantOverview: true});
+    }
+
+    case uiActions.HIDE_RESTAURANT_OVERVIEW: {
+      return Object.assign({}, state, {showRestaurantOverview: false});
     }
 
     default: {

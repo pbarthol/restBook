@@ -97,6 +97,7 @@ import { RestaurantTeaserComponent } from './components/restaurant-teaser/restau
 
 /** Pipes */
 import { RestaurantPipe } from './components/pipes/restaurant';
+import { RestaurantOverviewComponent } from './components/restaurant-overview/restaurant-overview.component';
 
 @NgModule({
   declarations: [
@@ -113,6 +114,7 @@ import { RestaurantPipe } from './components/pipes/restaurant';
     RestaurantTeaserComponent,
     RestaurantPipe,
     PasswordChangeComponent,
+    RestaurantOverviewComponent,
   ],
   imports: [
     RouterModule.forRoot([

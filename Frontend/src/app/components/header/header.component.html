@@ -35,10 +35,19 @@
       *ngIf="(userIsLoggedIn$ | async) === true"
       pButton
       type="button"
+      (click)="showRestaurantOverview()"
+      label="My Restaurants"
+      class="ui-button-secondary">
+    </button>
+    <button
+      *ngIf="(userIsLoggedIn$ | async) === true"
+      pButton
+      type="button"
       (click)="changePassword()"
       label="Change Password"
       class="ui-button-secondary">
-    </button>   <button
+    </button>
+    <button
       *ngIf="(userIsLoggedIn$ | async) === true"
       pButton
       type="button"
@@ -119,7 +128,10 @@
 
  </div>
   <!--<p-growl [value]="msgs" sticky="sticky" (click)="handleMessage()"></p-growl>-->
-  <adv-growl  (onClose)="handleMessage($event)"></adv-growl>
+  <adv-growl
+    (onClose)="handleMessage($event)"
+    (onMessagesChanges)="onMessages($event)"
+  ></adv-growl>
 </p-toolbar>
 <div *ngIf="(showRegister$ | async)">
   <app-user-edit></app-user-edit>
@@ -129,6 +141,9 @@
 </div>
 <div *ngIf="(showPasswordChange$ | async)">
   <app-password-change></app-password-change>
+</div>
+<div *ngIf="(showRestaurantOverview$ | async)">
+  <app-restaurant-overview></app-restaurant-overview>
 </div>
 
 

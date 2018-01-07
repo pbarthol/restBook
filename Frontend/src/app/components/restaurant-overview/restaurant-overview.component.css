@@ -1,0 +1,10 @@
+.restaurant-datalist ul {
+  margin: 0;
+  padding: 0;
+}
+
+@media (max-width:640px) {
+  .restaurant-datalist .text-column {
+    text-align: center;
+  }
+}

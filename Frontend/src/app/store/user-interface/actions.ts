@@ -12,6 +12,8 @@ export const SHOW_PASSWORD_CHANGE = '[Password] Show Change Password';
 export const HIDE_PASSWORD_CHANGE = '[Password] Hide Change Password';
 export const SET_MESSAGE = '[Messages] Set Message';
 export const CLEAR_MESSAGE = '[Messages] Clear Message';
+export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview'
+export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview'
 
 @Injectable()
 
@@ -59,7 +61,18 @@ export class SetMessageAction implements Action {
 
 export class ClearMessageAction implements Action {
   readonly type = CLEAR_MESSAGE;
-  constructor(public payload: {itemIndex: number}) { }
+  // constructor(public payload: {itemIndex: number}) { }
+  constructor(public payload: {severity: string, summary: string, detail: string}) { }
+}
+
+export class ShowRestaurantOverviewAction implements Action {
+  readonly type = SHOW_RESTAURANT_OVERVIEW;
+  constructor(public payload: any = null) { }
+}
+
+export class HideRestaurantOverviewAction implements Action {
+  readonly type = HIDE_RESTAURANT_OVERVIEW;
+  constructor(public payload: any = null) { }
 }
 
 export type Actions
@@ -71,4 +84,5 @@ export type Actions
   | ClearMessageAction
   | ShowPasswordChangeAction
   | HidePasswordChangeAction
-  // |ClearMessagesAction
+  | ShowRestaurantOverviewAction
+  | HideRestaurantOverviewAction

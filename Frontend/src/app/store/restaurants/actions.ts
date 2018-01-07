@@ -5,9 +5,12 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Restaurant } from './restaurant/models';
 
-export const LOAD_RESTAURANTS = '[Restaurant] Load Restaurants';
-export const LOAD_RESTAURANTS_SUCCESS = '[Restaurant] Load Restaurants Success';
-export const LOAD_RESTAURANTS_ERROR = '[Restaurant] Load Restaurants Error';
+export const LOAD_RESTAURANTS = '[Restaurants] Load Restaurants';
+export const LOAD_RESTAURANTS_SUCCESS = '[Restaurants] Load Restaurants Success';
+export const LOAD_RESTAURANTS_ERROR = '[Restaurants] Load Restaurants Error';
+export const LOAD_USER_RESTAURANTS = '[Restaurants] Load User Restaurants';
+export const LOAD_USER_RESTAURANTS_SUCCESS = '[Restaurants] Load User Restaurants Success';
+export const LOAD_USER_RESTAURANTS_ERROR = '[Restaurants] Load User Restaurants Error';
 
 @Injectable()
 
@@ -19,7 +22,6 @@ export class LoadRestaurantsAction implements Action {
 export class LoadRestaurantsSuccessAction implements Action {
   readonly type = LOAD_RESTAURANTS_SUCCESS;
   constructor(public payload: Restaurant[]) {
-    var i = 0; // just debugging
   }
 }
 
@@ -28,6 +30,24 @@ export class LoadRestaurantsErrorAction implements Action {
   constructor(public payload: { error: Error }) {}
 }
 
-export type Actions = LoadRestaurantsAction
+export class LoadUserRestaurantsAction implements Action {
+  readonly type = LOAD_USER_RESTAURANTS;
+  constructor(public payload: { userid: string }) {}
+}
+
+export class LoadUserRestaurantsSuccessAction implements Action {
+  readonly type = LOAD_USER_RESTAURANTS_SUCCESS;
+  constructor(public payload: Restaurant[]) {}
+}
+
+export class LoadUserRestaurantsErrorAction implements Action {
+  readonly type = LOAD_USER_RESTAURANTS_ERROR;
+  constructor(public payload: { error: Error }) {}
+}
+export type Actions =
+  LoadRestaurantsAction
   | LoadRestaurantsSuccessAction
   | LoadRestaurantsErrorAction
+  | LoadUserRestaurantsAction
+  | LoadUserRestaurantsSuccessAction
+  | LoadUserRestaurantsErrorAction
