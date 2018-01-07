@@ -22,8 +22,7 @@ export class RestaurantPipe implements PipeTransform {
     }
     else {
       // return items.filter( item => (item.category == filterType) && (item.distance <= filterDistance) );
-      return items.filter( item => (item.category == filterType) );
+      return items.filter( item => (item.foodType == filterType) );
     }
-
   }
 }

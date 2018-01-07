@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
     "icon": 'fa fa-cutlery',
     "image": "../images/unterkuenfte.jpg",
     "filter": false,
-    "category": 'Meat'
+    "foodType": 'Meat'
   };
   public listParamVegetarian = {
     "id": 2,
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
     "icon": 'fa fa-pied-piper',
     "image": "../img/bueros.jpg",
     "filter": false,
-    "category": 'Vegetarian'
+    "foodType": 'Vegetarian'
   };
   public listParamVegan = {
     "id": 3,
@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit {
     "icon": 'fa fa-envira',
     "image": "../img/partyraeume.jpg",
     "filter": false,
-    "category": 'Vegan'
+    "foodType": 'Vegan'
   };
 
   myControl: FormControl = new FormControl();

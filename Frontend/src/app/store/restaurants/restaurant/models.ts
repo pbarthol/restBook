@@ -1,7 +1,7 @@
 /**
  * Created by Peter on 11.11.2017.
  */
-export interface Restaurant {
+export class Restaurant {
   _id: string;
   name: string;
   street: string;
@@ -10,8 +10,11 @@ export interface Restaurant {
   village: string;
   phoneNumber: string;
   webpage: string;
-  category: string;
+  foodType: string;
   teaserTitle: string;
+  teaserDescription: string;
+  createddate:  Date;
+  userId: string;
 }
   // greet() {
   //   return "Hello, " + this.greeting;

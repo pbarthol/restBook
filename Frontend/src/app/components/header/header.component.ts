@@ -17,11 +17,11 @@ import {
   ShowPasswordChangeAction,
   HidePasswordChangeAction,
   SetMessageAction,
-  ShowRestaurantOverviewAction,
-  HideRestaurantOverviewAction
+  ShowRestaurantOverviewAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
 import { User } from '../../store/user/models';
+import {Restaurant} from "../../store/restaurants/restaurant/models";
 
 
 @Component({
@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
   private loggedInUser$: Observable<User>;
   private loggedInUser: User;
   private showRestaurantOverview$: Observable<boolean>;
+  private showRestaurantDetails$: Observable<boolean>;
 
   constructor(private appStore: Store<AppState>,
               private advGrowlService: AdvGrowlService) {
@@ -52,6 +53,7 @@ export class HeaderComponent implements OnInit {
     this.showPasswordChange$ = this.appStore.select(state => state.userinterface.showPasswordChange);
     this.loggedInUser$ = this.appStore.select(state => state.user.user)
     this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
+    this.showRestaurantDetails$ = this.appStore.select(state => state.userinterface.showRestaurantDetails);
   }
 
   ngOnInit() {

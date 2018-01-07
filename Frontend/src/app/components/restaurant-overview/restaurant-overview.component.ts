@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../reducers/index';
 import {Observable} from "rxjs";
 import { Store } from '@ngrx/store';
@@ -6,8 +6,13 @@ import { Restaurant } from '../../store/restaurants/restaurant/models';
 import { User } from '../../store/user/models';
 import {
   LOAD_USER_RESTAURANTS,
-  LoadUserRestaurantsAction
+  SET_RESTAURANT_FOR_EDIT,
+  LoadUserRestaurantsAction,
+  SetRestaurantForEditAction
 } from '../../store/restaurants/actions';
+import {
+  ShowRestaurantDetailsAction, HideRestaurantOverviewAction
+} from '../../store/user-interface/actions'
 
 @Component({
   selector: 'app-restaurant-overview',
@@ -16,10 +21,12 @@ import {
 })
 export class RestaurantOverviewComponent implements OnInit {
 
-  restaurants$: Observable<Array<Restaurant>>;
-  restaurants: Restaurant[];
-  loggedInUser$: Observable<User>;
-  loggedInUser: User;
+  private restaurants$: Observable<Array<Restaurant>>;
+  private restaurants: Restaurant[];
+  private loggedInUser$: Observable<User>;
+  private loggedInUser: User;
+  private showRestaurantDetails$: Observable<boolean>;
+  private detailRestaurantId: string;
 
   constructor(private appStore: Store<AppState>) {
     this.loggedInUser$ = appStore.select(state => state.user.user);
@@ -30,10 +37,32 @@ export class RestaurantOverviewComponent implements OnInit {
     this.loggedInUser$.subscribe(user => {
       this.loggedInUser = user;
     })
-    this.appStore.dispatch(new LoadUserRestaurantsAction({ userid: this.loggedInUser._id }) );
+    this.appStore.dispatch(new LoadUserRestaurantsAction({ userid: this.loggedInUser._id }));
     this.restaurants$.subscribe(restaurants => {
       this.restaurants = restaurants;
     })
+    this.showRestaurantDetails$ = this.appStore.select(state => state.userinterface.showRestaurantDetails)
   }
 
+  displayRestaurant(id: string) {
+    this.appStore.dispatch(new SetRestaurantForEditAction({_id: id}));
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+  }
+
+  addRestaurant() {
+    this.appStore.dispatch(new SetRestaurantForEditAction({_id: null}));
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+  }
+
+  editRestaurant(id: string) {
+    this.appStore.dispatch(new SetRestaurantForEditAction({_id: id}));
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+  }
+
+  hideRestaurantOverview() {
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+  }
 }

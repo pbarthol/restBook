@@ -1,14 +1,6 @@
 <div class="ui-g-8 ui-md-offset-2">
   <div class="card card-w-title">
-    <div>
       <h1>Your Restaurants</h1>
-      <button type="button"
-              pButton
-              icon="ui-icon-plus"
-              style="margin:24px 24px 0 0;float:right">
-      </button>
-
-    </div>
     <p-dataList [value]="restaurants" [paginator]="true" [rows]="5" styleClass="restaurants-datalist">
       <p-header>
         List of Restaurants
@@ -24,21 +16,38 @@
           </div>
           <button type="button"
                   pButton
+                  icon="ui-icon-plus"
+                  style="margin:24px 24px 0 0;float:right"
+                  pTooltip="Enter a new additional restaurant"
+                  (click)="addRestaurant()">
+          </button>
+          <button type="button"
+                  pButton
                   icon="ui-icon-delete"
-                  style="margin:24px 24px 0 0;float:right">
+                  style="margin:24px 24px 0 0;float:right"
+                  pTooltip="Delete this restaurant">
           </button>
           <button type="button"
                   pButton
                   icon="ui-icon-details"
-                  style="margin:24px 24px 0 0;float:right">
+                  style="margin:24px 24px 0 0;float:right"
+                  pTooltip="Displax the data of this restaurant"
+                  (click)="displayRestaurant(restaurant._id)">
           </button>
           <button type="button"
                   pButton
                   icon="ui-icon-edit"
-                  style="margin:24px 24px 0 0;float:right">
+                  style="margin:24px 24px 0 0;float:right"
+                  pTooltip="Make changes of the data of this restaurant"
+                  (click)="editRestaurant()">
           </button>
         </div>
       </ng-template>
     </p-dataList>
+    <button pButton type="button"
+            label="Close"
+            (click)="hideRestaurantOverview()"
+            style="margin-bottom:10px;width:auto">
+    </button>
   </div>
 </div>

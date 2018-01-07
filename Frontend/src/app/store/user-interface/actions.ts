@@ -14,6 +14,8 @@ export const SET_MESSAGE = '[Messages] Set Message';
 export const CLEAR_MESSAGE = '[Messages] Clear Message';
 export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview'
 export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview'
+export const SHOW_RESTAURANT_DETAILS = '[Restaurant] Show Details'
+export const HIDE_RESTAURANT_DETAILS = '[Restaurant] Hide Details'
 
 @Injectable()
 
@@ -75,6 +77,16 @@ export class HideRestaurantOverviewAction implements Action {
   constructor(public payload: any = null) { }
 }
 
+export class ShowRestaurantDetailsAction implements Action {
+  readonly type = SHOW_RESTAURANT_DETAILS;
+  constructor(public payload: any = null) { }
+}
+
+export class HideRestaurantDetailsAction implements Action {
+  readonly type = HIDE_RESTAURANT_DETAILS;
+  constructor(public payload: any = null) { }
+}
+
 export type Actions
   = ShowRegisterAction
   | HideRegisterAction
@@ -86,3 +98,5 @@ export type Actions
   | HidePasswordChangeAction
   | ShowRestaurantOverviewAction
   | HideRestaurantOverviewAction
+  | ShowRestaurantDetailsAction
+  | HideRestaurantDetailsAction

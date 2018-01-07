@@ -9,6 +9,7 @@ export interface UIState {
   showLogin: boolean;
   showPasswordChange: boolean;
   showRestaurantOverview: boolean;
+  showRestaurantDetails: boolean;
   messages: {
     type: string,
     title: string,
@@ -23,6 +24,7 @@ export const initialState: UIState = {
   showLogin: false,
   showPasswordChange: false,
   showRestaurantOverview: false,
+  showRestaurantDetails: false,
   messages: []
 };
 
@@ -78,6 +80,14 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.HIDE_RESTAURANT_OVERVIEW: {
       return Object.assign({}, state, {showRestaurantOverview: false});
+    }
+
+    case uiActions.SHOW_RESTAURANT_DETAILS: {
+      return Object.assign({}, state, {showRestaurantDetails: true});
+    }
+
+    case uiActions.HIDE_RESTAURANT_DETAILS: {
+      return Object.assign({}, state, {showRestaurantDetails: false});
     }
 
     default: {

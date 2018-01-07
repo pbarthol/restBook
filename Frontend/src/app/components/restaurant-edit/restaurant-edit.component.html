@@ -1,3 +1,80 @@
-<p>
-  restaurant-edit works!
-</p>
+<div class="ui-g-6 ui-md-offset-3">
+  <div class="card card-w-title">
+    <h1>{{formTitle}}</h1>
+    <div class="ui-g form-group">
+      <div class="ui-g-12">
+        <p-dropdown [options]="restaurantCategories"
+                    [(ngModel)]="restaurant.foodType"
+                    [autoWidth]="false"></p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <span class="md-inputfield">
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="restaurant.name">
+            <label>Name</label>
+            <div *ngIf="nameRequired" class="ui-message ui-messages-error ui-corner-all">
+                  This field is required
+            </div>
+        </span>
+      </div>
+      <div class="ui-g-12 ui-md-6">
+        <span class="md-inputfield">
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="restaurant.street">
+            <label>Street</label>
+            <div *ngIf="streetRequired" class="ui-message ui-messages-error ui-corner-all">
+                  This field is required
+            </div>
+        </span>
+      </div>
+      <div class="ui-g-12">
+        <h4>Webpage Details</h4>
+      </div>
+      <div class="ui-g-12">
+        <span class="md-inputfield">
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="restaurant.teaserTitle">
+            <label>Teaser title</label>
+            <div *ngIf="teaserTitleRequired" class="ui-message ui-messages-error ui-corner-all">
+                  This field is required
+            </div>
+        </span>
+      </div>
+      <!--<div class="ui-g-12">-->
+          <!--<label for="textarea">Teaser Description</label>-->
+      <!--</div>-->
+      <div class="ui-g-12">
+        <label>Teaser Description</label>
+        <textarea autoresize="autoResize" pinputtextarea="" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                  [(ngModel)]="restaurant.teaserDescription"
+                  rows="5"
+                  cols="50">
+        </textarea>
+      </div>
+
+
+
+      <div class="ui-g-12 ui-md-3">
+        <span class="md-inputfield">
+          <button pButton type="button"
+                  label="{{labelSaveButton}}"
+                  (click)="saveRestaurant()"
+                  style="margin-bottom:10px;width:auto">
+          </button>
+        </span>
+      </div>
+    <div class="ui-g-12 ui-md-6"></div>
+    <div class="ui-g-12 ui-md-3">
+      <span class="md-inputfield">
+        <button pButton type="button"
+                label="Cancel"
+                (click)="hideRestaurantEdit()"
+                style="margin-bottom:10px;width:auto">
+        </button>
+      </span>
+    </div>
+  </div>
+</div>

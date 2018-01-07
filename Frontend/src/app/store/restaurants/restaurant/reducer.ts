@@ -15,7 +15,7 @@ export interface State {
   village: string;
   phoneNumber: string;
   webpage: string;
-  category: string;
+  foodType: string;
   teaserTitle: string;
 }
 
@@ -28,7 +28,7 @@ const initialState: State = {
     village: '',
     phoneNumber: '',
     webpage: '',
-    category: '',
+    foodType: '',
     teaserTitle: '',
 };
 
