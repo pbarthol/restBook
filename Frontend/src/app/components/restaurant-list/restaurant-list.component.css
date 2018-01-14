@@ -2,3 +2,14 @@ body .ui-widget-header {
   background: #fefefe;
   background-color: #22a981; /*green #4CAF50*/
 }
+
+.rb-icon {
+  color: white;
+}
+
+body .ui-panel .ui-panel-content {
+  padding-top: 0em;
+  padding-right: 0em;
+  padding-bottom: 0em;
+  padding-left: 0em;
+}

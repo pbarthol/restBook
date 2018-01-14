@@ -3,7 +3,7 @@ import { AppState } from '../../reducers/index';
 import {Observable} from "rxjs";
 import { SelectItem } from 'primeng/primeng';
 import { Store } from '@ngrx/store';
-import { Restaurant } from '../../store/restaurants/restaurant/models';
+import {Restaurant, RestaurantImage} from '../../store/restaurants/restaurant/models';
 import {HideRestaurantDetailsAction} from "../../store/user-interface/actions";
 import {
   CreateRestaurantAction,
@@ -11,8 +11,12 @@ import {
   CreateRestaurantErrorAction,
   UpdateRestaurantAction,
   UpdateRestaurantSuccessAction,
-  UpdateRestaurantErrorAction
+  UpdateRestaurantErrorAction,
+  UpdateRestaurantImageAction,
 } from '../../store/restaurants/actions';
+import {
+  SetMessageAction
+} from '../../store/user-interface/actions';
 
 @Component({
   selector: 'app-restaurant-edit',
@@ -30,10 +34,14 @@ export class RestaurantEditComponent implements OnInit {
   private labelSaveButton: string;
   private nameRequired: boolean;
   private streetRequired: boolean;
+  private streetNumberRequired: boolean;
+  private postalcodeRequired: boolean;
+  private villageRequired: boolean;
   private teaserTitleRequired: boolean;
   private teaserDescriptionRequired: boolean;
   private restaurantCategories: SelectItem[];
   private addRestaurant: boolean;
+  private uploadedFiles: any[] = [];
 
   constructor(private appStore: Store<AppState>) {
     this.nameRequired = false;
@@ -70,7 +78,69 @@ export class RestaurantEditComponent implements OnInit {
   }
 
   checkInputs() {
-    return true;
+    let failure: boolean = false;
+    if (this.restaurant.name === null ||
+      this.restaurant.name === undefined ||
+      this.restaurant.name === '') {
+      this.nameRequired = true;
+      failure = true;
+    } else {
+      this.nameRequired = false;
+    }
+    if (this.restaurant.street === null ||
+      this.restaurant.street === undefined ||
+      this.restaurant.street === '') {
+      this.streetRequired = true;
+      failure = true;
+    } else {
+      this.streetRequired = false;
+    }
+    if (this.restaurant.streetNumber === null ||
+      this.restaurant.streetNumber === undefined ||
+      this.restaurant.streetNumber === '') {
+      this.streetNumberRequired = true;
+      failure = true;
+    } else {
+      this.streetNumberRequired = false;
+    }
+    if (this.restaurant.postalCode === null ||
+      this.restaurant.postalCode === undefined ||
+      this.restaurant.postalCode === '') {
+      this.postalcodeRequired = true;
+      failure = true;
+    } else {
+      this.postalcodeRequired = false;
+    }
+    if (this.restaurant.village === null ||
+      this.restaurant.village === undefined ||
+      this.restaurant.village === '') {
+      this.villageRequired = true;
+      failure = true;
+    } else {
+      this.villageRequired = false;
+    }
+    if (this.restaurant.teaserTitle === null ||
+      this.restaurant.teaserTitle === undefined ||
+      this.restaurant.teaserTitle === '') {
+      this.teaserTitleRequired = true;
+      failure = true;
+    } else {
+      this.teaserTitleRequired = false;
+    }
+    if (this.restaurant.teaserDescription === null ||
+      this.restaurant.teaserDescription === undefined ||
+      this.restaurant.teaserDescription === '') {
+      this.teaserDescriptionRequired = true;
+      failure = true;
+    } else {
+      this.teaserDescriptionRequired = false;
+    }
+
+    if (failure) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   saveRestaurant() {
@@ -85,5 +155,24 @@ export class RestaurantEditComponent implements OnInit {
 
   hideRestaurantEdit() {
     this.appStore.dispatch(new HideRestaurantDetailsAction());
+  }
+
+  onUpload(event) {
+    for(let file of event.files) {
+      this.uploadedFiles.push(file);
+      let originalFileName = file.name;
+      let restaurantImage = new RestaurantImage;
+      restaurantImage.restaurantId = this.restaurant._id;
+      restaurantImage.image = originalFileName;
+      this.appStore.dispatch(new UpdateRestaurantImageAction({restaurantImage: restaurantImage}));
+      this.appStore.dispatch(new SetMessageAction({
+        message: {
+          type: 'info',
+          title: 'Image Uploaded',
+          message: 'The image ' + originalFileName + ' is uploaded!',
+          acknowledgeAction: ''
+        }
+      }));
+    }
   }
 }

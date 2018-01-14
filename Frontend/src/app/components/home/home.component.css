@@ -7,9 +7,9 @@ body {
   font-size: 16px;
 }
 
-.ui-g {
-  margin-top: 300px;
-}
+/*.ui-g {*/
+  /*margin-top: 300px;*/
+/*}*/
 
 .rb-header-box {
   position: relative;
@@ -28,6 +28,7 @@ body {
   width: 85%;
   height: 80px;
   float: left;
+  margin-top: 120px;
 }
 
 .rb-search-button .btn {
@@ -38,6 +39,7 @@ body {
   box-shadow: none;
   border-radius: 0px;
   height: 120px;
+  margin-top: 110px;
 }
 
 button {
@@ -56,3 +58,6 @@ ul.ultima-menu {
    }
 }
 
+.rb-rest-list {
+  margin-top: 250px;
+}

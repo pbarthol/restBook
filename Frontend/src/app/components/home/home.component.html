@@ -8,7 +8,7 @@
 
 
 
-<div class="ui-grid ui-grid-responsive ui-fluid">
+<div class="ui-grid ui-grid-responsive">
   <div class="ui-g">
     <div class="ui-g-2"></div>
     <div class="ui-g-8">
@@ -36,9 +36,9 @@
   </div>
 </div>
 
-<div class="ui-grid ui-grid-responsive ui-fluid">
-  <div class="ui-g">
-      <div class="ui-g-4">
+<div class="ui-grid">
+  <div class="ui-g rb-rest-list">
+      <div class="ui-g-4 ">
         <app-restaurant-list
           [listParams]='listParamMeat'
           [restaurants$]="(restaurantList$ | async)">

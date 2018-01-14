@@ -3,7 +3,7 @@
  */
 import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
-import { Restaurant } from './restaurant/models';
+import { Restaurant, RestaurantImage } from './restaurant/models';
 
 export const LOAD_RESTAURANTS = '[Restaurants] Load Restaurants';
 export const LOAD_RESTAURANTS_SUCCESS = '[Restaurants] Load Restaurants Success';
@@ -18,6 +18,12 @@ export const CREATE_RESTAURANT_ERROR = '[Restaurant] Create Restaurant Error';
 export const UPDATE_RESTAURANT = '[Restaurant] Update Restaurant';
 export const UPDATE_RESTAURANT_SUCCESS = '[Restaurant] Update Restaurant Success';
 export const UPDATE_RESTAURANT_ERROR = '[Restaurant] Update Restaurant Error';
+export const CREATE_RESTAURANT_IMAGE = '[Restaurant] Create Restaurant Image';
+export const CREATE_RESTAURANT_IMAGE_SUCCESS = '[Restaurant] Create Restaurant Image Success';
+export const CREATE_RESTAURANT_IMAGE_ERROR = '[Restaurant] Create Restaurant Image Error';
+export const UPDATE_RESTAURANT_IMAGE = '[Restaurant] Update Restaurant Image';
+export const UPDATE_RESTAURANT_IMAGE_SUCCESS = '[Restaurant] Update Restaurant Image Success';
+export const UPDATE_RESTAURANT_IMAGE_ERROR = '[Restaurant] Update Restaurant Image Error';
 
 @Injectable()
 
@@ -87,6 +93,38 @@ export class UpdateRestaurantErrorAction implements Action {
   constructor(public payload: { error: string }) {}
 }
 
+
+export class CreateRestaurantImageAction implements Action {
+  type = CREATE_RESTAURANT_IMAGE;
+  constructor(public payload: { restaurantImage: RestaurantImage }) {}
+}
+
+export class CreateRestaurantImageSuccessAction implements Action {
+  type = CREATE_RESTAURANT_IMAGE_SUCCESS;
+  constructor(public payload: any = null) {}
+}
+
+export class CreateRestaurantImageErrorAction implements Action {
+  readonly type = CREATE_RESTAURANT_IMAGE_ERROR;
+  constructor(public payload: { error: string }) {}
+}
+
+
+export class UpdateRestaurantImageAction implements Action {
+  type = UPDATE_RESTAURANT_IMAGE;
+  constructor(public payload: { restaurantImage: RestaurantImage }) {}
+}
+
+export class UpdateRestaurantImageSuccessAction implements Action {
+  type = UPDATE_RESTAURANT_IMAGE_SUCCESS;
+  constructor(public payload: any = null) {}
+}
+
+export class UpdateRestaurantImageErrorAction implements Action {
+  readonly type = UPDATE_RESTAURANT_IMAGE_ERROR;
+  constructor(public payload: { error: string }) {}
+}
+
 export type Actions =
   LoadRestaurantsAction
   | LoadRestaurantsSuccessAction
@@ -101,3 +139,9 @@ export type Actions =
   | UpdateRestaurantAction
   | UpdateRestaurantSuccessAction
   | UpdateRestaurantErrorAction
+  | CreateRestaurantImageAction
+  | CreateRestaurantImageSuccessAction
+  | CreateRestaurantImageErrorAction
+  | UpdateRestaurantImageAction
+  | UpdateRestaurantImageSuccessAction
+  | UpdateRestaurantImageErrorAction

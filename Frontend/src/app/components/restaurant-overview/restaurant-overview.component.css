@@ -8,3 +8,14 @@
     text-align: center;
   }
 }
+
+button.ui-button-icon-only {
+  width: 2em;
+  height: 2em;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: flex-end;
+  /*background-color: DodgerBlue;*/
+}

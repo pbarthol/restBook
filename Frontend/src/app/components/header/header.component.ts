@@ -17,11 +17,11 @@ import {
   ShowPasswordChangeAction,
   HidePasswordChangeAction,
   SetMessageAction,
-  ShowRestaurantOverviewAction
+  ShowRestaurantOverviewAction,
+  HideRestaurantOverviewAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
 import { User } from '../../store/user/models';
-import {Restaurant} from "../../store/restaurants/restaurant/models";
 
 
 @Component({
@@ -86,20 +86,25 @@ export class HeaderComponent implements OnInit {
                 additionalProperty
               );
             }
+            if (oneMessage.type === 'info') {
+              this.advGrowlService.createInfoMessage(
+                oneMessage.message,
+                oneMessage.title,
+                additionalProperty
+              );
+            }
           }
         })
     });
   }
 
   showRegister() {
-    this.appStore.dispatch(new HideLoginAction());
-    this.appStore.dispatch(new HidePasswordChangeAction());
+    this.hideAllForms();
     this.appStore.dispatch(new ShowRegisterAction());
   }
 
   showLoginForm() {
-    this.appStore.dispatch(new HideRegisterAction());
-    this.appStore.dispatch(new HidePasswordChangeAction());
+    this.hideAllForms();
     this.appStore.dispatch(new ShowLoginAction());
   }
 
@@ -114,12 +119,10 @@ export class HeaderComponent implements OnInit {
         acknowledgeAction: ''
       }
     }));
-
   }
 
   editUser() {
-    this.appStore.dispatch(new HidePasswordChangeAction());
-    this.appStore.dispatch(new HideLoginAction());
+    this.hideAllForms();
     this.appStore.dispatch(new ShowRegisterAction());
   }
 
@@ -140,11 +143,19 @@ export class HeaderComponent implements OnInit {
   }
 
   changePassword() {
+    this.hideAllForms();
     this.appStore.dispatch(new ShowPasswordChangeAction());
   }
 
   showRestaurantOverview(){
+    this.hideAllForms();
     this.appStore.dispatch(new ShowRestaurantOverviewAction())
   }
 
+  hideAllForms() {
+    this.appStore.dispatch(new HideRegisterAction());
+    this.appStore.dispatch(new HideLoginAction());
+    this.appStore.dispatch(new HidePasswordChangeAction());
+    this.appStore.dispatch(new HideRestaurantOverviewAction())
+  }
 }

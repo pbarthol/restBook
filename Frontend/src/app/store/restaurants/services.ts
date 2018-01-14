@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/do'
 
 
-import { Restaurant } from './restaurant/models';
+import { Restaurant, RestaurantImage } from './restaurant/models';
 
 @Injectable()
 export class RestaurantService {
@@ -50,6 +50,15 @@ export class RestaurantService {
       };
       return this.http.put(this.RestaurantURL, body, httpOptions)
         .map(res => res);
+  }
+
+  public addRestaurantImage(restaurantImage: RestaurantImage) {
+    let body = JSON.stringify({restaurantImage});
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+    return this.http.post(this.RestaurantURL, body, httpOptions)
+      .map(res => res)
   }
 
 }

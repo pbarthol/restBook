@@ -1,8 +1,13 @@
 <p-panel>
   <p-header>
     <!--<i>{{listParams.icon}}</i><p>{{listParams.title}}</p>-->
-    <p><i class="{{listParams.icon}}"></i><span style="display:inline-block; width: 10px;"></span>{{listParams.title}}</p>
+    <!--<i class="listParams.icon">{{listParams.icon}}</i><span style="display:inline-block; width: 10px;"></span>{{listParams.title}}-->
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <img class="rb-icon" src="{{listParams.icon}}">{{listParams.title}}<div></div>
+    </div>
   </p-header>
+  <!--<img src="http://localhost:4200/images/rsz_vegan4.jpg">-->
+  <img src="{{listParams.image}}">
   <div *ngFor="let restaurant of restaurants$ | restaurantFilter:listParams.foodType">
     <app-restaurant-teaser [restaurant]="restaurant"></app-restaurant-teaser>
   </div>

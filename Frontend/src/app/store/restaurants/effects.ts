@@ -16,6 +16,8 @@ import {
   LOAD_USER_RESTAURANTS,
   CREATE_RESTAURANT,
   UPDATE_RESTAURANT,
+  CREATE_RESTAURANT_IMAGE,
+  UPDATE_RESTAURANT_IMAGE,
   LoadRestaurantsAction,
   LoadRestaurantsSuccessAction,
   LoadRestaurantsErrorAction,
@@ -27,7 +29,13 @@ import {
   CreateRestaurantErrorAction,
   UpdateRestaurantAction,
   UpdateRestaurantSuccessAction,
-  UpdateRestaurantErrorAction
+  UpdateRestaurantErrorAction,
+  CreateRestaurantImageAction,
+  CreateRestaurantImageSuccessAction,
+  CreateRestaurantImageErrorAction,
+  UpdateRestaurantImageAction,
+  UpdateRestaurantImageSuccessAction,
+  UpdateRestaurantImageErrorAction
 } from './actions';
 import {
   SetMessageAction,
@@ -127,6 +135,38 @@ export class RestaurantEffects {
             }
           }),
           new HideRestaurantDetailsAction()
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Edit Restaurant',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  addRestaurantImage$: Observable<Action> = this.actions$
+    .ofType<CreateRestaurantImageAction>(CREATE_RESTAURANT_IMAGE)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.addRestaurantImage(payload.restaurantImage)
+        .do(res => console.log('Back after restaurant image.save: ', res))
+        .switchMap((restaurant: Restaurant) => Observable.from([
+          new UpdateRestaurantAction({restaurant: restaurant}),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Edit Restaurant',
+              message: 'Your restaurant image is updated.',
+              acknowledgeAction: ''
+            }
+          }),
         ]))
         .catch((error) => {
           if (error.status === 500) {

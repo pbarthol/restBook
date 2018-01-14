@@ -47,4 +47,6 @@ import { reducer } from './reducers';
     })
     ...
     
-
+Problems and Solutions
+Access to images (Error 404: Page not found):
+  add path to .angular-cli.json in section apps[{assets:...}]

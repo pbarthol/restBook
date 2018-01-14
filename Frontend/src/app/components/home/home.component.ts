@@ -35,25 +35,25 @@ export class HomeComponent implements OnInit {
 
   public listParamMeat = {
     "id": 1,
-    "title": 'Fleisch',
-    "icon": 'fa fa-cutlery',
-    "image": "../images/unterkuenfte.jpg",
+    "title": 'Meat',
+    "icon": '/icons/icons8-cow-50.png',
+    "image": "http://localhost:4200/images/rsz_meat.jpg",
     "filter": false,
     "foodType": 'Meat'
   };
   public listParamVegetarian = {
     "id": 2,
-    "title": 'Vegetarisch',
-    "icon": 'fa fa-pied-piper',
-    "image": "../img/bueros.jpg",
+    "title": 'Vegetarian',
+    "icon": '/icons/icons8-vegetarian-food-50.png',
+    "image": "http://localhost:4200/images/rsz_vegetarian4.jpg",
     "filter": false,
     "foodType": 'Vegetarian'
   };
   public listParamVegan = {
     "id": 3,
     "title": 'Vegan',
-    "icon": 'fa fa-envira',
-    "image": "../img/partyraeume.jpg",
+    "icon": '/icons/icons8-vegan-symbol-50.png',
+    "image": "http://localhost:4200/images/rsz_vegan4.jpg",
     "filter": false,
     "foodType": 'Vegan'
   };
