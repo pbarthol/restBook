@@ -3,11 +3,6 @@ import mongoose = require('mongoose');
 import moment 	= require('moment');
 var User = require('../models/user');
 const router: Router = Router();
-
-// router.get('/', (req: Request, res: Response) => {
-//     res.send('Hello, User!');
-//     console.log('getUser');
-// });
 let ObjectId = mongoose.Types.ObjectId;
 
 router.get('/:id', function(req, res, next) {
@@ -85,7 +80,6 @@ router.put('/', function(req, res) {
         }
         user.firstname = req.body.user.firstname;
         user.username = req.body.user.username;
-        user.password = req.body.user.password;
         user.salutation = req.body.user.salutation;
         user.firstName = req.body.user.firstName;
         user.lastName = req.body.user.lastName;
@@ -94,6 +88,13 @@ router.put('/', function(req, res) {
         user.city = req.body.user.city;
         user.email = req.body.user.email;
         user.phone = req.body.user.phone;
+        console.log("Password: ", req.body.user.password)
+        if (req.body.user.password !== null &&
+            req.body.user.password !== undefined &&
+            req.body.user.password !== "") {
+            // password change!
+            user.password = req.body.user.password;
+        }
         // save the user
         user.save(function(err) {
             if (err) {

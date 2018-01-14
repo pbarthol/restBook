@@ -6,6 +6,10 @@ var Schema = mongoose.Schema;
 // Note collection at mongo db must be 'restaurants' -> Plural
 let restaurant = new Schema({
     _id: Schema.ObjectId,
+    userId: String,
+    foodType: String,
+    teaserTitle: String,
+    teaserDescription: String,
     name: String,
     street: String,
     streetNumber: String,

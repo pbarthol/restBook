@@ -8,7 +8,10 @@ import * as configDatabase from './config/database';
 import { UserController } from './controllers';
 import { LoginController } from './controllers';
 import { RestaurantController } from './controllers';
+import { UserRestaurantController } from './controllers';
 import { BookingController } from './controllers';
+import { UploadController } from './controllers';
+import { RestaurantImageController } from './controllers';
 
 // Connect to the database
 var mongoose = require('mongoose').set('debug', true);
@@ -34,8 +37,12 @@ app.use(cors())
 // Mount the UserController at the /user route
 app.use('/api/login', LoginController);
 app.use('/api/user', UserController);
+app.use('/api/user', UserController);
+app.use('/api/user/restaurant', UserRestaurantController);
 app.use('/api/restaurant', RestaurantController);
 app.use('/api/booking', BookingController);
+app.use('/api/upload', UploadController);
+app.use('/api/restaurant/image', RestaurantImageController);
 
 // Serve the application at the given port
 app.listen(port, () => {

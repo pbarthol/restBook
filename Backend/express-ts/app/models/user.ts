@@ -26,6 +26,7 @@ userSchema.pre('save', function (next) {
     // console.log('this:', this)
     var user = this;
     if (user.isModified('password') || user.isNew) {
+        console.log("User Password changed or New User");
         bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
             if (err) {
                 return next(err);
