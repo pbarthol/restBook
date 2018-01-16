@@ -42,7 +42,7 @@ import {
   HideRestaurantDetailsAction
 } from '../user-interface/actions';
 import { RestaurantService } from './services';
-import { Restaurant } from './restaurant/models';
+import {Restaurant, RestaurantImage} from './restaurant/models';
 import { User } from '../../store/user/models';
 
 @Injectable()
@@ -157,13 +157,14 @@ export class RestaurantEffects {
     .switchMap((payload) => {
       return this.svc.addRestaurantImage(payload.restaurantImage)
         .do(res => console.log('Back after restaurant image.save: ', res))
-        .switchMap((restaurant: Restaurant) => Observable.from([
-          new UpdateRestaurantAction({restaurant: restaurant}),
+        .switchMap((restaurantImage: RestaurantImage) => Observable.from([
+          new CreateRestaurantImageSuccessAction(restaurantImage),
+          // new CreateRestaurantImageAction({restaurantImage: payload.restaurantImage}),
           new SetMessageAction({
             message: {
               type: 'success',
               title: 'Edit Restaurant',
-              message: 'Your restaurant image is updated.',
+              message: 'Your restaurant image is uploaded.',
               acknowledgeAction: ''
             }
           }),

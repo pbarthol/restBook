@@ -13,6 +13,7 @@ import {
   UpdateRestaurantSuccessAction,
   UpdateRestaurantErrorAction,
   UpdateRestaurantImageAction,
+  CreateRestaurantImageAction
 } from '../../store/restaurants/actions';
 import {
   SetMessageAction
@@ -164,15 +165,7 @@ export class RestaurantEditComponent implements OnInit {
       let restaurantImage = new RestaurantImage;
       restaurantImage.restaurantId = this.restaurant._id;
       restaurantImage.image = originalFileName;
-      this.appStore.dispatch(new UpdateRestaurantImageAction({restaurantImage: restaurantImage}));
-      this.appStore.dispatch(new SetMessageAction({
-        message: {
-          type: 'info',
-          title: 'Image Uploaded',
-          message: 'The image ' + originalFileName + ' is uploaded!',
-          acknowledgeAction: ''
-        }
-      }));
+      this.appStore.dispatch(new CreateRestaurantImageAction({restaurantImage: restaurantImage}));
     }
   }
 }

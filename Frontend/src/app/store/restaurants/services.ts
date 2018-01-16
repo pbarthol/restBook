@@ -14,6 +14,7 @@ import { Restaurant, RestaurantImage } from './restaurant/models';
 export class RestaurantService {
   private readonly RestaurantURL = "http://localhost:3000/api/restaurant"
   private readonly UserRestaurantURL = "http://localhost:3000/api/user/restaurant"
+  private readonly UserRestaurantImageURL = "http://localhost:3000/api/restaurant/image"
   constructor (private http: HttpClient) {}
 
   public getRestaurants(): Observable<Array<Restaurant>> {
@@ -57,7 +58,7 @@ export class RestaurantService {
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post(this.RestaurantURL, body, httpOptions)
+    return this.http.post(this.UserRestaurantImageURL, body, httpOptions)
       .map(res => res)
   }
 
