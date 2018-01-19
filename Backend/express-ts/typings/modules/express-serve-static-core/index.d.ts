@@ -583,7 +583,7 @@ interface Response extends http.ServerResponse, Express.Response {
         *
         *       req.user.mayViewFilesFrom(uid, function(yes){
         *         if (yes) {
-        *           res.sendFile('/uploads/' + uid + '/' + file);
+        *           res.sendFile('/images/' + uid + '/' + file);
         *         } else {
         *           res.send(403, 'Sorry! you cant see that.');
         *         }

@@ -12,6 +12,7 @@ import { UserRestaurantController } from './controllers';
 import { BookingController } from './controllers';
 import { UploadController } from './controllers';
 import { RestaurantImageController } from './controllers';
+var path = require('path');
 
 // Connect to the database
 var mongoose = require('mongoose').set('debug', true);
@@ -24,19 +25,19 @@ const app: express.Application = express();
 // The port the express app will listen on
 const port: number = process.env.PORT || 3000;
 
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Turn off cors
 var cors = require('cors')
 app.use(cors())
 
-
 // Mount the UserController at the /user route
 app.use('/api/login', LoginController);
-app.use('/api/user', UserController);
 app.use('/api/user', UserController);
 app.use('/api/user/restaurant', UserRestaurantController);
 app.use('/api/restaurant', RestaurantController);

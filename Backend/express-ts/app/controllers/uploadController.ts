@@ -11,8 +11,8 @@ var fs = require('fs');
 //     console.log(req);
 //     res.status(204).end();
 // })
-var upload = multer({ dest: 'app/uploads/'});
-// D:\RestBook\Backend\express-ts\app\uploads
+var upload = multer({ dest: 'app/images/'});
+// D:\RestBook\Backend\express-ts\app\images
 
 // 'restaurantPicture is the 'name' Property in the frontend p-fileUpload element
 router.post('/', upload.single('restaurantPicture'), function (req, res) {
@@ -22,7 +22,7 @@ router.post('/', upload.single('restaurantPicture'), function (req, res) {
 
     /** The original name of the uploaded file
      stored in the variable "originalname". **/
-    var target_path = 'app/uploads/' + req.file.originalname;
+    var target_path = 'app/images/' + req.file.originalname;
 
     /** A better way to copy the uploaded file. **/
     var src = fs.createReadStream(tmp_path);

@@ -16,7 +16,8 @@ let restaurant = new Schema({
     postalCode: String,
     village: String,
     phoneNumber: String,
-    webpage: String
+    webpage: String,
+    thumbnail: String
 });
 // Create a model based on the schema
 module.exports = mongoose.model('Restaurant', restaurant);
