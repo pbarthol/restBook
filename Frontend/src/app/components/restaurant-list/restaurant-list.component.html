@@ -7,7 +7,7 @@
     </div>
   </p-header>
   <!--<img src="http://localhost:4200/images/rsz_vegan4.jpg">-->
-  <img src="{{listParams.image}}">
+  <img src="{{listParams.image}}" style="height: 100%; width: 100%; object-fit: contain">
   <div *ngFor="let restaurant of restaurants$ | restaurantFilter:listParams.foodType">
     <app-restaurant-teaser [restaurant]="restaurant"></app-restaurant-teaser>
   </div>

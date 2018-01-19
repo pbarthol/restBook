@@ -15,6 +15,7 @@ export class Restaurant {
   teaserDescription: string;
   createddate:  Date;
   userId: string;
+  thumbnail: string;
 }
 
 export class RestaurantImage {
