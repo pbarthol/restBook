@@ -11,30 +11,28 @@ var fs = require('fs');
 //     console.log(req);
 //     res.status(204).end();
 // })
-var upload = multer({ dest: 'app/images/'});
+var upload = multer({ dest: '../../public/images/'});
 // D:\RestBook\Backend\express-ts\app\images
 
 // 'restaurantPicture is the 'name' Property in the frontend p-fileUpload element
-router.post('/', upload.single('restaurantPicture'), function (req, res) {
+router.post('/', upload.array('restaurantPicture',8), function (req, res) {
     /** When using the "single"
      data come in "req.file" regardless of the attribute "name". **/
-    var tmp_path = req.file.path;
+    // var tmp_path = req.file.path;
+    req.files.forEach(function(file) {
+        /** The original name of the uploaded file
+         stored in the variable "originalname". **/
+        var tmp_path = file.path;
+        var target_path = 'public/images/' + file.originalname;
 
-    /** The original name of the uploaded file
-     stored in the variable "originalname". **/
-    var target_path = 'app/images/' + req.file.originalname;
+        /** A better way to copy the uploaded file. **/
+        var src = fs.createReadStream(tmp_path);
+        var dest = fs.createWriteStream(target_path);
+        src.pipe(dest);
+    });
 
-    /** A better way to copy the uploaded file. **/
-    var src = fs.createReadStream(tmp_path);
-    var dest = fs.createWriteStream(target_path);
-    src.pipe(dest);
-    // src.on('end', function() { res.render('complete'); });
-    // src.on('error', function(err) { res.render('error'); });
-    // remove original file
-    fs.unlinkSync(tmp_path);
     res.status(204).end()
 });
-// res.status(204).end()
 
 
 // function addUploadRecord(req, res){

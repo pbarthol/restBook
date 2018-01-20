@@ -30,7 +30,7 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Turn off cors
 var cors = require('cors')
@@ -43,7 +43,7 @@ app.use('/api/user/restaurant', UserRestaurantController);
 app.use('/api/restaurant', RestaurantController);
 app.use('/api/booking', BookingController);
 app.use('/api/upload', UploadController);
-app.use('/api/restaurant/image', RestaurantImageController);
+app.use('/api/restaurant/images', RestaurantImageController);
 
 // Serve the application at the given port
 app.listen(port, () => {
