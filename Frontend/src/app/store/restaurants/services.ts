@@ -14,7 +14,7 @@ import { Restaurant, RestaurantImage } from './restaurant/models';
 export class RestaurantService {
   private readonly RestaurantURL = "http://localhost:3000/api/restaurant"
   private readonly UserRestaurantURL = "http://localhost:3000/api/user/restaurant"
-  private readonly UserRestaurantImageURL = "http://localhost:3000/api/restaurant/image"
+  private readonly UserRestaurantImagesURL = "http://localhost:3000/api/restaurant/images"
   constructor (private http: HttpClient) {}
 
   public getRestaurants(): Observable<Array<Restaurant>> {
@@ -35,6 +35,18 @@ export class RestaurantService {
       .map(data => data)
   }
 
+  public getRestaurantImages(restaurantId: string): Observable<Array<RestaurantImage>> {
+    let httpParam = new HttpParams()
+      .set("id", restaurantId);
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+    };
+    return this.http.get<RestaurantImage[]>(this.UserRestaurantImagesURL + '/' + restaurantId)
+      .do(res => console.log('RestaurantImages = ', res))
+      .map(data => data)
+  }
+
+
   public addRestaurant(restaurant: Restaurant) {
       let body = JSON.stringify({restaurant});
       const httpOptions = {
@@ -53,12 +65,12 @@ export class RestaurantService {
         .map(res => res);
   }
 
-  public addRestaurantImage(restaurantImage: RestaurantImage) {
-    let body = JSON.stringify({restaurantImage});
+  public addRestaurantImages(restaurantImages: RestaurantImage[]) {
+    let body = JSON.stringify({restaurantImages});
     const httpOptions = {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    return this.http.post(this.UserRestaurantImageURL, body, httpOptions)
+    return this.http.post(this.UserRestaurantImagesURL, body, httpOptions)
       .map(res => res)
   }
 

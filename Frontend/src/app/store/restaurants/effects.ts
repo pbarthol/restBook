@@ -16,8 +16,9 @@ import {
   LOAD_USER_RESTAURANTS,
   CREATE_RESTAURANT,
   UPDATE_RESTAURANT,
-  CREATE_RESTAURANT_IMAGE,
+  CREATE_RESTAURANT_IMAGES,
   UPDATE_RESTAURANT_IMAGE,
+  LOAD_RESTAURANT_IMAGES,
   LoadRestaurantsAction,
   LoadRestaurantsSuccessAction,
   LoadRestaurantsErrorAction,
@@ -30,12 +31,15 @@ import {
   UpdateRestaurantAction,
   UpdateRestaurantSuccessAction,
   UpdateRestaurantErrorAction,
-  CreateRestaurantImageAction,
-  CreateRestaurantImageSuccessAction,
-  CreateRestaurantImageErrorAction,
+  CreateRestaurantImagesAction,
+  CreateRestaurantImagesSuccessAction,
+  CreateRestaurantImagesErrorAction,
   UpdateRestaurantImageAction,
   UpdateRestaurantImageSuccessAction,
-  UpdateRestaurantImageErrorAction
+  UpdateRestaurantImageErrorAction,
+  LoadRestaurantImagesAction,
+  LoadRestaurantImagesSuccessAction,
+  LoadRestaurantImagesErrorAction
 } from './actions';
 import {
   SetMessageAction,
@@ -79,6 +83,17 @@ export class RestaurantEffects {
         .do(res => console.log('from service: ', res))
         .map(data =>  new LoadUserRestaurantsSuccessAction(data))
         .catch(error => Observable.of(new LoadUserRestaurantsErrorAction({ error: error })));
+    });
+
+  @Effect({dispatch: true})
+  loadRestaurantImages$: Observable<Action> = this.actions$
+    .ofType<LoadRestaurantImagesAction>(LOAD_RESTAURANT_IMAGES)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.getRestaurantImages(payload.restaurantId)
+        .do(res => console.log('from service: ', res))
+        .map(data =>  new LoadRestaurantImagesSuccessAction(data))
+        .catch(error => Observable.of(new LoadRestaurantImagesErrorAction({ error: error })));
     });
 
   @Effect({dispatch: true})
@@ -152,19 +167,19 @@ export class RestaurantEffects {
 
   @Effect({dispatch: true})
   addRestaurantImage$: Observable<Action> = this.actions$
-    .ofType<CreateRestaurantImageAction>(CREATE_RESTAURANT_IMAGE)
+    .ofType<CreateRestaurantImagesAction>(CREATE_RESTAURANT_IMAGES)
     .map((action) => action.payload)
     .switchMap((payload) => {
-      return this.svc.addRestaurantImage(payload.restaurantImage)
+      return this.svc.addRestaurantImages(payload.restaurantImages)
         .do(res => console.log('Back after restaurant image.save: ', res))
-        .switchMap((restaurantImage: RestaurantImage) => Observable.from([
-          new CreateRestaurantImageSuccessAction(restaurantImage),
+        .switchMap((restaurantImages: RestaurantImage[]) => Observable.from([
+          new CreateRestaurantImagesSuccessAction(restaurantImages),
           // new CreateRestaurantImageAction({restaurantImage: payload.restaurantImage}),
           new SetMessageAction({
             message: {
               type: 'success',
               title: 'Edit Restaurant',
-              message: 'Your restaurant image is uploaded.',
+              message: 'Your restaurant images are uploaded.',
               acknowledgeAction: ''
             }
           }),

@@ -97,7 +97,12 @@
         <h3>Upload Picture</h3>
       </div>
       <div *ngIf="!addRestaurant" class="ui-g-12">
-        <p-fileUpload name="restaurantPicture" url="http://localhost:3000/api/upload" (onUpload)="onUpload($event)" accept="image/*" maxFileSize="5000000">
+        <p-fileUpload name="restaurantPicture"
+                      url="http://localhost:3000/api/upload"
+                      multiple="true"
+                      (onUpload)="onUpload($event)"
+                      accept="image/*"
+                      maxFileSize="5000000">
           <ng-template pTemplate="content">
             <ul *ngIf="uploadedFiles.length">
               <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>

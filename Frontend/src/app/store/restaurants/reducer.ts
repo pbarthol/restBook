@@ -34,19 +34,19 @@ export function reducer(state = initialState, action: restaurantsActions.Actions
         item._id === action.payload._id)][0]
       });
     }
-    case restaurantsActions.CREATE_RESTAURANT_IMAGE_SUCCESS: {
+    case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {
       return Object.assign({}, state, {
         restaurantImages: [...state.restaurantImages, action.payload] });
     }
 
-    case restaurantsActions.CREATE_RESTAURANT_IMAGE_SUCCESS: {
-      return Object.assign({}, state, { restaurantImages: [...state.restaurantImages, {
-        restaurantId: action.payload.restaurantId,
-        image: action.payload.image,
-        sortorder: action.payload.sortorder
-      }]
-      })
-    }
+    // case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {
+    //   return Object.assign({}, state, { restaurantImages: [...state.restaurantImages, {
+    //     restaurantId: action.payload.restaurantId,
+    //     image: action.payload.image,
+    //     sortorder: action.payload.sortorder
+    //   }]
+    //   })
+    // }
 
 
 

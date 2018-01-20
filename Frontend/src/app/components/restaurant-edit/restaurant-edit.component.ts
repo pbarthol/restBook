@@ -13,7 +13,8 @@ import {
   UpdateRestaurantSuccessAction,
   UpdateRestaurantErrorAction,
   UpdateRestaurantImageAction,
-  CreateRestaurantImageAction
+  CreateRestaurantImagesAction,
+  LoadRestaurantImagesAction
 } from '../../store/restaurants/actions';
 import {
   SetMessageAction
@@ -43,6 +44,7 @@ export class RestaurantEditComponent implements OnInit {
   private restaurantCategories: SelectItem[];
   private addRestaurant: boolean;
   private uploadedFiles: any[] = [];
+  private restaurantImages: RestaurantImage[] = [];
 
   constructor(private appStore: Store<AppState>) {
     this.nameRequired = false;
@@ -64,6 +66,7 @@ export class RestaurantEditComponent implements OnInit {
         this.addRestaurant = false;
         this.formTitle = 'Edit Restaurant';
         this.labelSaveButton = 'Update';
+        this.appStore.dispatch(new LoadRestaurantImagesAction({restaurantId: this.restaurant._id}));
       }
     });
     this.restaurantCategories = [];
@@ -159,13 +162,24 @@ export class RestaurantEditComponent implements OnInit {
   }
 
   onUpload(event) {
-    for(let file of event.files) {
+
+    event.files.forEach((file, index) => {
       this.uploadedFiles.push(file);
       let originalFileName = file.name;
       let restaurantImage = new RestaurantImage;
       restaurantImage.restaurantId = this.restaurant._id;
       restaurantImage.image = originalFileName;
-      this.appStore.dispatch(new CreateRestaurantImageAction({restaurantImage: restaurantImage}));
-    }
+      restaurantImage.sortorder = index;
+      this.restaurantImages.push(restaurantImage);
+    });
+    this.appStore.dispatch(new CreateRestaurantImagesAction({restaurantImages: this.restaurantImages}));
+    // for(let file of event.files) {
+    //   this.uploadedFiles.push(file);
+    //   let originalFileName = file.name;
+    //   let restaurantImage = new RestaurantImage;
+    //   restaurantImage.restaurantId = this.restaurant._id;
+    //   restaurantImage.image = originalFileName;
+    //   this.appStore.dispatch(new CreateRestaurantImageAction({restaurantImage: restaurantImage}));
+    // }
   }
 }
