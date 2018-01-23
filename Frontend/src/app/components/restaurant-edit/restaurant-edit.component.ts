@@ -4,7 +4,7 @@ import {Observable} from "rxjs";
 import { SelectItem } from 'primeng/primeng';
 import { Store } from '@ngrx/store';
 import {Restaurant, RestaurantImage} from '../../store/restaurants/restaurant/models';
-import {HideRestaurantDetailsAction} from "../../store/user-interface/actions";
+import {HideRestaurantEditAction} from "../../store/user-interface/actions";
 import {
   CreateRestaurantAction,
   CreateRestaurantSuccessAction,
@@ -16,9 +16,7 @@ import {
   CreateRestaurantImagesAction,
   LoadRestaurantImagesAction
 } from '../../store/restaurants/actions';
-import {
-  SetMessageAction
-} from '../../store/user-interface/actions';
+
 
 @Component({
   selector: 'app-restaurant-edit',
@@ -158,7 +156,7 @@ export class RestaurantEditComponent implements OnInit {
   }
 
   hideRestaurantEdit() {
-    this.appStore.dispatch(new HideRestaurantDetailsAction());
+    this.appStore.dispatch(new HideRestaurantEditAction());
   }
 
   onUpload(event) {
@@ -168,7 +166,9 @@ export class RestaurantEditComponent implements OnInit {
       let originalFileName = file.name;
       let restaurantImage = new RestaurantImage;
       restaurantImage.restaurantId = this.restaurant._id;
-      restaurantImage.image = originalFileName;
+      let imageName: string = originalFileName;
+      let extension: string = imageName.substring(imageName.indexOf(".") + 1);
+      restaurantImage.image = imageName.substring(0, imageName.indexOf(".")) + "_resized." + extension;
       restaurantImage.sortorder = index;
       this.restaurantImages.push(restaurantImage);
     });

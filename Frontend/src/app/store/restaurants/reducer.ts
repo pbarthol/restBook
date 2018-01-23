@@ -9,18 +9,25 @@ export interface State {
   restaurants: Restaurant[];
   userRestaurants: Restaurant[];
   editRestaurant: Restaurant;
+  detailRestaurant: Restaurant;
   restaurantImages: RestaurantImage[];
+  detailRestaurantId: string;
 }
 
 const initialState: State = {
   restaurants: [],
   userRestaurants: [],
   editRestaurant: null,
-  restaurantImages: []
+  detailRestaurant: null,
+  restaurantImages: [],
+  detailRestaurantId: null
 };
 
 export function reducer(state = initialState, action: restaurantsActions.Actions) {
   switch (action.type) {
+    case  restaurantsActions.LOAD_RESTAURANT_SUCCESS: {
+      return Object.assign({}, state, {detailRestaurant: action.payload});
+    }
     case  restaurantsActions.LOAD_RESTAURANTS_SUCCESS: {
       return Object.assign({}, state, {restaurants: action.payload});
     }
@@ -33,6 +40,9 @@ export function reducer(state = initialState, action: restaurantsActions.Actions
         editRestaurant: [...state.userRestaurants.filter((item, index) =>
         item._id === action.payload._id)][0]
       });
+    }
+    case restaurantsActions.SET_RESTAURANT_FOR_DETAIL: {
+      return Object.assign({}, state, {detailRestaurantId: action.payload});
     }
     case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {
       return Object.assign({}, state, {
@@ -47,8 +57,6 @@ export function reducer(state = initialState, action: restaurantsActions.Actions
     //   }]
     //   })
     // }
-
-
 
     case  restaurantsActions.LOAD_RESTAURANT_IMAGES_SUCCESS: {
       return Object.assign({}, state, {restaurantImages: action.payload});

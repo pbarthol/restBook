@@ -8,10 +8,13 @@ import {
   LOAD_USER_RESTAURANTS,
   SET_RESTAURANT_FOR_EDIT,
   LoadUserRestaurantsAction,
-  SetRestaurantForEditAction
+  SetRestaurantForEditAction,
+  SetRestaurantForDetailAction
 } from '../../store/restaurants/actions';
 import {
-  ShowRestaurantDetailsAction, HideRestaurantOverviewAction
+  ShowRestaurantDetailAction,
+  ShowRestaurantEditAction,
+  HideRestaurantOverviewAction
 } from '../../store/user-interface/actions'
 
 @Component({
@@ -25,7 +28,6 @@ export class RestaurantOverviewComponent implements OnInit {
   private restaurants: Restaurant[];
   private loggedInUser$: Observable<User>;
   private loggedInUser: User;
-  private showRestaurantDetails$: Observable<boolean>;
   private detailRestaurantId: string;
 
   constructor(private appStore: Store<AppState>) {
@@ -41,25 +43,24 @@ export class RestaurantOverviewComponent implements OnInit {
     this.restaurants$.subscribe(restaurants => {
       this.restaurants = restaurants;
     })
-    this.showRestaurantDetails$ = this.appStore.select(state => state.userinterface.showRestaurantDetails)
   }
 
   displayRestaurant(id: string) {
-    this.appStore.dispatch(new SetRestaurantForEditAction({_id: id}));
+    this.appStore.dispatch(new SetRestaurantForDetailAction(id));
     this.appStore.dispatch(new HideRestaurantOverviewAction());
-    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+    this.appStore.dispatch(new ShowRestaurantDetailAction());
   }
 
   addRestaurant() {
     this.appStore.dispatch(new SetRestaurantForEditAction({_id: null}));
     this.appStore.dispatch(new HideRestaurantOverviewAction());
-    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+    this.appStore.dispatch(new ShowRestaurantDetailAction());
   }
 
   editRestaurant(id: string) {
     this.appStore.dispatch(new SetRestaurantForEditAction({_id: id}));
     this.appStore.dispatch(new HideRestaurantOverviewAction());
-    this.appStore.dispatch(new ShowRestaurantDetailsAction());
+    this.appStore.dispatch(new ShowRestaurantEditAction());
   }
 
   hideRestaurantOverview() {

@@ -6,7 +6,9 @@
     <span><span>.. km von Zürich entfernt</span></span>
     <p><span><b>{{restaurant.street}} {{restaurant.streetNumber}}</b></span></p>
   </div>
-  <div class="ui-g-4 ">
-    <img class="media-object ra-teaser-image" src="http://localhost:3000/images/{{restaurant.thumbnail}}">
+  <div class="ui-g-4">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+      <img ngif="restaurant.thumbnail !=== ''" class="media-object ra-teaser-image" src="http://localhost:3000/images/{{restaurant.thumbnail}}">
+    </div>
   </div>
 </div>

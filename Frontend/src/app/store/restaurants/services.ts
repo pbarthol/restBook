@@ -74,6 +74,16 @@ export class RestaurantService {
       .map(res => res)
   }
 
+  public getRestaurant(restaurantId: string): Observable<Restaurant> {
+    let httpParam = new HttpParams()
+      .set("id", restaurantId);
+    const httpOptions = {
+      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+    };
+    return this.http.get<Restaurant>(this.RestaurantURL + '/' + restaurantId)
+      .do(res => console.log('Restaurant = ', res))
+      .map(data => data)
+  }
 }
 
   // getRestaurant(id): Observable<Restaurant> {

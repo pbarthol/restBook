@@ -5,6 +5,9 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Restaurant, RestaurantImage } from './restaurant/models';
 
+export const LOAD_RESTAURANT = '[Restaurant] Load Restaurant';
+export const LOAD_RESTAURANT_SUCCESS = '[Restaurant] Load Restaurant Success';
+export const LOAD_RESTAURANT_ERROR = '[Restaurant] Load Restaurant Error';
 export const LOAD_RESTAURANTS = '[Restaurants] Load Restaurants';
 export const LOAD_RESTAURANTS_SUCCESS = '[Restaurants] Load Restaurants Success';
 export const LOAD_RESTAURANTS_ERROR = '[Restaurants] Load Restaurants Error';
@@ -12,6 +15,7 @@ export const LOAD_USER_RESTAURANTS = '[Restaurants] Load User Restaurants';
 export const LOAD_USER_RESTAURANTS_SUCCESS = '[Restaurants] Load User Restaurants Success';
 export const LOAD_USER_RESTAURANTS_ERROR = '[Restaurants] Load User Restaurants Error';
 export const SET_RESTAURANT_FOR_EDIT = '[Restaurant] Set Restaurant for edit';
+export const SET_RESTAURANT_FOR_DETAIL = '[Restaurant] Set Restaurant for Detail';
 export const CREATE_RESTAURANT = '[Restaurant] Create Restaurant';
 export const CREATE_RESTAURANT_SUCCESS = '[Restaurant] Create Restaurant Success';
 export const CREATE_RESTAURANT_ERROR = '[Restaurant] Create Restaurant Error';
@@ -29,6 +33,22 @@ export const LOAD_RESTAURANT_IMAGES_SUCCESS = '[Restaurants] Load Restaurant Ima
 export const LOAD_RESTAURANT_IMAGES_ERROR = '[Restaurants] Load Restaurant Images Error';
 
 @Injectable()
+
+export class LoadRestaurantAction implements Action {
+  readonly type = LOAD_RESTAURANT;
+  constructor(public payload: { restaurantId: string }) {}
+}
+
+export class LoadRestaurantSuccessAction implements Action {
+  readonly type = LOAD_RESTAURANT_SUCCESS;
+  constructor(public payload: Restaurant) {
+  }
+}
+
+export class LoadRestaurantErrorAction implements Action {
+  readonly type = LOAD_RESTAURANT_ERROR;
+  constructor(public payload: { error: Error }) {}
+}
 
 export class LoadRestaurantsAction implements Action {
   readonly type = LOAD_RESTAURANTS;
@@ -64,6 +84,11 @@ export class LoadUserRestaurantsErrorAction implements Action {
 export class SetRestaurantForEditAction implements Action {
   readonly type = SET_RESTAURANT_FOR_EDIT;
   constructor(public payload: { _id: string }) {}
+}
+
+export class SetRestaurantForDetailAction implements Action {
+  readonly type = SET_RESTAURANT_FOR_DETAIL;
+  constructor(public payload: string) {}
 }
 
 export class CreateRestaurantAction implements Action {
@@ -143,13 +168,17 @@ export class LoadRestaurantImagesErrorAction implements Action {
 }
 
 export type Actions =
-  LoadRestaurantsAction
+  LoadRestaurantAction
+  | LoadRestaurantSuccessAction
+  | LoadRestaurantErrorAction
+  | LoadRestaurantsAction
   | LoadRestaurantsSuccessAction
   | LoadRestaurantsErrorAction
   | LoadUserRestaurantsAction
   | LoadUserRestaurantsSuccessAction
   | LoadUserRestaurantsErrorAction
   | SetRestaurantForEditAction
+  | SetRestaurantForDetailAction
   | CreateRestaurantAction
   | CreateRestaurantSuccessAction
   | CreateRestaurantErrorAction

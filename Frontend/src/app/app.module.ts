@@ -81,7 +81,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RestaurantListComponent } from './components/restaurant-list/restaurant-list.component';
-import { RestaurantComponent } from './components/restaurant/restaurant.component';
+import { RestaurantDetailComponent } from './components/restaurant-detail/restaurant-detail.component';
 import { RestaurantEditComponent } from './components/restaurant-edit/restaurant-edit.component';
 import { UserComponent } from './components/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
@@ -105,7 +105,7 @@ import { RestaurantOverviewComponent } from './components/restaurant-overview/re
     HomeComponent,
     LoginComponent,
     RestaurantListComponent,
-    RestaurantComponent,
+    RestaurantDetailComponent,
     RestaurantEditComponent,
     UserComponent,
     UserEditComponent,

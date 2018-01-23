@@ -145,8 +145,11 @@
 <div *ngIf="(showRestaurantOverview$ | async)">
   <app-restaurant-overview></app-restaurant-overview>
 </div>
-<div *ngIf="(showRestaurantDetails$ | async)">
+<div *ngIf="(showRestaurantEdit$ | async)">
   <app-restaurant-edit></app-restaurant-edit>
+</div>
+<div *ngIf="(showRestaurantDetail$ | async)">
+  <app-restaurant-detail [restaurantId]="detailRestaurantId"></app-restaurant-detail>
 </div>
 
 

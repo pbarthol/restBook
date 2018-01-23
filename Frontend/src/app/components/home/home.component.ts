@@ -82,8 +82,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(new LoadRestaurantsAction());
-    this.store.dispatch(new HideRegisterAction());
-    this.store.dispatch(new HideLoginAction());
     this.store.dispatch(new LogoutAction()); // User is logged out
   }
 

@@ -42,7 +42,11 @@ export class HeaderComponent implements OnInit {
   private loggedInUser$: Observable<User>;
   private loggedInUser: User;
   private showRestaurantOverview$: Observable<boolean>;
-  private showRestaurantDetails$: Observable<boolean>;
+  private showRestaurantEdit$: Observable<boolean>;
+  private showRestaurantDetail$: Observable<boolean>;
+  private detailRestaurantId$: Observable<string>;
+  private detailRestaurantId: string;
+
 
   constructor(private appStore: Store<AppState>,
               private advGrowlService: AdvGrowlService) {
@@ -53,10 +57,16 @@ export class HeaderComponent implements OnInit {
     this.showPasswordChange$ = this.appStore.select(state => state.userinterface.showPasswordChange);
     this.loggedInUser$ = this.appStore.select(state => state.user.user)
     this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
-    this.showRestaurantDetails$ = this.appStore.select(state => state.userinterface.showRestaurantDetails);
+    this.showRestaurantEdit$ = this.appStore.select(state => state.userinterface.showRestaurantEdit);
+    this.showRestaurantDetail$ = this.appStore.select(state => state.userinterface.showRestaurantDetail);
+    this.detailRestaurantId$ = this.appStore.select(state => state.restaurants.detailRestaurantId);
   }
 
   ngOnInit() {
+    this.hideAllForms();
+    this.detailRestaurantId$.subscribe((restaurantId: string) => {
+      this.detailRestaurantId = restaurantId;
+    })
     this.messages$.subscribe((storeMessages: {}[]) => {
       let index: number;
       let additionalProperty: {};

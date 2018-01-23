@@ -14,8 +14,10 @@ export const SET_MESSAGE = '[Messages] Set Message';
 export const CLEAR_MESSAGE = '[Messages] Clear Message';
 export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview'
 export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview'
-export const SHOW_RESTAURANT_DETAILS = '[Restaurant] Show Details'
-export const HIDE_RESTAURANT_DETAILS = '[Restaurant] Hide Details'
+export const SHOW_RESTAURANT_EDIT = '[Restaurant] Show Edit'
+export const HIDE_RESTAURANT_EDIT = '[Restaurant] Hide Edit'
+export const SHOW_RESTAURANT_DETAIL = '[Restaurant] Show Detail'
+export const HIDE_RESTAURANT_DETAIL = '[Restaurant] Hide Detail'
 
 @Injectable()
 
@@ -77,13 +79,23 @@ export class HideRestaurantOverviewAction implements Action {
   constructor(public payload: any = null) { }
 }
 
-export class ShowRestaurantDetailsAction implements Action {
-  readonly type = SHOW_RESTAURANT_DETAILS;
+export class ShowRestaurantEditAction implements Action {
+  readonly type = SHOW_RESTAURANT_EDIT;
   constructor(public payload: any = null) { }
 }
 
-export class HideRestaurantDetailsAction implements Action {
-  readonly type = HIDE_RESTAURANT_DETAILS;
+export class HideRestaurantEditAction implements Action {
+  readonly type = HIDE_RESTAURANT_EDIT;
+  constructor(public payload: any = null) { }
+}
+
+export class ShowRestaurantDetailAction implements Action {
+  readonly type = SHOW_RESTAURANT_DETAIL;
+  constructor(public payload: any = null) { }
+}
+
+export class HideRestaurantDetailAction implements Action {
+  readonly type = HIDE_RESTAURANT_DETAIL;
   constructor(public payload: any = null) { }
 }
 
@@ -98,5 +110,7 @@ export type Actions
   | HidePasswordChangeAction
   | ShowRestaurantOverviewAction
   | HideRestaurantOverviewAction
-  | ShowRestaurantDetailsAction
-  | HideRestaurantDetailsAction
+  | ShowRestaurantEditAction
+  | HideRestaurantEditAction
+  | ShowRestaurantDetailAction
+  | HideRestaurantDetailAction

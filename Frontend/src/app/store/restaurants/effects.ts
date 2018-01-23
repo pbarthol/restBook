@@ -12,6 +12,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
 
 import {
+  LOAD_RESTAURANT,
   LOAD_RESTAURANTS,
   LOAD_USER_RESTAURANTS,
   CREATE_RESTAURANT,
@@ -19,6 +20,9 @@ import {
   CREATE_RESTAURANT_IMAGES,
   UPDATE_RESTAURANT_IMAGE,
   LOAD_RESTAURANT_IMAGES,
+  LoadRestaurantAction,
+  LoadRestaurantSuccessAction,
+  LoadRestaurantErrorAction,
   LoadRestaurantsAction,
   LoadRestaurantsSuccessAction,
   LoadRestaurantsErrorAction,
@@ -43,7 +47,8 @@ import {
 } from './actions';
 import {
   SetMessageAction,
-  HideRestaurantDetailsAction
+  HideRestaurantEditAction,
+  HideRestaurantDetailAction
 } from '../user-interface/actions';
 import { RestaurantService } from './services';
 import {Restaurant, RestaurantImage} from './restaurant/models';
@@ -63,6 +68,32 @@ export class RestaurantEffects {
     this.loggedInUser$ = this.appStore.select(state => state.user.user);
     this.loggedInUser$.subscribe(user => this.loggedInUser = user);
   }
+
+  @Effect({dispatch: true})
+  loadRestaurant$: Observable<Action> = this.actions$
+    .ofType<LoadRestaurantAction>(LOAD_RESTAURANT)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.getRestaurant(payload.restaurantId)
+        .do(res => console.log('Back after load restaurant: ', res))
+        .switchMap((restaurant: Restaurant) =>
+          Observable.from([
+            new LoadRestaurantSuccessAction(restaurant),
+            new LoadRestaurantImagesAction({restaurantId: restaurant._id})
+          ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Load Restaurant',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
 
   @Effect({dispatch: true})
   loadRestaurants$: Observable<Action> = this.actions$
@@ -115,7 +146,7 @@ export class RestaurantEffects {
                 acknowledgeAction: ''
               }
             }),
-            new HideRestaurantDetailsAction(),
+            new HideRestaurantEditAction(),
             new LoadUserRestaurantsAction({userid: this.loggedInUser._id})
           ]))
         .catch((error) => {
@@ -149,7 +180,7 @@ export class RestaurantEffects {
               acknowledgeAction: ''
             }
           }),
-          new HideRestaurantDetailsAction()
+          new HideRestaurantEditAction()
         ]))
         .catch((error) => {
           if (error.status === 500) {
