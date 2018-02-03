@@ -18,7 +18,11 @@ import {
   HidePasswordChangeAction,
   SetMessageAction,
   ShowRestaurantOverviewAction,
-  HideRestaurantOverviewAction
+  HideRestaurantOverviewAction,
+  ShowMealOverviewAction,
+  HideMealOverviewAction,
+  ShowMealEditAction,
+  HideMealEditAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
 import { User } from '../../store/user/models';
@@ -44,6 +48,8 @@ export class HeaderComponent implements OnInit {
   private showRestaurantOverview$: Observable<boolean>;
   private showRestaurantEdit$: Observable<boolean>;
   private showRestaurantDetail$: Observable<boolean>;
+  private showMealOverview$: Observable<boolean>;
+  private showMealEdit$: Observable<boolean>;
   private detailRestaurantId$: Observable<string>;
   private detailRestaurantId: string;
 
@@ -59,6 +65,8 @@ export class HeaderComponent implements OnInit {
     this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
     this.showRestaurantEdit$ = this.appStore.select(state => state.userinterface.showRestaurantEdit);
     this.showRestaurantDetail$ = this.appStore.select(state => state.userinterface.showRestaurantDetail);
+    this.showMealOverview$ = this.appStore.select(state => state.userinterface.showMealOverview);
+    this.showMealEdit$ = this.appStore.select(state => state.userinterface.showMealEdit);
     this.detailRestaurantId$ = this.appStore.select(state => state.restaurants.detailRestaurantId);
   }
 
@@ -166,6 +174,8 @@ export class HeaderComponent implements OnInit {
     this.appStore.dispatch(new HideRegisterAction());
     this.appStore.dispatch(new HideLoginAction());
     this.appStore.dispatch(new HidePasswordChangeAction());
-    this.appStore.dispatch(new HideRestaurantOverviewAction())
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+    this.appStore.dispatch(new HideMealOverviewAction());
+    this.appStore.dispatch(new HideMealEditAction());
   }
 }

@@ -1,0 +1,38 @@
+<div class="ui-g-12" classe="rb-restaurant-detail">
+  {{detailRestaurant$ | async}}
+</div>
+
+
+<div class="ui-g-12 ui-lg-8">
+<div class="card card-w-title">
+  <h1>Slider</h1>
+  <p-slider class="ng-untouched ng-pristine ng-valid">
+    <div class="ui-slider ui-widget ui-widget-content ui-corner-all ui-slider-horizontal">
+      <!----><span class="ui-slider-range ui-widget-header ui-corner-all" style="left: 20%; width: 60%;"></span>
+      <!---->
+      <!---->
+      <!---->
+      <!---->
+      <!----><span class="ui-slider-handle ui-state-default ui-corner-all ui-clickable ui-slider-handle-active" style="left: 20%; bottom: auto;"></span>
+      <!----><span class="ui-slider-handle ui-state-default ui-corner-all ui-clickable" style="left: 80%; bottom: auto;"></span>
+    </div>
+  </p-slider>
+</div>
+</div>
+<div class="ui-g-12 ui-lg-4">
+<div class="card">
+  <h1>Pictures</h1>
+  <p-lightbox [images]="images">
+  </p-lightbox>
+</div>
+
+<div class="ui-g-12 ui-md-9"></div>
+<div class="ui-g-12 ui-md-3">
+      <span class="md-inputfield">
+        <button pButton type="button"
+                label="Cancel"
+                (click)="hideRestaurantDetail()"
+                style="margin-bottom:10px;width:auto">
+        </button>
+      </span>
+</div>

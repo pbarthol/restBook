@@ -1,16 +1,15 @@
 <div class="ui-g-8 ui-md-offset-2">
   <div class="card card-w-title">
-      <h1>Your Restaurants</h1>
+      <!--<h1>Your Restaurants</h1>-->
     <p-dataList [value]="restaurants" [paginator]="true" [rows]="5" styleClass="restaurants-datalist">
-      <p-header>
-        List of Restaurants
-      </p-header>
+      <p-header>Your Restaurants</p-header>
       <ng-template let-restaurant pTemplate="item">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #bdbdbd">
-          <div>
-            <p>{{restaurant.name}}</p>
-            <p style="color:#757575">{{restaurant.city}} - {{restaurant.street}}</p>
-          </div>
+          <img src="http://localhost:3000/images/restaurant/{{restaurant.thumbnail}}">
+          <!--<div>-->
+            <h3>{{restaurant.name}}</h3>
+            <h4 style="color:#757575">{{restaurant.city}} - {{restaurant.street}}</h4>
+          <!--</div>-->
           <div>
             <button type="button"
                     pButton
@@ -38,6 +37,13 @@
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Make changes of the data of this restaurant"
                     (click)="editRestaurant(restaurant._id)">
+            </button>
+            <button type="button"
+                    pButton
+                    icon="ui-icon-list"
+                    class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    pTooltip="Edit/Add Meals of this restaurant"
+                    (click)="displayMealOverview(restaurant._id)">
             </button>
           </div>
         </div>

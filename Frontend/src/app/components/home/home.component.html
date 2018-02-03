@@ -1,7 +1,6 @@
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav>
   <app-header></app-header>
 </nav>
-
 <!--<div *ngIf="(showPasswordChange$ | async)">-->
   <!--<app-password-change></app-password-change>-->
 <!--</div>-->
@@ -33,25 +32,31 @@
           <i class="fa fa-search"></i>
         </button>
       </div>
+    </div>
   </div>
 </div>
-
-<div class="ui-grid">
-  <div class="ui-g rb-rest-list">
+<div class=" ui-grid">
+  <div class="rb-rest-list">
+  <div class="ui-g">
       <div class="ui-g-4 ">
         <app-restaurant-list
           [listParams]='listParamMeat'
           [restaurants$]="(restaurantList$ | async)">
-        </app-restaurant-list></div>
+        </app-restaurant-list>
+      </div>
       <div class="ui-g-4">
         <app-restaurant-list
           [listParams]='listParamVegetarian'
           [restaurants$]="(restaurantList$ | async)">
-        </app-restaurant-list></div>
+        </app-restaurant-list>
+      </div>
       <div class="ui-g-4">
         <app-restaurant-list
           [listParams]='listParamVegan'
           [restaurants$]="(restaurantList$ | async)">
-        </app-restaurant-list></div>
+        </app-restaurant-list>
+      </div>
+  </div>
   </div>
 </div>
+

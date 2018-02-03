@@ -1,0 +1,54 @@
+<div class="ui-g-8 ui-md-offset-2">
+  <div class="card card-w-title">
+      <!--<h1>DataTable</h1>-->
+      <!--<p-dataTable [value]="meals" selectionMode="single" [(selection)]="selectedMeal"-->
+                   <!--[paginator]="true" [rows]="10" [responsive]="true">-->
+        <!--<p-header>List of Meals</p-header>-->
+        <!--<p-column field="vin" header="Vin" [sortable]="true"></p-column>-->
+        <!--<p-column field="year" header="Year" [sortable]="true"></p-column>-->
+        <!--<p-column field="brand" header="Brand" [sortable]="true"></p-column>-->
+        <!--<p-column field="color" header="Color" [sortable]="true"></p-column>-->
+      <!--</p-dataTable>-->
+
+
+    <p-dataList [value]="meals" [paginator]="true" [rows]="5">
+      <p-header>
+        Meals
+      </p-header>
+      <ng-template let-meal pTemplate="item">
+        <div class="ui-g ui-fluid car-item">
+          <div class="ui-g-12 ui-md-3" style="text-align:center">
+            <img src="http://localhost:3000/images/meal/{{meal.thumbnail}}">
+          </div>
+          <div class="ui-g-12 ui-md-9 car-details">
+            <div class="ui-g">
+              <div class="ui-g-2 ui-sm-6">Title: </div>
+              <div class="ui-g-10 ui-sm-6">{{meal.title}}</div>
+
+              <div class="ui-g-2 ui-sm-6">Desription: </div>
+              <div class="ui-g-10 ui-sm-6">{{meal.description}}</div>
+
+              <div class="ui-g-2 ui-sm-6">Price: </div>
+              <div class="ui-g-10 ui-sm-6">{{meal.price}}</div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </p-dataList>
+
+    <button type="button"
+            pButton
+            icon="ui-icon-plus"
+            class="ui-button-icon-left ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+            pTooltip="Add Meal to this restaurant"
+            (click)="addMeal()">
+    </button>
+    <button type="button"
+            pButton
+            icon="ui-icon-close"
+            class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+            pTooltip="Close Meal Overview"
+            (click)="hideMealOverview()">
+    </button>
+  </div>
+</div>

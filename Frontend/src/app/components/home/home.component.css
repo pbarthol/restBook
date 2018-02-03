@@ -11,6 +11,10 @@ body {
   font-size: 16px;
 }
 
+.rb-header-position  {
+  /*margin: 0px 0px 0px 0px;*/
+  position: fixed;
+}
 /*.ui-g {*/
   /*margin-top: 300px;*/
 /*}*/
@@ -54,6 +58,10 @@ body .ui-button .ui-button-text, body .ui-datepicker-buttonpane > button .ui-but
   color: black;
 }
 
+.rb-rest-list {
+  margin-top: 260px;
+}
+
 ul.ultima-menu {
   &.ultima-main-menu {
      margin-top: 0px;
@@ -62,6 +70,3 @@ ul.ultima-menu {
    }
 }
 
-.rb-rest-list {
-  margin-top: 250px;
-}

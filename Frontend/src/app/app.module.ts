@@ -90,14 +90,18 @@ import { FooterComponent } from './components/footer/footer.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
 import { RestaurantEffects } from './store/restaurants/effects';
 import { UserEffects } from './store/user/effects';
+import { MealEffects } from './store/restaurants/meal/effects';
 import { reducers } from './reducers/index';
 import { RestaurantService } from './store/restaurants/services';
 import { UserService } from './store/user/services';
+import { MealService } from './store/restaurants/meal/services';
 import { RestaurantTeaserComponent } from './components/restaurant-teaser/restaurant-teaser.component';
 
 /** Pipes */
 import { RestaurantPipe } from './components/pipes/restaurant';
 import { RestaurantOverviewComponent } from './components/restaurant-overview/restaurant-overview.component';
+import { MenuEditComponent } from './components/meal-edit/meal-edit.component';
+import { MealOverviewComponent } from './components/meal-overview/meal-overview.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +119,8 @@ import { RestaurantOverviewComponent } from './components/restaurant-overview/re
     RestaurantPipe,
     PasswordChangeComponent,
     RestaurantOverviewComponent,
+    MenuEditComponent,
+    MealOverviewComponent,
   ],
   imports: [
     RouterModule.forRoot([
@@ -128,7 +134,8 @@ import { RestaurantOverviewComponent } from './components/restaurant-overview/re
     ReactiveFormsModule,
     EffectsModule.forRoot([
       RestaurantEffects,
-      UserEffects
+      UserEffects,
+      MealEffects
     ]),
     AccordionModule,
     AutoCompleteModule,
@@ -203,7 +210,8 @@ import { RestaurantOverviewComponent } from './components/restaurant-overview/re
  ],
   providers: [
     RestaurantService,
-    UserService
+    UserService,
+    MealService
   ],
   bootstrap: [AppComponent]
 })

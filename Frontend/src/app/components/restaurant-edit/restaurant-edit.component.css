@@ -1,0 +1,19 @@
+.ui-button.ui-button-icon-only{
+  /*display: !important;*/
+}
+
+button[icon="fa-angle-up"] {
+  display: none !important;
+}
+
+button[icon="fa-angle-down"] {
+  display: none !important;
+}
+
+button[icon="fa-angle-double-up"] {
+  display: none !important;
+}
+
+button[icon="fa-angle-double-down"] {
+  display: none !important;
+}

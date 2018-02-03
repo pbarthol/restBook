@@ -11,6 +11,8 @@ export interface UIState {
   showRestaurantOverview: boolean;
   showRestaurantEdit: boolean;
   showRestaurantDetail: boolean;
+  showMealOverview: boolean;
+  showMealEdit: boolean;
   messages: {
     type: string,
     title: string,
@@ -27,6 +29,8 @@ export const initialState: UIState = {
   showRestaurantOverview: false,
   showRestaurantEdit: false,
   showRestaurantDetail: false,
+  showMealOverview: false,
+  showMealEdit: false,
   messages: []
 };
 
@@ -98,6 +102,22 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.HIDE_RESTAURANT_DETAIL: {
       return Object.assign({}, state, {showRestaurantDetail: false});
+    }
+
+    case uiActions.SHOW_MEAL_OVERVIEW: {
+      return Object.assign({}, state, {showMealOverview: true});
+    }
+
+    case uiActions.HIDE_MEAL_OVERVIEW: {
+      return Object.assign({}, state, {showMealOverview: false});
+    }
+
+    case uiActions.SHOW_MEAL_EDIT: {
+      return Object.assign({}, state, {showMealEdit: true});
+    }
+
+    case uiActions.HIDE_MEAL_EDIT: {
+      return Object.assign({}, state, {showMealEdit: false});
     }
 
     default: {

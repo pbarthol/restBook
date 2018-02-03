@@ -1,0 +1,81 @@
+<div class="ui-g ui-fluid">
+  <div class="ui-g-4 ui-lg-4 ui-md-offset-4">
+    <!-- Left Side -->
+    <div class="card card-w-title">
+      <h1>{{formTitle}}</h1>
+      <div class="ui-g form-group">
+        <div class="ui-g-12">
+          <span class="md-inputfield">
+              <input type="text"
+                     pInputText
+                     [(ngModel)]="meal.title">
+              <label>Meal title</label>
+              <div *ngIf="titleRequired" class="ui-message ui-messages-error ui-corner-all">
+                    This field is required
+              </div>
+          </span>
+        </div>
+        <div class="ui-g-12">
+          <label>Description</label>
+          <textarea autoresize="autoResize" pinputtextarea="" class="ui-inputtext ui-corner-all ui-state-default ui-widget"
+                    [(ngModel)]="meal.description"
+                    rows="5"
+                    cols="50">
+          </textarea>
+          <div *ngIf="descriptionRequired" class="ui-message ui-messages-error ui-corner-all">
+            This field is required
+          </div>
+        </div>
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon">CHF</span>
+          <span class="md-inputfield">
+            <input type="text"
+                   pInputText
+                   [(ngModel)]="meal.price">
+            <label>Price</label>
+          </span>
+        </div>
+        <div *ngIf="priceRequired" class="ui-message ui-messages-error ui-corner-all">
+          This field is required
+        </div>
+        <div class="ui-message ui-messages-error ui-corner-all">
+          {{priceError}}
+        </div>
+
+        <div *ngIf="addMeal" class="ui-g-12">
+          <p-fileUpload name="mealThumbnail"
+                        url="http://localhost:3000/api/upload/meal"
+                        (onUpload)="onUpload($event)"
+                        accept="image/*"
+                        maxFileSize="5000000">
+            <ng-template pTemplate="content">
+              <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">{{file.name}} - {{file.size}} bytes</li>
+              </ul>
+            </ng-template>
+          </p-fileUpload>
+        </div>
+
+        <div class="ui-g-3">
+          <span class="md-inputfield">
+            <button pButton type="button"
+                    label="{{labelSaveButton}}"
+                    (click)="saveMeal()"
+                    style="margin-bottom:10px;width:auto">
+            </button>
+          </span>
+        </div>
+        <div class="ui-g-5"></div>
+        <div class="ui-g-3">
+          <span class="md-inputfield">
+            <button pButton type="button"
+                    label="Cancel"
+                    (click)="hideRegister()"
+                    style="margin-bottom:10px;width:auto">
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

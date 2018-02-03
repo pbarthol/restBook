@@ -12,6 +12,7 @@ export interface State {
   detailRestaurant: Restaurant;
   restaurantImages: RestaurantImage[];
   detailRestaurantId: string;
+  restaurantRegistered:boolean;
 }
 
 const initialState: State = {
@@ -20,7 +21,8 @@ const initialState: State = {
   editRestaurant: null,
   detailRestaurant: null,
   restaurantImages: [],
-  detailRestaurantId: null
+  detailRestaurantId: null,
+  restaurantRegistered: null
 };
 
 export function reducer(state = initialState, action: restaurantsActions.Actions) {
@@ -34,37 +36,31 @@ export function reducer(state = initialState, action: restaurantsActions.Actions
     case  restaurantsActions.LOAD_USER_RESTAURANTS_SUCCESS: {
       return Object.assign({}, state, {userRestaurants: action.payload});
     }
-    case restaurantsActions.SET_RESTAURANT_FOR_EDIT: {
-      return Object.assign({}, state, {
-        // messages: [...state.messages.filter((item, index) => index !== action.payload.itemIndex)]
-        editRestaurant: [...state.userRestaurants.filter((item, index) =>
+    case restaurantsActions.SET_USER_RESTAURANT_FOR_EDIT: {
+      return Object.assign({}, state, {editRestaurant: [...state.userRestaurants.filter((item, index) =>
         item._id === action.payload._id)][0]
       });
     }
-    case restaurantsActions.SET_RESTAURANT_FOR_DETAIL: {
+    case restaurantsActions.SET_NEW_RESTAURANT_FOR_EDIT: {
+      return Object.assign({}, state, {editRestaurant: action.payload});
+    }
+    case restaurantsActions.SET_USER_RESTAURANT_FOR_DETAIL: {
       return Object.assign({}, state, {detailRestaurantId: action.payload});
     }
     case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {
       return Object.assign({}, state, {
         restaurantImages: [...state.restaurantImages, action.payload] });
     }
-
-    // case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {
-    //   return Object.assign({}, state, { restaurantImages: [...state.restaurantImages, {
-    //     restaurantId: action.payload.restaurantId,
-    //     image: action.payload.image,
-    //     sortorder: action.payload.sortorder
-    //   }]
-    //   })
-    // }
-
     case  restaurantsActions.LOAD_RESTAURANT_IMAGES_SUCCESS: {
       return Object.assign({}, state, {restaurantImages: action.payload});
     }
-
+    case restaurantsActions.SET_RESTAURANT_REGISTERED: {
+      return Object.assign({}, state, {restaurantRegistered: true});
+    }
+    case restaurantsActions.SET_RESTAURANT_NOT_REGISTERED: {
+      return Object.assign({}, state, {restaurantRegistered: false});
+    }
     default:
       return state;
   }
 }
-
-// export const getRestaurants = (state: State) => state.restaurants;

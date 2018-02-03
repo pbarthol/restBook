@@ -66,66 +66,9 @@
     <a href="#" id="rightpanel-menu-button">
       <i class="material-icons">more_vert</i>
     </a>
-
     <a href="#" id="menu-button">
       <i></i>
     </a>
-
-    <!--<div _ngcontent-c0="" class="layout-menu">-->
-      <!--<div _ngcontent-c0="" class="nano has-scrollbar">-->
-        <!--<div _ngcontent-c0="" class="nano-content menu-scroll-content" tabindex="0" style="margin-right: -17px;">-->
-          <!--<ul app-submenu="" class="ultima-menu ultima-main-menu clearfix ng-tns-c2-0" root="true" visible="true">-->
-            <!--<li class="ng-tns-c2-0">-->
-              <!--<a class="ripplelink ng-tns-c2-0 active-menuitem-routerlink" routerlinkactive="active-menuitem-routerlink" href="#/">-->
-                <!--<i class="material-icons ng-tns-c2-0">dashboard</i>-->
-                <!--<span class="ng-tns-c2-0">Dashboard</span>-->
-              <!--</a>-->
-              <!--<div class="layout-menu-tooltip">-->
-                <!--<div class="layout-menu-tooltip-arrow"></div>-->
-                <!--<div class="layout-menu-tooltip-text">Dashboard</div>-->
-              <!--</div>-->
-            <!--</li>-->
-            <!--<li class="ng-tns-c2-0">-->
-              <!--<a class="ripplelink ng-tns-c2-0" href="#">-->
-                <!--<i class="material-icons ng-tns-c2-0">palette</i>-->
-                <!--<span class="ng-tns-c2-0">Themes</span><span class="ink ripple-animate" style="height: 75px; width: 75px; top: -12.5px; left: 0.5px; pointer-events: none;"></span>-->
-                <!--<span class="menuitem-badge ng-tns-c2-0">6</span><span class="ink ripple-animate" style="height: 75px; width: 75px; top: -12.5px; left: 0.5px; pointer-events: none;"></span>-->
-                <!--<i class="material-icons submenu-icon ng-tns-c2-0">keyboard_arrow_down</i>-->
-              <!--</a>-->
-              <!--<div class="layout-menu-tooltip">-->
-                <!--<div class="layout-menu-tooltip-arrow"></div>-->
-                <!--<div class="layout-menu-tooltip-text">Themes</div>-->
-              <!--</div>-->
-              <!--<ul app-submenu="" class="ng-tns-c2-2 ng-tns-c2-0 ng-trigger ng-trigger-children" style="height: 0px;">-->
-                <!--<li class="ng-tns-c2-2">-->
-                  <!--<a class="ripplelink ng-tns-c2-2" href="#" tabindex="-1">-->
-                    <!--<i class="material-icons ng-tns-c2-2">brush</i>-->
-                    <!--<span class="ng-tns-c2-2">Indigo - Pink</span>-->
-                  <!--</a>-->
-                  <!--<div class="layout-menu-tooltip">-->
-                    <!--<div class="layout-menu-tooltip-arrow"></div>-->
-                    <!--<div class="layout-menu-tooltip-text">Indigo - Pink</div>-->
-                  <!--</div>-->
-                <!--</li>-->
-
-                <!--<li class="ng-tns-c2-2">-->
-                  <!--<a class="ripplelink ng-tns-c2-2" href="#" tabindex="-1">-->
-                    <!--<i class="material-icons ng-tns-c2-2">brush</i>-->
-                    <!--<span class="ng-tns-c2-2">Brown - Green</span><span class="ink ripple-animate" style="height: 200px; width: 200px; top: -80.3333px; left: 31px; pointer-events: none;"></span>-->
-                  <!--</a>-->
-                  <!--<div class="layout-menu-tooltip">-->
-                    <!--<div class="layout-menu-tooltip-arrow"></div>-->
-                    <!--<div class="layout-menu-tooltip-text">Brown - Green</div>-->
-                  <!--</div>-->
-                <!--</li>-->
-              <!--</ul>-->
-            <!--</li>-->
-          <!--</ul>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-
  </div>
   <!--<p-growl [value]="msgs" sticky="sticky" (click)="handleMessage()"></p-growl>-->
 <adv-growl
@@ -151,6 +94,9 @@
 <div *ngIf="(showRestaurantDetail$ | async)">
   <app-restaurant-detail [restaurantId]="detailRestaurantId"></app-restaurant-detail>
 </div>
-
-
-
+<div *ngIf="(showMealOverview$ | async)">
+  <app-meal-overview [restaurantId]="detailRestaurantId"></app-meal-overview>
+</div>
+<div *ngIf="(showMealEdit$ | async)">
+  <app-meal-edit></app-meal-edit>
+</div>

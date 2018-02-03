@@ -10,6 +10,7 @@ import { AppState } from '../../reducers/index';
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
+import "rxjs/add/operator/concatMap";
 
 import {
   LOAD_RESTAURANT,
@@ -20,6 +21,8 @@ import {
   CREATE_RESTAURANT_IMAGES,
   UPDATE_RESTAURANT_IMAGE,
   LOAD_RESTAURANT_IMAGES,
+  REMOVE_RESTAURANT_IMAGES,
+  REMOVE_RESTAURANT_IMAGE_FILE,
   LoadRestaurantAction,
   LoadRestaurantSuccessAction,
   LoadRestaurantErrorAction,
@@ -38,15 +41,21 @@ import {
   CreateRestaurantImagesAction,
   CreateRestaurantImagesSuccessAction,
   CreateRestaurantImagesErrorAction,
+  RemoveRestaurantImagesAction,
+  RemoveRestaurantImageFileAction,
   UpdateRestaurantImageAction,
   UpdateRestaurantImageSuccessAction,
   UpdateRestaurantImageErrorAction,
   LoadRestaurantImagesAction,
   LoadRestaurantImagesSuccessAction,
-  LoadRestaurantImagesErrorAction
+  LoadRestaurantImagesErrorAction,
+  SetUserRestaurantForEditAction,
+  SetNewRestaurantForEditAction,
+  SetRestaurantRegisteredAction
 } from './actions';
 import {
   SetMessageAction,
+  ShowRestaurantEditAction,
   HideRestaurantEditAction,
   HideRestaurantDetailAction
 } from '../user-interface/actions';
@@ -135,9 +144,13 @@ export class RestaurantEffects {
       payload.restaurant.userId = this.loggedInUser._id;
       return this.svc.addRestaurant(payload.restaurant)
         .do(res => console.log('Back after restaurant.save: ', res))
-        .switchMap((restaurant: Restaurant) =>
-          Observable.from([
+        .concatMap((restaurant: Restaurant) =>
+          [
+            new SetNewRestaurantForEditAction(restaurant),
             new CreateRestaurantSuccessAction(restaurant),
+            // new HideRestaurantEditAction(),
+            new LoadUserRestaurantsAction({userid: this.loggedInUser._id}),
+            new SetRestaurantRegisteredAction(),
             new SetMessageAction({
               message: {
                 type: 'success',
@@ -146,9 +159,12 @@ export class RestaurantEffects {
                 acknowledgeAction: ''
               }
             }),
+            // Show edit form again for uploading pictures
+            // Because id was not defined before
+            // But id is necessary for uploading pictures ;-)
             new HideRestaurantEditAction(),
-            new LoadUserRestaurantsAction({userid: this.loggedInUser._id})
-          ]))
+            new ShowRestaurantEditAction()
+          ])
         .catch((error) => {
           if (error.status === 500) {
             return Observable.of(new SetMessageAction({
@@ -171,7 +187,6 @@ export class RestaurantEffects {
       return this.svc.updateRestaurant(payload.restaurant)
         .do(res => console.log('Back after restaurant.save: ', res))
         .switchMap((restaurant: Restaurant) => Observable.from([
-          new UpdateRestaurantAction({restaurant: restaurant}),
           new SetMessageAction({
             message: {
               type: 'success',
@@ -204,7 +219,9 @@ export class RestaurantEffects {
       return this.svc.addRestaurantImages(payload.restaurantImages)
         .do(res => console.log('Back after restaurant image.save: ', res))
         .switchMap((restaurantImages: RestaurantImage[]) => Observable.from([
-          new CreateRestaurantImagesSuccessAction(restaurantImages),
+          // load all images of the detail restaurant once more
+          new LoadRestaurantImagesAction({restaurantId: payload.restaurantImages[0].restaurantId}),
+          // new CreateRestaurantImagesSuccessAction(restaurantImages),
           // new CreateRestaurantImageAction({restaurantImage: payload.restaurantImage}),
           new SetMessageAction({
             message: {
@@ -214,6 +231,7 @@ export class RestaurantEffects {
               acknowledgeAction: ''
             }
           }),
+          new LoadRestaurantsAction()
         ]))
         .catch((error) => {
           if (error.status === 500) {
@@ -221,6 +239,59 @@ export class RestaurantEffects {
               message: {
                 type: 'error',
                 title: 'Edit Restaurant',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  removeRestaurantImages$: Observable<any> = this.actions$
+    .ofType<RemoveRestaurantImagesAction>(REMOVE_RESTAURANT_IMAGES)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.removeRestaurantImages(payload.restaurantId)
+        .do(res => console.log('Back after delete restaurant images: ', res))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Delete Restaurant Images',
+                message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  removeRestaurantImageFile$: Observable<any> = this.actions$
+    .ofType<RemoveRestaurantImageFileAction>(REMOVE_RESTAURANT_IMAGE_FILE)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.removeRestaurantImageFile(payload.imageToRemove)
+        .do(res => console.log('Back after delete restaurant image file: ', res))
+        .switchMap(() => Observable.from([
+          new LoadRestaurantsAction(),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Remove Restaurant Image',
+              message: `Restaurant Image ${payload.imageToRemove.image} removed.`,
+              acknowledgeAction: ''
+            }
+          }),
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Delete Restaurant Image File',
                 message: error.error.error,
                 acknowledgeAction: ''
               }

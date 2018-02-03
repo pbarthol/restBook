@@ -14,7 +14,9 @@ import {
   UpdateRestaurantErrorAction,
   UpdateRestaurantImageAction,
   CreateRestaurantImagesAction,
-  LoadRestaurantImagesAction
+  LoadRestaurantImagesAction,
+  SetRestaurantRegisteredAction,
+  SetRestaurantNotRegisteredAction, RemoveRestaurantImagesAction, RemoveRestaurantImageFileAction
 } from '../../store/restaurants/actions';
 
 
@@ -29,6 +31,7 @@ export class RestaurantEditComponent implements OnInit {
   // restaurant$: Observable<Restaurant>;
   // restaurant: Restaurant;
   private detailRestaurant$: Observable<Restaurant>;
+  private detailRestaurantImages$: Observable<RestaurantImage[]>;
   private restaurant: Restaurant;
   private formTitle: string;
   private labelSaveButton: string;
@@ -43,12 +46,17 @@ export class RestaurantEditComponent implements OnInit {
   private addRestaurant: boolean;
   private uploadedFiles: any[] = [];
   private restaurantImages: RestaurantImage[] = [];
+  private restaurantImagesBeforeUpdate: RestaurantImage[] = [];
+  private restaurantImagesUpdated: RestaurantImage[] = [];
+  private targetPictures: any[];
 
   constructor(private appStore: Store<AppState>) {
     this.nameRequired = false;
     this.streetRequired = false;
     this.detailRestaurant$ = this.appStore.select(state => state.restaurants.editRestaurant);
-
+    this.detailRestaurantImages$ = this.appStore.select(state => state.restaurants.restaurantImages);
+    this.detailRestaurantImages$.subscribe(restImages => {this.restaurantImages = restImages});
+    console.log("Anzahl Images: ", this.restaurantImages.length);
   }
 
   ngOnInit() {
@@ -56,11 +64,15 @@ export class RestaurantEditComponent implements OnInit {
       this.restaurant = restaurant;
       if (this.restaurant === null ||
         this.restaurant === undefined) {
+        // add restaurant
+        this.appStore.dispatch(new SetRestaurantNotRegisteredAction());
         this.restaurant = new Restaurant();
         this.addRestaurant = true;
         this.formTitle = 'Register Restaurant';
         this.labelSaveButton = 'Register';
       } else {
+        // update restaurant
+        this.restaurantImagesBeforeUpdate = this.restaurantImages.slice(0);
         this.addRestaurant = false;
         this.formTitle = 'Edit Restaurant';
         this.labelSaveButton = 'Update';
@@ -77,6 +89,8 @@ export class RestaurantEditComponent implements OnInit {
     this.streetRequired = false;
     this.teaserTitleRequired = false;
     this.teaserDescriptionRequired = false;
+    this.restaurantImagesUpdated = [];
+    this.restaurantImagesBeforeUpdate = [];
   }
 
   checkInputs() {
@@ -150,17 +164,55 @@ export class RestaurantEditComponent implements OnInit {
       if (this.addRestaurant) {
         this.appStore.dispatch(new CreateRestaurantAction({restaurant: this.restaurant}));
       } else {
+        this.updateImagesRegistration();
         this.appStore.dispatch(new UpdateRestaurantAction({restaurant: this.restaurant}));
       }
     }
   }
 
-  hideRestaurantEdit() {
+  updateImagesRegistration() {
+    if ( this.restaurantImagesBeforeUpdate = this.restaurantImages ){
+      // are there images to remove?
+      // update image objects because of possible changed sortorder
+      this.restaurantImages.forEach((image, index) => {
+        image.sortorder = index;
+        this.restaurantImagesUpdated.push(image);
+        if (index === 0) {
+          this.restaurant.thumbnail = image.thumbnail; // for later update Restaurant
+          this.restaurant.teaserImage = image.teaserImage; // for later update Restaurant
+        }
+      });
+      this.appStore.dispatch(new RemoveRestaurantImagesAction({restaurantId: this.restaurant._id}));
+      this.appStore.dispatch(new CreateRestaurantImagesAction({restaurantImages: this.restaurantImages}));
+    }
+  }
+
+  removeImage(imageToRemove) {
+    let index = this.restaurantImages.indexOf(imageToRemove, 0);
+    if (index > -1) {
+      this.restaurantImages.splice(index, 1);
+    }
+    this.appStore.dispatch(new RemoveRestaurantImageFileAction({imageToRemove: imageToRemove}));
+  }
+
+  cancelRestaurantEdit() {
     this.appStore.dispatch(new HideRestaurantEditAction());
   }
 
   onUpload(event) {
-
+    // get max sortorder of images
+    var maxOrder: number;
+    if (this.restaurantImages.length != 0) {
+      // Calculate next sortorder
+      this.restaurantImages.sort(function (a, b) {
+        return a.sortorder - b.sortorder
+      });
+      maxOrder = this.restaurantImages[this.restaurantImages.length - 1].sortorder;
+      maxOrder++;
+    } else  {
+      maxOrder = 0
+    };
+    this.restaurantImages = [];
     event.files.forEach((file, index) => {
       this.uploadedFiles.push(file);
       let originalFileName = file.name;
@@ -169,17 +221,17 @@ export class RestaurantEditComponent implements OnInit {
       let imageName: string = originalFileName;
       let extension: string = imageName.substring(imageName.indexOf(".") + 1);
       restaurantImage.image = imageName.substring(0, imageName.indexOf(".")) + "_resized." + extension;
-      restaurantImage.sortorder = index;
+      restaurantImage.thumbnail = imageName.substring(0, imageName.indexOf(".")) + "_thumbnail." + extension;
+      restaurantImage.teaserImage = imageName.substring(0, imageName.indexOf(".")) + "_teaser." + extension;
+      restaurantImage.sortorder = maxOrder + index;
       this.restaurantImages.push(restaurantImage);
+      if (index === 0) {
+        this.restaurant.thumbnail = restaurantImage.thumbnail; // for later update Restaurant
+        this.restaurant.teaserImage = restaurantImage.teaserImage; // for later update Restaurant
+        // Update thumbnail in restaurant
+        this.appStore.dispatch(new UpdateRestaurantAction({restaurant: this.restaurant}));
+      }
     });
     this.appStore.dispatch(new CreateRestaurantImagesAction({restaurantImages: this.restaurantImages}));
-    // for(let file of event.files) {
-    //   this.uploadedFiles.push(file);
-    //   let originalFileName = file.name;
-    //   let restaurantImage = new RestaurantImage;
-    //   restaurantImage.restaurantId = this.restaurant._id;
-    //   restaurantImage.image = originalFileName;
-    //   this.appStore.dispatch(new CreateRestaurantImageAction({restaurantImage: restaurantImage}));
-    // }
   }
 }

@@ -5,12 +5,6 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Restaurant } from './models';
 
-// export interface ActionWithPayload<T> extends Action {
-//   type: string;
-//   payload: T;
-// }
-//
-
 export const GET_RESTAURANT = '[Restaurant] Get Restaurant';
 export const GET_RESTAURANT_SUCCESS = '[Restaurant] Get Restaurant Success';
 export const GET_RESTAURANT_ERROR = '[Restaurant] Get Restaurant Error';

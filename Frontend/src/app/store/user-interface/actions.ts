@@ -18,6 +18,10 @@ export const SHOW_RESTAURANT_EDIT = '[Restaurant] Show Edit'
 export const HIDE_RESTAURANT_EDIT = '[Restaurant] Hide Edit'
 export const SHOW_RESTAURANT_DETAIL = '[Restaurant] Show Detail'
 export const HIDE_RESTAURANT_DETAIL = '[Restaurant] Hide Detail'
+export const SHOW_MEAL_OVERVIEW = '[Meals] Show Overview'
+export const HIDE_MEAL_OVERVIEW = '[Meals] Hide Overview'
+export const SHOW_MEAL_EDIT = '[Meal] Show Edit'
+export const HIDE_MEAL_EDIT = '[Meal] Hide Edit'
 
 @Injectable()
 
@@ -99,6 +103,26 @@ export class HideRestaurantDetailAction implements Action {
   constructor(public payload: any = null) { }
 }
 
+export class ShowMealOverviewAction implements Action {
+  readonly type = SHOW_MEAL_OVERVIEW;
+  constructor(public payload: any = null) { }
+}
+
+export class HideMealOverviewAction implements Action {
+  readonly type = HIDE_MEAL_OVERVIEW;
+  constructor(public payload: any = null) { }
+}
+
+export class ShowMealEditAction implements Action {
+  readonly type = SHOW_MEAL_EDIT;
+  constructor(public payload: any = null) { }
+}
+
+export class HideMealEditAction implements Action {
+  readonly type = HIDE_MEAL_EDIT;
+  constructor(public payload: any = null) { }
+}
+
 export type Actions
   = ShowRegisterAction
   | HideRegisterAction
@@ -114,3 +138,7 @@ export type Actions
   | HideRestaurantEditAction
   | ShowRestaurantDetailAction
   | HideRestaurantDetailAction
+  | ShowMealOverviewAction
+  | HideMealOverviewAction
+  | ShowMealEditAction
+  | HideMealEditAction

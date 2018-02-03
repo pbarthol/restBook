@@ -15,6 +15,7 @@ export class RestaurantService {
   private readonly RestaurantURL = "http://localhost:3000/api/restaurant"
   private readonly UserRestaurantURL = "http://localhost:3000/api/user/restaurant"
   private readonly UserRestaurantImagesURL = "http://localhost:3000/api/restaurant/images"
+  private readonly UserRestaurantImageRemoveURL = "http://localhost:3000/api/restaurant/image"
   constructor (private http: HttpClient) {}
 
   public getRestaurants(): Observable<Array<Restaurant>> {
@@ -46,7 +47,6 @@ export class RestaurantService {
       .map(data => data)
   }
 
-
   public addRestaurant(restaurant: Restaurant) {
       let body = JSON.stringify({restaurant});
       const httpOptions = {
@@ -74,6 +74,23 @@ export class RestaurantService {
       .map(res => res)
   }
 
+  public removeRestaurantImages(restaurantId: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.delete(this.UserRestaurantImagesURL + '/' + restaurantId, httpOptions)
+      .map(res => res)
+  }
+
+  public removeRestaurantImageFile(restaurantImageToRemove) {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+      body: { 'restaurantImageToRemove': restaurantImageToRemove }
+    };
+    return this.http.delete(this.UserRestaurantImageRemoveURL, httpOptions)
+      .map(res => res)
+  }
+
   public getRestaurant(restaurantId: string): Observable<Restaurant> {
     let httpParam = new HttpParams()
       .set("id", restaurantId);
@@ -86,23 +103,4 @@ export class RestaurantService {
   }
 }
 
-  // getRestaurant(id): Observable<Restaurant> {
-  //   return this.http.get('/api/restaurant/' + id)
-  //     .map(res => res.json());
-  // }
-  //
-  // saveRestaurant(restaurant) {
-  //   if (restaurant.id === 0) {
-  //     return this.http.post('/api/restaurant', restaurant)
-  //       .map(res => res.json());
-  //   } else {
-  //     return this.http.put('/api/restaurant/' + restaurant.id, restaurant)
-  //       .map(res => res.json());
-  //   }
-  // }
-  //
-  // deleteRestaurant(restaurant) {
-  //   return this.http.delete('/api/restaurant/' + restaurant.id)
-  //     .map(res => restaurant);
-  // }
 

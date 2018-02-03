@@ -84,16 +84,19 @@
 import * as fromRestaurants from '../store/restaurants/reducer'
 import * as fromUserInterface from '../store/user-interface/reducer';
 import * as fromUser from '../store/user/reducer';
+import * as fromMeal from '../store/restaurants/meal/reducer'
 
 export interface AppState {
   restaurants: fromRestaurants.State,
   userinterface: fromUserInterface.UIState,
-  user: fromUser.UserState
+  user: fromUser.UserState,
+  meals: fromMeal.State
 };
 
 export const reducers = {
   restaurants: fromRestaurants.reducer,
   userinterface: fromUserInterface.reducer,
-  user: fromUser.reducer
+  user: fromUser.reducer,
+  meals: fromMeal.reducer
 };
 

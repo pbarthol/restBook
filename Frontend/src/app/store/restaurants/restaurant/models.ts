@@ -16,16 +16,14 @@ export class Restaurant {
   createddate:  Date;
   userId: string;
   thumbnail: string;
+  teaserImage: string;
 }
 
 export class RestaurantImage {
   _id: string;
   restaurantId: string;
   image: string;
-  sortorder: Number;
+  thumbnail: string;
+  teaserImage: string;
+  sortorder: number;
 }
-
-  // greet() {
-  //   return "Hello, " + this.greeting;
-  // }
-
