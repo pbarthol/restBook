@@ -1,16 +1,14 @@
-/**
- * Created by Peter on 14.01.2018.
- */
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 // Note collection at mongo db must be 'restaurants' -> Plural
-let restaurantImage = new Schema({
+let meal = new Schema({
     _id: Schema.ObjectId,
     restaurantId: String,
-    image: String,
+    title: String,
+    description: String,
+    price: Number,
     thumbnail: String,
-    teaserImage: String,
-    sortorder: Number,
+    createdDate: Date
 });
 // Create a model based on the schema
-module.exports = mongoose.model('RestaurantImage', restaurantImage);
+module.exports = mongoose.model('Meal', meal);

@@ -10,8 +10,12 @@ import { LoginController } from './controllers';
 import { RestaurantController } from './controllers';
 import { UserRestaurantController } from './controllers';
 import { BookingController } from './controllers';
-import { UploadController } from './controllers';
+import { UploadRestaurantController } from './controllers';
+import { UploadMealController } from './controllers';
 import { RestaurantImageController } from './controllers';
+import { RestaurantImageFileController } from './controllers';
+import { MealController } from './controllers';
+import { MealsController } from './controllers';
 var path = require('path');
 
 // Connect to the database
@@ -42,8 +46,12 @@ app.use('/api/user', UserController);
 app.use('/api/user/restaurant', UserRestaurantController);
 app.use('/api/restaurant', RestaurantController);
 app.use('/api/booking', BookingController);
-app.use('/api/upload', UploadController);
+app.use('/api/upload/restaurant', UploadRestaurantController);
+app.use('/api/upload/meal', UploadMealController);
 app.use('/api/restaurant/images', RestaurantImageController);
+app.use('/api/restaurant/image', RestaurantImageFileController);
+app.use('/api/meals', MealsController);
+app.use('/api/meal', MealController);
 
 // Serve the application at the given port
 app.listen(port, () => {

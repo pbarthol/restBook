@@ -53,4 +53,38 @@ router.post('/', function(req, res, next) {
     })
 })
 
+router.put('/', function(req, res) {
+    // use our restaurant model to find the restaurant we want
+    console.log("Restaurant (put): " + req.body.restaurant);
+    console.log("Restaurant id (put): " + req.body.restaurant._id);
+    var restaurantid = req.body.restaurant._id;
+    console.log("type of id", typeof(restaurantid));
+    console.log("Restaurant Id (put): " + restaurantid);
+    var idObj = ObjectId(restaurantid);
+    Restaurant.findById(idObj, function(err, restaurant) {
+        if (err) {
+            return res.status(500).send({error: 'Restaurant not found (http.put).'});
+        }
+        restaurant.foodType = req.body.restaurant.foodType;
+        restaurant.teaserTitle = req.body.restaurant.teaserTitle;
+        restaurant.teaserDescription = req.body.restaurant.teaserDescription;
+        restaurant.name = req.body.restaurant.name;
+        restaurant.street = req.body.restaurant.street;
+        restaurant.streetNumber = req.body.restaurant.streetNumber;
+        restaurant.postalCode = req.body.restaurant.postalCode;
+        restaurant.village = req.body.restaurant.village;
+        restaurant.webpage = req.body.restaurant.webpage;
+        restaurant.phoneNumber = req.body.restaurant.phoneNumber;
+        restaurant.thumbnail = req.body.restaurant.thumbnail;
+        restaurant.teaserImage = req.body.restaurant.teaserImage;
+        // save the restaurant
+        restaurant.save(function(err) {
+            if (err) {
+                res.send(err);
+            }
+            return res.json(restaurant);
+        });
+    });
+});
+
 export const RestaurantController: Router = router;
