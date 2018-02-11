@@ -4,9 +4,11 @@ var Schema = mongoose.Schema;
 let meal = new Schema({
     _id: Schema.ObjectId,
     restaurantId: String,
+    category: String,
     title: String,
     description: String,
     price: Number,
+    image: String,
     thumbnail: String,
     createdDate: Date
 });

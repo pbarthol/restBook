@@ -49,7 +49,7 @@ router.post('/', function(req, res, next) {
         })
     });
     return res.json(savedImages);
-})
+});
 
 // get images by restaurant id
 router.get('/:id', (req: Request, res: Response, next) => {

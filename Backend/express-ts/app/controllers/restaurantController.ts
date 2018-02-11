@@ -51,7 +51,7 @@ router.post('/', function(req, res, next) {
             })
         }
     })
-})
+});
 
 router.put('/', function(req, res) {
     // use our restaurant model to find the restaurant we want

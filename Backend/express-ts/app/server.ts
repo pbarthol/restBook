@@ -16,6 +16,7 @@ import { RestaurantImageController } from './controllers';
 import { RestaurantImageFileController } from './controllers';
 import { MealController } from './controllers';
 import { MealsController } from './controllers';
+import { OpeninghourController } from './controllers';
 var path = require('path');
 
 // Connect to the database
@@ -52,6 +53,7 @@ app.use('/api/restaurant/images', RestaurantImageController);
 app.use('/api/restaurant/image', RestaurantImageFileController);
 app.use('/api/meals', MealsController);
 app.use('/api/meal', MealController);
+app.use('/api/openinghour', OpeninghourController);
 
 // Serve the application at the given port
 app.listen(port, () => {

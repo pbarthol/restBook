@@ -10,3 +10,4 @@ export * from './restaurantImageController';
 export * from './mealController';
 export * from './mealsController';
 export * from './restaurantImageFileController';
+export * from './openinghourController';
