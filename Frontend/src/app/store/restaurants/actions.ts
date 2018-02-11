@@ -15,7 +15,7 @@ export const LOAD_USER_RESTAURANTS = '[Restaurants] Load User Restaurants';
 export const LOAD_USER_RESTAURANTS_SUCCESS = '[Restaurants] Load User Restaurants Success';
 export const LOAD_USER_RESTAURANTS_ERROR = '[Restaurants] Load User Restaurants Error';
 export const SET_USER_RESTAURANT_FOR_EDIT = '[Restaurant] Set User Restaurant for edit';
-export const SET_USER_RESTAURANT_FOR_DETAIL = '[Restaurant] Set User Restaurant for Detail';
+export const SET_RESTAURANT_FOR_DETAIL = '[Restaurant] Set User Restaurant for Detail';
 export const SET_NEW_RESTAURANT_FOR_EDIT = '[Restaurant] Set new Restaurant for edit';
 export const CREATE_RESTAURANT = '[Restaurant] Create Restaurant';
 export const CREATE_RESTAURANT_SUCCESS = '[Restaurant] Create Restaurant Success';
@@ -91,8 +91,8 @@ export class SetUserRestaurantForEditAction implements Action {
   constructor(public payload: { _id: string }) {}
 }
 
-export class SetUserRestaurantForDetailAction implements Action {
-  readonly type = SET_USER_RESTAURANT_FOR_DETAIL;
+export class SetRestaurantForDetailAction implements Action {
+  readonly type = SET_RESTAURANT_FOR_DETAIL;
   constructor(public payload: string) {}
 }
 
@@ -208,7 +208,7 @@ export type Actions =
   | LoadUserRestaurantsSuccessAction
   | LoadUserRestaurantsErrorAction
   | SetUserRestaurantForEditAction
-  | SetUserRestaurantForDetailAction
+  | SetRestaurantForDetailAction
   | CreateRestaurantAction
   | CreateRestaurantSuccessAction
   | CreateRestaurantErrorAction

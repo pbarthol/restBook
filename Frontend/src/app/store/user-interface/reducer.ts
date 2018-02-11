@@ -4,13 +4,13 @@
 
 import * as uiActions from './actions';
 
-export interface UIState {
+export interface State {
   showRegister: boolean;
   showLogin: boolean;
   showPasswordChange: boolean;
   showRestaurantOverview: boolean;
   showRestaurantEdit: boolean;
-  showRestaurantDetail: boolean;
+  // showRestaurantDetail: boolean;
   showMealOverview: boolean;
   showMealEdit: boolean;
   messages: {
@@ -22,13 +22,13 @@ export interface UIState {
   // messages: { severity: string; summary: string; detail: string; }[];
 };
 
-export const initialState: UIState = {
+export const initialState: State = {
   showRegister: false,
   showLogin: false,
   showPasswordChange: false,
   showRestaurantOverview: false,
   showRestaurantEdit: false,
-  showRestaurantDetail: false,
+  // showRestaurantDetail: false,
   showMealOverview: false,
   showMealEdit: false,
   messages: []
@@ -96,13 +96,13 @@ export function reducer(state = initialState, action: uiActions.Actions) {
       return Object.assign({}, state, {showRestaurantEdit: false});
     }
 
-    case uiActions.SHOW_RESTAURANT_DETAIL: {
-      return Object.assign({}, state, {showRestaurantDetail: true});
-    }
+    // case uiActions.SHOW_RESTAURANT_DETAIL: {
+    //   return Object.assign({}, state, {showRestaurantDetail: true});
+    // }
 
-    case uiActions.HIDE_RESTAURANT_DETAIL: {
-      return Object.assign({}, state, {showRestaurantDetail: false});
-    }
+    // case uiActions.HIDE_RESTAURANT_DETAIL: {
+    //   return Object.assign({}, state, {showRestaurantDetail: false});
+    // }
 
     case uiActions.SHOW_MEAL_OVERVIEW: {
       return Object.assign({}, state, {showMealOverview: true});

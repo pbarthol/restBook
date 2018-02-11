@@ -7,12 +7,9 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/observable/from';
 import 'rxjs/add/operator/filter';
 import {Message} from 'primeng/primeng';
-
 /** Store, State */
 import { Store } from '@ngrx/store';
-import { State } from '../../store/restaurants/reducer';
 import { AppState } from '../../reducers/index';
-
 /** Actions */
 import { LoadRestaurantsAction } from '../../store/restaurants/actions';
 import {
@@ -20,7 +17,6 @@ import {
   HideLoginAction,
 } from '../../store/user-interface/actions';
 import { LoginAction, LogoutAction } from '../../store/user/actions';
-
 /** Models */
 import { Restaurant } from '../../store/restaurants/restaurant/models';
 
@@ -74,15 +70,14 @@ export class HomeComponent implements OnInit {
   private showLogin: boolean;
   private msgs: Message[] = [];
 
-  constructor(private store: Store<State>,
-              private appStore: Store<AppState>) {
+  constructor(private appStore: Store<AppState>) {
     this.restaurantList$ = this.appStore.select(state => state.restaurants.restaurants)
       .do(res => console.log("store.select: ", res));
   }
 
   ngOnInit() {
-    this.store.dispatch(new LoadRestaurantsAction());
-    this.store.dispatch(new LogoutAction()); // User is logged out
+    this.appStore.dispatch(new LoadRestaurantsAction());
+    //  this.store.dispatch(new LogoutAction()); // User is logged out
   }
 
 }

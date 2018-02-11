@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { AppState } from '../../reducers/index';
 import {Observable} from "rxjs";
 import { Store } from '@ngrx/store';
+import { SelectItem } from 'primeng/primeng';
 import { Meal } from '../../store/restaurants/meal/models';
-import {HideMealEditAction} from "../../store/user-interface/actions";
+import {HideMealEditAction, ShowMealOverviewAction} from "../../store/user-interface/actions";
 import {
   CreateMealAction,
-  UpdateMealAction,
+  UpdateMealAction, LoadMealsAction,
 } from '../../store/restaurants/meal/actions';
 
 @Component({
@@ -21,6 +22,7 @@ export class MenuEditComponent implements OnInit {
   private detailMealId$: Observable<string>;
   private restaurantId$: Observable<string>;
   private restaurantId: string;
+  private meal$: Observable<Meal>;
   private meal: Meal;
   private addMeal: boolean;
   private titleRequired: boolean;
@@ -28,11 +30,13 @@ export class MenuEditComponent implements OnInit {
   private priceRequired: boolean;
   private priceError: string;
   private uploadedFiles: any[] = [];
+  private mealCategories: SelectItem[];
 
   constructor(private appStore: Store<AppState>) {
     this.detailMealId$ = this.appStore.select(state => state.meals.editMealId);
     this.restaurantId$ = this.appStore.select(state => state.restaurants.detailRestaurantId);
     this.restaurantId$.subscribe(restaurantId => {this.restaurantId = restaurantId});
+    this.meal$ = this.appStore.select(state => state.meals.editMeal);
     this.titleRequired = false;
     this.descriptionRequired = false;
     this.priceRequired = false;
@@ -48,11 +52,17 @@ export class MenuEditComponent implements OnInit {
         this.formTitle = 'Register Meal';
         this.labelSaveButton = 'Register';
       } else {
+        this.meal$.subscribe(meal => {this.meal = meal;});
         this.addMeal = false;
         this.formTitle = 'Edit Meal';
         this.labelSaveButton = 'Update';
       }
     });
+    this.mealCategories = [];
+    this.mealCategories.push({label: 'Select Category', value: 0});
+    this.mealCategories.push({label: 'Starter', value: 'Starter'});
+    this.mealCategories.push({label: 'Main course', value: 'Main course'});
+    this.mealCategories.push({label: 'Dessert', value: 'Dessert'});
   }
 
   checkInputs() {
@@ -95,12 +105,14 @@ export class MenuEditComponent implements OnInit {
 
   hideRegister() {
     this.appStore.dispatch(new HideMealEditAction());
+    this.appStore.dispatch(new ShowMealOverviewAction());
   }
 
   onUpload(event) {
     let originalFileName = event.files[0].name;
     let imageName: string = originalFileName;
     let extension: string = imageName.substring(imageName.indexOf(".") + 1);
+    this.meal.image = imageName.substring(0, imageName.indexOf(".")) + "." + extension;
     this.meal.thumbnail = imageName.substring(0, imageName.indexOf(".")) + "_thumbnail." + extension;
   }
 

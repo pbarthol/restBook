@@ -5,36 +5,24 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Meal } from './models';
 
-export const LOAD_MEAL = '[Meal] Load Meal';
-export const LOAD_MEAL_SUCCESS = '[Meal] Load Meal Success';
-export const LOAD_MEAL_ERROR = '[Meal] Load Meal Error';
+export const LOAD_MEAL_FOR_EDIT = '[Meal] Load Meal for edit';
 export const LOAD_MEALS = '[Meals] Load Meals';
 export const LOAD_MEALS_SUCCESS = '[Meals] Load Meals Success';
 export const LOAD_MEALS_ERROR = '[Meals] Load Meals Error';
-export const SET_MEAL_FOR_EDIT = '[Meal] Set Meal for edit';
+export const SET_MEAL_ID_FOR_EDIT = '[Meal] Set Meal Id for edit';
 export const CREATE_MEAL = '[Meal] Create Meal';
 export const CREATE_MEAL_SUCCESS = '[Meal] Create Meal Success';
 export const CREATE_MEAL_ERROR = '[Meal] Create Meal Error';
 export const UPDATE_MEAL = '[Meal] Update Meal';
 export const UPDATE_MEAL_SUCCESS = '[Meal] Update Meal Success';
 export const UPDATE_MEAL_ERROR = '[Meal] Update Meal Error';
+export const REMOVE_MEAL = '[Meal] Remove Meal';
 
 @Injectable()
 
-export class LoadMealAction implements Action {
-  readonly type = LOAD_MEAL;
-  constructor(public payload: { mealId: string }) {}
-}
-
-export class LoadMealSuccessAction implements Action {
-  readonly type = LOAD_MEAL_SUCCESS;
-  constructor(public payload: Meal) {
-  }
-}
-
-export class LoadMealErrorAction implements Action {
-  readonly type = LOAD_MEAL_ERROR;
-  constructor(public payload: { error: Error }) {}
+export class LoadMealForEditAction implements Action {
+  readonly type = LOAD_MEAL_FOR_EDIT;
+  constructor(public payload: string) {}
 }
 
 export class LoadMealsAction implements Action {
@@ -53,8 +41,8 @@ export class LoadMealsErrorAction implements Action {
   constructor(public payload: { error: Error }) {}
 }
 
-export class SetMealForEditAction implements Action {
-  readonly type = SET_MEAL_FOR_EDIT;
+export class SetMealIdForEditAction implements Action {
+  readonly type = SET_MEAL_ID_FOR_EDIT;
   constructor(public payload: string) {}
 }
 
@@ -88,17 +76,21 @@ export class UpdateMealErrorAction implements Action {
   constructor(public payload: { error: string }) {}
 }
 
+export class RemoveMealAction implements Action {
+  readonly type = REMOVE_MEAL;
+  constructor(public payload: { meal: Meal }) {}
+}
+
 export type Actions =
-  LoadMealAction
-    | LoadMealSuccessAction
-    | LoadMealErrorAction
+  LoadMealForEditAction
     | LoadMealsAction
     | LoadMealsSuccessAction
     | LoadMealsErrorAction
-    | SetMealForEditAction
+    | SetMealIdForEditAction
     | CreateMealAction
     | CreateMealSuccessAction
     | CreateMealErrorAction
     | UpdateMealAction
     | UpdateMealSuccessAction
     | UpdateMealErrorAction
+    | RemoveMealAction

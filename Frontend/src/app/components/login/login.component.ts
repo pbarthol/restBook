@@ -4,7 +4,6 @@ import { LoginAction } from '../../store/user/actions';
 
 /** Store, State */
 import { Store } from '@ngrx/store';
-import { State } from '../../store/restaurants/reducer';
 import { AppState } from '../../reducers/index';
 import {HideLoginAction} from "../../store/user-interface/actions";
 

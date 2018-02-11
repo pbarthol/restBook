@@ -1,14 +1,14 @@
-import { Component, OnInit, ViewEncapsulation, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Input } from '@angular/core';
 import { Restaurant, RestaurantImage } from '../../store/restaurants/restaurant/models';
 import { AppState } from '../../reducers/index';
-import {Observable} from "rxjs";
-import { Subscription } from 'rxjs/Subscription';
+import { Observable } from "rxjs";
 import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
 
 import {
   LoadRestaurantAction
 } from '../../store/restaurants/actions';
-import {HideRestaurantDetailAction} from "../../store/user-interface/actions";
+// import {HideRestaurantDetailAction} from "../../store/user-interface/actions";
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -19,17 +19,26 @@ import {HideRestaurantDetailAction} from "../../store/user-interface/actions";
 export class RestaurantDetailComponent implements OnInit {
 
   @Input() restaurantId;
+  @Input() mode;
   private detailRestaurant$: Observable<Restaurant>;
   private restaurantImages$: Observable<RestaurantImage[]>;
   private restaurant: Restaurant;
   private images: any[];
-  private images$: Observable<[{}]>;
+  private images$: Observable<any[]>;
+  private sub: any;
 
-  constructor(private appStore: Store<AppState>) {
+  constructor(private appStore: Store<AppState>,
+              private route: ActivatedRoute
+  ) {
+    this.route.params.subscribe(params => {
+      if (params['id'] !== undefined) {
+        this.restaurantId = params['id'];
+        this.mode = params['mode'];
+      }
+    });
     this.detailRestaurant$ = this.appStore.select(state => state.restaurants.detailRestaurant);
     this.restaurantImages$ = this.appStore.select(state => state.restaurants.restaurantImages);
-    // this.images$ = Observable.of(this.images);
-    this.images = [];
+    this.images$ = Observable.of(this.images);
   }
 
   ngOnInit() {
@@ -47,7 +56,7 @@ export class RestaurantDetailComponent implements OnInit {
     })
   }
 
-  hideRestaurantDetail() {
-    this.appStore.dispatch(new HideRestaurantDetailAction());
-  }
+  // hideRestaurantDetail() {
+  //   this.appStore.dispatch(new HideRestaurantDetailAction());
+  // }
 }

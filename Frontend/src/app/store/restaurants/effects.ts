@@ -57,7 +57,7 @@ import {
   SetMessageAction,
   ShowRestaurantEditAction,
   HideRestaurantEditAction,
-  HideRestaurantDetailAction
+  // HideRestaurantDetailAction
 } from '../user-interface/actions';
 import { RestaurantService } from './services';
 import {Restaurant, RestaurantImage} from './restaurant/models';
@@ -238,7 +238,7 @@ export class RestaurantEffects {
             return Observable.of(new SetMessageAction({
               message: {
                 type: 'error',
-                title: 'Edit Restaurant',
+                title: 'Edit Restaurant: Upload Restaurant Images',
                 message: error.error.error,
                 acknowledgeAction: ''
               }

@@ -1,54 +1,83 @@
 <div class="ui-g-8 ui-md-offset-2">
   <div class="card card-w-title">
-      <!--<h1>DataTable</h1>-->
-      <!--<p-dataTable [value]="meals" selectionMode="single" [(selection)]="selectedMeal"-->
-                   <!--[paginator]="true" [rows]="10" [responsive]="true">-->
-        <!--<p-header>List of Meals</p-header>-->
-        <!--<p-column field="vin" header="Vin" [sortable]="true"></p-column>-->
-        <!--<p-column field="year" header="Year" [sortable]="true"></p-column>-->
-        <!--<p-column field="brand" header="Brand" [sortable]="true"></p-column>-->
-        <!--<p-column field="color" header="Color" [sortable]="true"></p-column>-->
-      <!--</p-dataTable>-->
-
-
-    <p-dataList [value]="meals" [paginator]="true" [rows]="5">
+    <p-dataList [value]="meals$ | async" [paginator]="true" [rows]="5">
       <p-header>
         Meals
       </p-header>
       <ng-template let-meal pTemplate="item">
-        <div class="ui-g ui-fluid car-item">
-          <div class="ui-g-12 ui-md-3" style="text-align:center">
+        <div class="ui-g">
+          <div class="ui-g-3" style="text-align:center">
             <img src="http://localhost:3000/images/meal/{{meal.thumbnail}}">
           </div>
-          <div class="ui-g-12 ui-md-9 car-details">
-            <div class="ui-g">
-              <div class="ui-g-2 ui-sm-6">Title: </div>
-              <div class="ui-g-10 ui-sm-6">{{meal.title}}</div>
-
-              <div class="ui-g-2 ui-sm-6">Desription: </div>
-              <div class="ui-g-10 ui-sm-6">{{meal.description}}</div>
-
-              <div class="ui-g-2 ui-sm-6">Price: </div>
-              <div class="ui-g-10 ui-sm-6">{{meal.price}}</div>
+          <div class="ui-g-6">
+            <div class="ui-g-12"><h2>{{meal.title}}</h2></div>
+            <div class="ui-g-12">{{meal.description}}</div>
+            <div class="ui-g-12">{{meal.price}} CHF</div>
+          </div>
+         <!--<div class="ui-g-2 ui-sm-6">Title: </div>-->
+          <div class="ui-g-3">
+            <div *ngIf="showButtons===true" class="ui-g-12 ui-md-9 car-details">
+              <div class="ui-g-4">
+                <button type="button"
+                        pButton
+                        icon="ui-icon-edit"
+                        class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
+                        pTooltip="Update this meal."
+                        (click)="updateMeal(meal._id)">
+                </button>
+              </div>
+              <div class="ui-g-4"></div>
+              <div class="ui-g-4">
+                <button type="button"
+                        pButton
+                        icon="ui-icon-delete"
+                        class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
+                        pTooltip="Remove this meal."
+                        (click)="removeMeal(meal)">
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </ng-template>
     </p-dataList>
-
-    <button type="button"
-            pButton
-            icon="ui-icon-plus"
-            class="ui-button-icon-left ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-            pTooltip="Add Meal to this restaurant"
-            (click)="addMeal()">
-    </button>
-    <button type="button"
-            pButton
-            icon="ui-icon-close"
-            class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-            pTooltip="Close Meal Overview"
-            (click)="hideMealOverview()">
-    </button>
+    <p-dialog header="Remove Meal" [resizable]="false" responsive="true" [(visible)]="deleteMealDialogVisible">
+      <div class="ui-g form-group" style="margin-bottom: 16px;">
+        <div class="ui-g-12">
+          Are You shure to remove this Meal?
+        </div>
+      </div>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+          <button type="button" label="Cancel" icon="ui-icon-close" (click)="cancelRemoveMeal()" pButton></button>
+          <button type="button" label="Delete" icon="ui-icon-delete" (click)="removeMealDefinitly()" pButton></button>
+        </div>
+      </p-footer>
+    </p-dialog>
+    <p-footer>
+      <div *ngIf="showButtons===true">
+        <div class="ui-g-12">
+          <div class="ui-g-1">
+            <button type="button"
+                    pButton
+                    icon="ui-icon-plus"
+                    class="ui-button-icon-left ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    pTooltip="Add Meal to this restaurant"
+                    (click)="addMeal()">
+            </button>
+          </div>
+          <div class="ui-g-10"></div>
+          <div class="ui-g-1">
+            <button type="button"
+                    pButton
+                    icon="ui-icon-close"
+                    class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    pTooltip="Close Meal Overview"
+                    (click)="hideMealOverview()">
+            </button>
+          </div>
+        </div>
+      </div>
+    </p-footer>
   </div>
 </div>

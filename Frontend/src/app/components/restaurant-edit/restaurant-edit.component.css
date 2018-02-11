@@ -1,6 +1,3 @@
-.ui-button.ui-button-icon-only{
-  /*display: !important;*/
-}
 
 button[icon="fa-angle-up"] {
   display: none !important;

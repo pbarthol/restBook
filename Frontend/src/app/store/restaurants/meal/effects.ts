@@ -12,13 +12,14 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/switchMap";
 
 import {
-  LOAD_MEAL,
+//  LOAD_MEAL,
   LOAD_MEALS,
   CREATE_MEAL,
   UPDATE_MEAL,
-  LoadMealAction,
-  LoadMealSuccessAction,
-  LoadMealErrorAction,
+  REMOVE_MEAL,
+//   LoadMealAction,
+//   LoadMealSuccessAction,
+//   LoadMealErrorAction,
   LoadMealsAction,
   LoadMealsSuccessAction,
   LoadMealsErrorAction,
@@ -28,10 +29,12 @@ import {
   UpdateMealAction,
   UpdateMealSuccessAction,
   UpdateMealErrorAction,
+  RemoveMealAction
 } from './actions';
 import {
   SetMessageAction,
-  HideMealEditAction
+  HideMealEditAction,
+  ShowMealOverviewAction
 } from '../../user-interface/actions';
 import { MealService } from './services';
 import { Meal } from './models';
@@ -45,30 +48,30 @@ export class MealEffects {
     private svc: MealService,
   ) {}
 
-  @Effect({dispatch: true})
-  loadMeal$: Observable<Action> = this.actions$
-    .ofType<LoadMealAction>(LOAD_MEAL)
-    .map((action) => action.payload)
-    .switchMap((payload) => {
-      return this.svc.getMeal(payload.mealId)
-        .do(res => console.log('Back after load meal: ', res))
-        .switchMap((meal: Meal) =>
-          Observable.from([
-            new LoadMealSuccessAction(meal)
-          ]))
-        .catch((error) => {
-          if (error.status === 500) {
-            return Observable.of(new SetMessageAction({
-              message: {
-                type: 'error',
-                title: 'Load Meal',
-                message: error.error.error,
-                acknowledgeAction: ''
-              }
-            }))
-          }
-        })
-    });
+  // @Effect({dispatch: true})
+  // loadMeal$: Observable<Action> = this.actions$
+  //   .ofType<LoadMealAction>(LOAD_MEAL)
+  //   .map((action) => action.payload)
+  //   .switchMap((payload) => {
+  //     return this.svc.getMeal(payload.mealId)
+  //       .do(res => console.log('Back after load meal: ', res))
+  //       .switchMap((meal: Meal) =>
+  //         Observable.from([
+  //           new LoadMealSuccessAction(meal)
+  //         ]))
+  //       .catch((error) => {
+  //         if (error.status === 500) {
+  //           return Observable.of(new SetMessageAction({
+  //             message: {
+  //               type: 'error',
+  //               title: 'Load Meal',
+  //               message: error.error.error,
+  //               acknowledgeAction: ''
+  //             }
+  //           }))
+  //         }
+  //       })
+  //   });
 
   @Effect({dispatch: true})
   loadMeals$: Observable<Action> = this.actions$
@@ -88,9 +91,9 @@ export class MealEffects {
     .switchMap((payload) => {
       return this.svc.addMeal(payload.meal)
         .do(res => console.log('Back after meal.save: ', res))
-        .switchMap((meal: Meal) =>
-          Observable.from([
+        .concatMap((meal: Meal) => [
             new CreateMealSuccessAction(meal),
+            new ShowMealOverviewAction(),
             new SetMessageAction({
               message: {
                 type: 'success',
@@ -100,7 +103,8 @@ export class MealEffects {
               }
             }),
             new HideMealEditAction(),
-          ]))
+            new ShowMealOverviewAction()
+          ])
         .catch((error) => {
           if (error.status === 500) {
             return Observable.of(new SetMessageAction({
@@ -132,7 +136,8 @@ export class MealEffects {
               acknowledgeAction: ''
             }
           }),
-          new HideMealEditAction()
+          new HideMealEditAction(),
+          new ShowMealOverviewAction()
         ]))
         .catch((error) => {
           if (error.status === 500) {
@@ -141,6 +146,38 @@ export class MealEffects {
                 type: 'error',
                 title: 'Edit Meal',
                 message: error.error.error,
+                acknowledgeAction: ''
+              }
+            }))
+          }
+        })
+    });
+
+  @Effect({dispatch: true})
+  removeMeal$: Observable<any> = this.actions$
+    .ofType<RemoveMealAction>(REMOVE_MEAL)
+    .map((action) => action.payload)
+    .switchMap((payload) => {
+      return this.svc.removeMeal(payload.meal._id)
+        .do(res => console.log('Back after delete meal: ', res))
+        .switchMap(() => Observable.from([
+          new LoadMealsAction({restaurantId: payload.meal.restaurantId}),
+          new SetMessageAction({
+            message: {
+              type: 'success',
+              title: 'Remove Meal',
+              message: `Meal ${payload.meal.title} removed.`,
+              acknowledgeAction: ''
+            }
+          }),
+        ]))
+        .catch((error) => {
+          if (error.status === 500) {
+            return Observable.of(new SetMessageAction({
+              message: {
+                type: 'error',
+                title: 'Remove Meal',
+                message: 'Remove Meal failed: ' + error.error.error,
                 acknowledgeAction: ''
               }
             }))

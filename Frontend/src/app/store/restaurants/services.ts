@@ -6,8 +6,6 @@ import { HttpClient, HttpHeaders, HttpParams, HttpErrorResponse } from '@angular
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/do'
-
-
 import { Restaurant, RestaurantImage } from './restaurant/models';
 
 @Injectable()

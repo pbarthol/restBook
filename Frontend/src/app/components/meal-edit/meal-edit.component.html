@@ -5,6 +5,11 @@
       <h1>{{formTitle}}</h1>
       <div class="ui-g form-group">
         <div class="ui-g-12">
+          <p-dropdown [options]="mealCategories"
+                      [(ngModel)]="meal.category"
+                      [autoWidth]="false"></p-dropdown>
+        </div>
+        <div class="ui-g-12">
           <span class="md-inputfield">
               <input type="text"
                      pInputText

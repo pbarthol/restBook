@@ -7,8 +7,20 @@
     <p><span><b>{{restaurant.street}} {{restaurant.streetNumber}}</b></span></p>
   </div>
   <div class="ui-g-4">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-      <img ngif="restaurant.teaserImage !=== ''" class="media-object ra-teaser-image" src="http://localhost:3000/images/restaurant/{{restaurant.teaserImage}}">
+    <div style="display: flex; justify-content: space-between; align-items: center; position: relative;
+  width: 50%;">
+      <!--<a [routerLink]="['/restaurantdetail',restaurant._id]" (click)="displayRestaurant(restaurant._id)">-->
+        <a [routerLink]="['/restaurantdetail',restaurant._id, 'teaser']">
+      <img ngif="restaurant.teaserImage !=== ''"
+           class="media-object ra-teaser-image"
+           src="http://localhost:3000/images/restaurant/{{restaurant.teaserImage}}">
+      </a>
+      <!--<button type="button"-->
+              <!--style="{background-color:transparent}"-->
+              <!--(click)=" displayRestaurant(restaurant._id)">-->
+      <!--</button>-->
+      <!--<button style="background: url(http://localhost:3000/images/restaurant/{{restaurant.teaserImage}})" (click)=" displayRestaurant(restaurant._id)">-->
+      <!--</button>-->
     </div>
   </div>
 </div>

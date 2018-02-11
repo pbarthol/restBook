@@ -16,8 +16,8 @@ export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview'
 export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview'
 export const SHOW_RESTAURANT_EDIT = '[Restaurant] Show Edit'
 export const HIDE_RESTAURANT_EDIT = '[Restaurant] Hide Edit'
-export const SHOW_RESTAURANT_DETAIL = '[Restaurant] Show Detail'
-export const HIDE_RESTAURANT_DETAIL = '[Restaurant] Hide Detail'
+// export const SHOW_RESTAURANT_DETAIL = '[Restaurant] Show Detail'
+// export const HIDE_RESTAURANT_DETAIL = '[Restaurant] Hide Detail'
 export const SHOW_MEAL_OVERVIEW = '[Meals] Show Overview'
 export const HIDE_MEAL_OVERVIEW = '[Meals] Hide Overview'
 export const SHOW_MEAL_EDIT = '[Meal] Show Edit'
@@ -93,15 +93,15 @@ export class HideRestaurantEditAction implements Action {
   constructor(public payload: any = null) { }
 }
 
-export class ShowRestaurantDetailAction implements Action {
-  readonly type = SHOW_RESTAURANT_DETAIL;
-  constructor(public payload: any = null) { }
-}
-
-export class HideRestaurantDetailAction implements Action {
-  readonly type = HIDE_RESTAURANT_DETAIL;
-  constructor(public payload: any = null) { }
-}
+// export class ShowRestaurantDetailAction implements Action {
+//   readonly type = SHOW_RESTAURANT_DETAIL;
+//   constructor(public payload: any = null) { }
+// }
+//
+// export class HideRestaurantDetailAction implements Action {
+//   readonly type = HIDE_RESTAURANT_DETAIL;
+//   constructor(public payload: any = null) { }
+// }
 
 export class ShowMealOverviewAction implements Action {
   readonly type = SHOW_MEAL_OVERVIEW;
@@ -136,8 +136,8 @@ export type Actions
   | HideRestaurantOverviewAction
   | ShowRestaurantEditAction
   | HideRestaurantEditAction
-  | ShowRestaurantDetailAction
-  | HideRestaurantDetailAction
+  // | ShowRestaurantDetailAction
+  // | HideRestaurantDetailAction
   | ShowMealOverviewAction
   | HideMealOverviewAction
   | ShowMealEditAction

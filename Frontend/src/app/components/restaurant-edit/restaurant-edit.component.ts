@@ -3,8 +3,9 @@ import { AppState } from '../../reducers/index';
 import {Observable} from "rxjs";
 import { SelectItem } from 'primeng/primeng';
 import { Store } from '@ngrx/store';
-import {Restaurant, RestaurantImage} from '../../store/restaurants/restaurant/models';
-import {HideRestaurantEditAction} from "../../store/user-interface/actions";
+import { Restaurant, RestaurantImage } from '../../store/restaurants/restaurant/models';
+import { Openinghour } from '../../store/restaurants/openinghours/models';
+import { HideRestaurantEditAction } from "../../store/user-interface/actions";
 import {
   CreateRestaurantAction,
   CreateRestaurantSuccessAction,
@@ -18,6 +19,11 @@ import {
   SetRestaurantRegisteredAction,
   SetRestaurantNotRegisteredAction, RemoveRestaurantImagesAction, RemoveRestaurantImageFileAction
 } from '../../store/restaurants/actions';
+import {
+  LoadOpeninghoursAction,
+  CreateOpeninghoursAction,
+  RemoveOpeninghoursAction,
+} from '../../store/restaurants/openinghours/actions';
 
 
 @Component({
@@ -28,8 +34,6 @@ import {
 })
 export class RestaurantEditComponent implements OnInit {
 
-  // restaurant$: Observable<Restaurant>;
-  // restaurant: Restaurant;
   private detailRestaurant$: Observable<Restaurant>;
   private detailRestaurantImages$: Observable<RestaurantImage[]>;
   private restaurant: Restaurant;
@@ -45,10 +49,14 @@ export class RestaurantEditComponent implements OnInit {
   private restaurantCategories: SelectItem[];
   private addRestaurant: boolean;
   private uploadedFiles: any[] = [];
+  private openinghours$: Observable<Openinghour[]>;
+  private openinghours: Openinghour[];
   private restaurantImages: RestaurantImage[] = [];
-  private restaurantImagesBeforeUpdate: RestaurantImage[] = [];
-  private restaurantImagesUpdated: RestaurantImage[] = [];
-  private targetPictures: any[];
+  private restaurantImagesBeforeUpdate: RestaurantImage[];
+  private restaurantImagesUpdated: RestaurantImage[];
+  private deleteDialogVisible: boolean;
+  private imageToRemove: RestaurantImage;
+  private weekdays: string[];
 
   constructor(private appStore: Store<AppState>) {
     this.nameRequired = false;
@@ -56,10 +64,21 @@ export class RestaurantEditComponent implements OnInit {
     this.detailRestaurant$ = this.appStore.select(state => state.restaurants.editRestaurant);
     this.detailRestaurantImages$ = this.appStore.select(state => state.restaurants.restaurantImages);
     this.detailRestaurantImages$.subscribe(restImages => {this.restaurantImages = restImages});
+    this.openinghours$ = this.appStore.select(state => state.openinghours.openinghours);
     console.log("Anzahl Images: ", this.restaurantImages.length);
   }
 
   ngOnInit() {
+    let weekdays=['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    // initials openinghours
+    this.openinghours = [];
+    for(var i = 0; i < 7; i++) {
+      this.openinghours.push(new Openinghour());
+      this.openinghours[i].weekday = weekdays[i];
+      this.openinghours[i].sortorder = i;
+    }
+    this.imageToRemove = null;
+    this.deleteDialogVisible = false;
     this.detailRestaurant$.subscribe(restaurant => {
       this.restaurant = restaurant;
       if (this.restaurant === null ||
@@ -77,8 +96,22 @@ export class RestaurantEditComponent implements OnInit {
         this.formTitle = 'Edit Restaurant';
         this.labelSaveButton = 'Update';
         this.appStore.dispatch(new LoadRestaurantImagesAction({restaurantId: this.restaurant._id}));
+        this.appStore.dispatch(new LoadOpeninghoursAction({restaurantId: this.restaurant._id}));
+        // Openinghours overview
+        this.openinghours$.subscribe(openinghours => {
+          openinghours.map(openinghour => {
+            this.openinghours[openinghour.sortorder].weekday = openinghour.weekday;
+            this.openinghours[openinghour.sortorder].fromTimeMorning = openinghour.fromTimeMorning;
+            this.openinghours[openinghour.sortorder].toTimeMorning = openinghour.toTimeMorning;
+            this.openinghours[openinghour.sortorder].fromTimeAfternoon = openinghour.fromTimeMorning;
+            this.openinghours[openinghour.sortorder].toTimeAfternoon = openinghour.toTimeMorning;
+            this.openinghours[openinghour.sortorder].sortorder = openinghour.sortorder;
+            this.openinghours[openinghour.sortorder].allDayClosed = openinghour.allDayClosed;
+          })
+        })
       }
     });
+    // categories for category select
     this.restaurantCategories = [];
     this.restaurantCategories.push({label: 'Select Type', value: 0});
     this.restaurantCategories.push({label: 'Meat', value: 'Meat'});
@@ -165,6 +198,7 @@ export class RestaurantEditComponent implements OnInit {
         this.appStore.dispatch(new CreateRestaurantAction({restaurant: this.restaurant}));
       } else {
         this.updateImagesRegistration();
+        this.updateOpeninghours();
         this.appStore.dispatch(new UpdateRestaurantAction({restaurant: this.restaurant}));
       }
     }
@@ -174,6 +208,7 @@ export class RestaurantEditComponent implements OnInit {
     if ( this.restaurantImagesBeforeUpdate = this.restaurantImages ){
       // are there images to remove?
       // update image objects because of possible changed sortorder
+      this.restaurantImagesUpdated = [];
       this.restaurantImages.forEach((image, index) => {
         image.sortorder = index;
         this.restaurantImagesUpdated.push(image);
@@ -182,17 +217,39 @@ export class RestaurantEditComponent implements OnInit {
           this.restaurant.teaserImage = image.teaserImage; // for later update Restaurant
         }
       });
-      this.appStore.dispatch(new RemoveRestaurantImagesAction({restaurantId: this.restaurant._id}));
-      this.appStore.dispatch(new CreateRestaurantImagesAction({restaurantImages: this.restaurantImages}));
+      Observable.of().concatMap(() => [
+        this.appStore.dispatch(new RemoveRestaurantImagesAction({restaurantId: this.restaurant._id})),
+        this.appStore.dispatch(new CreateRestaurantImagesAction({restaurantImages: this.restaurantImages}))
+        ]);
     }
   }
 
-  removeImage(imageToRemove) {
-    let index = this.restaurantImages.indexOf(imageToRemove, 0);
+  updateOpeninghours() {
+    this.openinghours.forEach((openinghour) => {
+      // update restaurantid
+      openinghour.restaurantId = this.restaurant._id;
+    });
+    this.appStore.dispatch(new RemoveOpeninghoursAction({restaurantId: this.restaurant._id}));
+    this.appStore.dispatch(new CreateOpeninghoursAction({openinghours: this.openinghours}));
+  }
+
+  removeImageFile(imageToRemove) {
+    this.imageToRemove = imageToRemove;
+    this.deleteDialogVisible = true;
+  }
+
+  removeImageFileDefenitly() {
+    let index = this.restaurantImages.indexOf(this.imageToRemove, 0);
     if (index > -1) {
       this.restaurantImages.splice(index, 1);
     }
-    this.appStore.dispatch(new RemoveRestaurantImageFileAction({imageToRemove: imageToRemove}));
+    this.appStore.dispatch(new RemoveRestaurantImageFileAction({imageToRemove: this.imageToRemove}));
+    this.cancelRemoveImage();
+  }
+
+  cancelRemoveImage() {
+    this.imageToRemove = null;
+    this.deleteDialogVisible = false; // hide dialog
   }
 
   cancelRestaurantEdit() {

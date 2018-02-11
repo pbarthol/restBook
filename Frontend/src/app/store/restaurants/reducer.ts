@@ -44,7 +44,7 @@ export function reducer(state = initialState, action: restaurantsActions.Actions
     case restaurantsActions.SET_NEW_RESTAURANT_FOR_EDIT: {
       return Object.assign({}, state, {editRestaurant: action.payload});
     }
-    case restaurantsActions.SET_USER_RESTAURANT_FOR_DETAIL: {
+    case restaurantsActions.SET_RESTAURANT_FOR_DETAIL: {
       return Object.assign({}, state, {detailRestaurantId: action.payload});
     }
     case restaurantsActions.CREATE_RESTAURANT_IMAGES_SUCCESS: {

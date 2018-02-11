@@ -7,7 +7,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
-
 /** PrimeNG Modules */
 import {AccordionModule} from 'primeng/primeng';
 import {AutoCompleteModule} from 'primeng/primeng';
@@ -75,7 +74,6 @@ import {TooltipModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
 import {AdvGrowlModule} from 'primeng-advanced-growl';
-
 /** Own Components */
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -88,15 +86,19 @@ import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
-import { RestaurantEffects } from './store/restaurants/effects';
-import { UserEffects } from './store/user/effects';
-import { MealEffects } from './store/restaurants/meal/effects';
+import { RestaurantTeaserComponent } from './components/restaurant-teaser/restaurant-teaser.component';
+/** reducers */
 import { reducers } from './reducers/index';
+ /** services */
 import { RestaurantService } from './store/restaurants/services';
 import { UserService } from './store/user/services';
 import { MealService } from './store/restaurants/meal/services';
-import { RestaurantTeaserComponent } from './components/restaurant-teaser/restaurant-teaser.component';
-
+import { OpeninghourService } from './store/restaurants/openinghours/services';
+ /** effects */
+import { RestaurantEffects } from './store/restaurants/effects';
+import { UserEffects } from './store/user/effects';
+import { MealEffects } from './store/restaurants/meal/effects';
+import { OpeninghourEffects } from './store/restaurants/openinghours/effects';
 /** Pipes */
 import { RestaurantPipe } from './components/pipes/restaurant';
 import { RestaurantOverviewComponent } from './components/restaurant-overview/restaurant-overview.component';
@@ -124,8 +126,9 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
   ],
   imports: [
     RouterModule.forRoot([
-      { path: 'home', component: HomeComponent },
-      { path: '**', redirectTo: 'home', pathMatch: 'full' }
+      { path: '', component: HomeComponent },
+      { path: 'restaurantdetail/:id/:mode', component: RestaurantDetailComponent },
+      { path: '**', redirectTo: '', pathMatch: 'full' }
     ]),
     BrowserModule,
     FormsModule,
@@ -135,7 +138,8 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
     EffectsModule.forRoot([
       RestaurantEffects,
       UserEffects,
-      MealEffects
+      MealEffects,
+      OpeninghourEffects
     ]),
     AccordionModule,
     AutoCompleteModule,
@@ -211,7 +215,8 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
   providers: [
     RestaurantService,
     UserService,
-    MealService
+    MealService,
+    OpeninghourService,
   ],
   bootstrap: [AppComponent]
 })

@@ -67,6 +67,72 @@
             </div>
         </span>
       </div>
+
+      <div *ngIf="!addRestaurant" class="ui-g-12">
+        <div class="card card-w-title">
+          <p-dataList [value]="openinghours" [paginator]="false">
+            <p-header>
+              Opening hours
+            </p-header>
+            <ng-template let-openinghour let-i="index" pTemplate="item">
+              <div class="ui-g">
+                <div class="ui-g-12">
+                  <h3>{{openinghour.weekday}}</h3>
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-2">
+                    <label for="{{'timeFromMorning'+openinghour.weekday}}">
+                      Morning
+                    </label>
+                  </div>
+                  <div class="ui-g-3">
+                    <p-calendar showTime="true"
+                                timeOnly="true"
+                                [(ngModel)]="openinghour.fromTimeMorning"
+                                id="{{'timeFromMorning'+openinghour.weekday}}">
+                    </p-calendar>
+                  </div>
+                  <div class="ui-g-1"> to </div>
+                  <div class="ui-g-3">
+                    <p-calendar showTime="true"
+                                timeOnly="true"
+                                [(ngModel)]="openinghour.toTimeMorning">
+                    </p-calendar>
+                  </div>
+                  <div class="ui-g-2">
+                    Closed
+                  </div>
+                  <div class="ui-g-1">
+                    <p-checkbox [(ngModel)]="openinghour.allDayClosed" binary="false"></p-checkbox>
+                  </div>
+                </div>
+                <div class="ui-g-12">
+                  <div class="ui-g-2">
+                    <label for="{{'timeFromAfternoon'+openinghour.weekday}}">
+                      Afternoon
+                    </label>
+                  </div>
+                  <div class="ui-g-3">
+                    <p-calendar showTime="true"
+                                timeOnly="true"
+                                [(ngModel)]="openinghour.fromTimeAfternoon"
+                                id="{{'timeFromAfternoon'+openinghour.weekday}}">
+                    </p-calendar>
+                  </div>
+                  <div class="ui-g-1"> to </div>
+                  <div class="ui-g-3">
+                    <p-calendar showTime="true"
+                                timeOnly="true"
+                                [(ngModel)]="openinghour.toTimeAfternoon">
+                    </p-calendar>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </p-dataList>
+        </div>
+      </div>
+
       <div class="ui-g-12">
         <h3>Webpage Details</h3>
       </div>
@@ -97,7 +163,6 @@
       </div>
       <div *ngIf="!addRestaurant" class="ui-g-12">
         <div *ngIf="(restaurantImages)?.length>0">
-          <!--<h3>Already uploaded Pictures</h3>-->
           <p-orderList [value]="restaurantImages" [listStyle]="{'height':'250px'}" [responsive]="true" header="Change Sortorder of Uploaded Pictures" dragdrop="true">
             <ng-template let-restaurantImage pTemplate="item">
               <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #bdbdbd">
@@ -110,11 +175,27 @@
                         icon="ui-icon-delete"
                         class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
                         pTooltip="Remove this restaurant image"
-                        (click)="removeImage(restaurantImage)">
+                        (click)="removeImageFile(restaurantImage)">
                 </button>
               </div>
             </ng-template>
           </p-orderList>
+        </div>
+        <div>
+          <p-dialog header="Remove Restaurant Image" [resizable]="false" responsive="true" [(visible)]="deleteDialogVisible">
+            <div class="ui-g form-group" style="margin-bottom: 16px;">
+              <div class="ui-g-12">
+                Are You shure to remove this image?
+              </div>
+            </div>
+
+            <p-footer>
+              <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" label="Cancel" icon="ui-icon-close" (click)="cancelRemoveImage()" pButton></button>
+                <button type="button" label="Delete" icon="ui-icon-delete" (click)="removeImageFileDefenitly()" pButton></button>
+              </div>
+            </p-footer>
+          </p-dialog>
         </div>
       </div>
       <div *ngIf="!addRestaurant" class="ui-g-12">

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppState } from '../../reducers/index';
 import { Observable } from "rxjs";
 import { Store } from '@ngrx/store';
@@ -9,13 +10,13 @@ import {
   SET_USER_RESTAURANT_FOR_EDIT,
   LoadUserRestaurantsAction,
   SetUserRestaurantForEditAction,
-  SetUserRestaurantForDetailAction
+  SetRestaurantForDetailAction
 } from '../../store/restaurants/actions';
 import {
-  ShowRestaurantDetailAction,
+  // ShowRestaurantDetailAction,
   ShowRestaurantEditAction,
   HideRestaurantOverviewAction,
-  ShowMealOverviewAction
+  ShowMealOverviewAction, HideRestaurantEditAction
 } from '../../store/user-interface/actions'
 
 @Component({
@@ -31,7 +32,7 @@ export class RestaurantOverviewComponent implements OnInit {
   private loggedInUser: User;
   private detailRestaurantId: string;
 
-  constructor(private appStore: Store<AppState>) {
+  constructor(private appStore: Store<AppState>, private router: Router) {
     this.loggedInUser$ = appStore.select(state => state.user.user);
     this.restaurants$ = appStore.select(state => state.restaurants.userRestaurants);
   }
@@ -47,9 +48,10 @@ export class RestaurantOverviewComponent implements OnInit {
   }
 
   displayRestaurant(restaurantId: string) {
-    this.appStore.dispatch(new SetUserRestaurantForDetailAction(restaurantId));
-    this.appStore.dispatch(new HideRestaurantOverviewAction());
-    this.appStore.dispatch(new ShowRestaurantDetailAction());
+    this.router.navigate(['/restaurantdetail', restaurantId, 'detail']);
+    // this.appStore.dispatch(new SetRestaurantForDetailAction(restaurantId));
+    // this.appStore.dispatch(new HideRestaurantOverviewAction());
+    // this.appStore.dispatch(new ShowRestaurantDetailAction());
   }
 
   addRestaurant() {
@@ -69,7 +71,8 @@ export class RestaurantOverviewComponent implements OnInit {
   }
 
   displayMealOverview(restaurantId: string) {
-    this.appStore.dispatch(new SetUserRestaurantForDetailAction(restaurantId));
+    this.appStore.dispatch(new HideRestaurantEditAction());
+    this.appStore.dispatch(new SetRestaurantForDetailAction(restaurantId));
     this.appStore.dispatch(new HideRestaurantOverviewAction());
     this.appStore.dispatch(new ShowMealOverviewAction());
   }

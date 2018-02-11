@@ -16,16 +16,16 @@ export class MealService {
   constructor(private http: HttpClient) {
   }
 
-  public getMeal(mealId: string): Observable<Meal> {
-    let httpParam = new HttpParams()
-      .set("id", mealId);
-    const httpOptions = {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-    };
-    return this.http.get<Meal>(this.MealsURL + '/' + mealId)
-      .do(res => console.log('Get Meal = ', res))
-      .map(data => data)
-  }
+  // public getMeal(mealId: string): Observable<Meal> {
+  //   let httpParam = new HttpParams()
+  //     .set("id", mealId);
+  //   const httpOptions = {
+  //     headers: new HttpHeaders({'Content-Type': 'application/json'}),
+  //   };
+  //   return this.http.get<Meal>(this.MealsURL + '/' + mealId)
+  //     .do(res => console.log('Get Meal = ', res))
+  //     .map(data => data)
+  // }
 
   public getMeals(restaurantid: string): Observable<Array<Meal>> {
     let httpParam = new HttpParams()
@@ -53,6 +53,14 @@ export class MealService {
       headers: new HttpHeaders({'Content-Type': 'application/json'})
     };
     return this.http.put(this.MealURL, body, httpOptions)
+      .map(res => res);
+  }
+
+  public removeMeal(mealId: string) {
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    };
+    return this.http.delete(this.MealURL + '/' + mealId, httpOptions)
       .map(res => res);
   }
 }

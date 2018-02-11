@@ -7,7 +7,6 @@ import {AdvPrimeMessage} from 'primeng-advanced-growl/src/app/lib/adv-growl.mode
 
 /** Store */
 import { Store } from '@ngrx/store';
-import { UIState } from '../../store/user-interface/reducer';
 import {
   ShowRegisterAction,
   HideRegisterAction,
@@ -53,7 +52,6 @@ export class HeaderComponent implements OnInit {
   private detailRestaurantId$: Observable<string>;
   private detailRestaurantId: string;
 
-
   constructor(private appStore: Store<AppState>,
               private advGrowlService: AdvGrowlService) {
     this.userIsLoggedIn$ = this.appStore.select(state => state.user.userIsLoggedIn)
@@ -64,7 +62,6 @@ export class HeaderComponent implements OnInit {
     this.loggedInUser$ = this.appStore.select(state => state.user.user)
     this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
     this.showRestaurantEdit$ = this.appStore.select(state => state.userinterface.showRestaurantEdit);
-    this.showRestaurantDetail$ = this.appStore.select(state => state.userinterface.showRestaurantDetail);
     this.showMealOverview$ = this.appStore.select(state => state.userinterface.showMealOverview);
     this.showMealEdit$ = this.appStore.select(state => state.userinterface.showMealEdit);
     this.detailRestaurantId$ = this.appStore.select(state => state.restaurants.detailRestaurantId);

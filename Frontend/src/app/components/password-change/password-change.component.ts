@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 
 /** Store, State */
 import { Store } from '@ngrx/store';
-import { State } from '../../store/restaurants/reducer';
 import { AppState } from '../../reducers/index';
 import { User } from '../../store/user/models';
 import { Observable } from "rxjs";

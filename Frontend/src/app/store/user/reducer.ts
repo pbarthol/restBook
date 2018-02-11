@@ -6,14 +6,14 @@ import { Action } from '@ngrx/store';
 import { User } from './models';
 import * as userActions from './actions';
 
-export interface UserState {
+export interface State {
   userIsLoggedIn: boolean;
   user: User;
   webtoken: string;
   userid: string;
 };
 
-const initialState: UserState = {
+const initialState: State = {
   userIsLoggedIn: false,
   user: null,
   webtoken: null,
@@ -68,7 +68,7 @@ export function reducer(state = initialState, action: userActions.Actions) {
   }
 }
 
-export const getUser = (state: UserState) => {
+export const getUser = (state: State) => {
   console.log("getUser:", state.user);
   state.user;
 }
