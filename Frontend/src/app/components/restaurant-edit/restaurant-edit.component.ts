@@ -101,10 +101,20 @@ export class RestaurantEditComponent implements OnInit {
         this.openinghours$.subscribe(openinghours => {
           openinghours.map(openinghour => {
             this.openinghours[openinghour.sortorder].weekday = openinghour.weekday;
-            this.openinghours[openinghour.sortorder].fromTimeMorning = openinghour.fromTimeMorning;
-            this.openinghours[openinghour.sortorder].toTimeMorning = openinghour.toTimeMorning;
-            this.openinghours[openinghour.sortorder].fromTimeAfternoon = openinghour.fromTimeMorning;
-            this.openinghours[openinghour.sortorder].toTimeAfternoon = openinghour.toTimeMorning;
+            // Date have string format
+            // Create new Date Objects
+            if (openinghour.fromTimeMorning !== undefined) {
+              this.openinghours[openinghour.sortorder].fromTimeMorning = new Date(openinghour.fromTimeMorning);
+            }
+            if (openinghour.toTimeMorning !== undefined) {
+              this.openinghours[openinghour.sortorder].toTimeMorning = new Date(openinghour.toTimeMorning);
+            }
+            if (openinghour.fromTimeAfternoon !== undefined) {
+              this.openinghours[openinghour.sortorder].fromTimeAfternoon = new Date(openinghour.fromTimeAfternoon);
+            }
+            if (openinghour.toTimeAfternoon !== undefined) {
+              this.openinghours[openinghour.sortorder].toTimeAfternoon = new Date(openinghour.toTimeAfternoon);
+            }
             this.openinghours[openinghour.sortorder].sortorder = openinghour.sortorder;
             this.openinghours[openinghour.sortorder].allDayClosed = openinghour.allDayClosed;
           })
@@ -229,8 +239,10 @@ export class RestaurantEditComponent implements OnInit {
       // update restaurantid
       openinghour.restaurantId = this.restaurant._id;
     });
-    this.appStore.dispatch(new RemoveOpeninghoursAction({restaurantId: this.restaurant._id}));
-    this.appStore.dispatch(new CreateOpeninghoursAction({openinghours: this.openinghours}));
+    // Observable.of().concatMap(() => [
+    //   this.appStore.dispatch(new RemoveOpeninghoursAction({restaurantId: this.restaurant._id})),
+      this.appStore.dispatch(new CreateOpeninghoursAction({openinghours: this.openinghours}))
+    // ]);
   }
 
   removeImageFile(imageToRemove) {

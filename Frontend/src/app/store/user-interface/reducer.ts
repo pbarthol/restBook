@@ -10,9 +10,11 @@ export interface State {
   showPasswordChange: boolean;
   showRestaurantOverview: boolean;
   showRestaurantEdit: boolean;
+  showRestaurantLayout: boolean;
   // showRestaurantDetail: boolean;
   showMealOverview: boolean;
   showMealEdit: boolean;
+  showMenu: boolean;
   messages: {
     type: string,
     title: string,
@@ -28,9 +30,11 @@ export const initialState: State = {
   showPasswordChange: false,
   showRestaurantOverview: false,
   showRestaurantEdit: false,
+  showRestaurantLayout: false,
   // showRestaurantDetail: false,
   showMealOverview: false,
   showMealEdit: false,
+  showMenu: false,
   messages: []
 };
 
@@ -118,6 +122,22 @@ export function reducer(state = initialState, action: uiActions.Actions) {
 
     case uiActions.HIDE_MEAL_EDIT: {
       return Object.assign({}, state, {showMealEdit: false});
+    }
+
+    case uiActions.SHOW_MENU: {
+      return Object.assign({}, state, {showMenu: true});
+    }
+
+    case uiActions.HIDE_MENU: {
+      return Object.assign({}, state, {showMenu: false});
+    }
+
+    case uiActions.SHOW_RESTAURANT_LAYOUT: {
+      return Object.assign({}, state, {showRestaurantLayout: true});
+    }
+
+    case uiActions.HIDE_RESTAURANT_LAYOUT: {
+      return Object.assign({}, state, {showRestaurantLayout: false});
     }
 
     default: {

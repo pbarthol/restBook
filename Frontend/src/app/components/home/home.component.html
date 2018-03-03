@@ -1,13 +1,9 @@
 <nav>
   <app-header></app-header>
 </nav>
-<!--<div *ngIf="(showPasswordChange$ | async)">-->
-  <!--<app-password-change></app-password-change>-->
-<!--</div>-->
-
+<!--<div class="layout-wrapper" [ngClass]="{'layout-compact':layoutCompact}" (click)="onLayoutClick()">-->
 <a name="top"></a>
-
-<div class="ui-grid ui-grid-responsive">
+<div class="ui-grid ui-grid-responsive" (click)="onLayoutClick()">
   <div class="ui-g">
     <div class="ui-g-2"></div>
     <div class="ui-g-8">
@@ -59,4 +55,4 @@
   </div>
   </div>
 </div>
-
+<!--</div>-->

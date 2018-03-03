@@ -1,4 +1,4 @@
-<div class="ui-g-8 ui-md-offset-2">
+<div class="ui-g-12">
   <div class="card card-w-title">
     <p-dataList [value]="meals$ | async" [paginator]="true" [rows]="5">
       <p-header>
@@ -20,7 +20,7 @@
               <div class="ui-g-4">
                 <button type="button"
                         pButton
-                        icon="ui-icon-edit"
+                        icon="fa fa-edit"
                         class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
                         pTooltip="Update this meal."
                         (click)="updateMeal(meal._id)">
@@ -30,7 +30,7 @@
               <div class="ui-g-4">
                 <button type="button"
                         pButton
-                        icon="ui-icon-delete"
+                        icon="fa fa-trash-o"
                         class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
                         pTooltip="Remove this meal."
                         (click)="removeMeal(meal)">
@@ -49,8 +49,8 @@
       </div>
       <p-footer>
         <div class="ui-dialog-buttonpane ui-helper-clearfix">
-          <button type="button" label="Cancel" icon="ui-icon-close" (click)="cancelRemoveMeal()" pButton></button>
-          <button type="button" label="Delete" icon="ui-icon-delete" (click)="removeMealDefinitly()" pButton></button>
+          <button type="button" label="Cancel" icon="fa fa-close" (click)="cancelRemoveMeal()" pButton></button>
+          <button type="button" label="Delete" icon="fa fa-trash-o" (click)="removeMealDefinitly()" pButton></button>
         </div>
       </p-footer>
     </p-dialog>
@@ -60,7 +60,7 @@
           <div class="ui-g-1">
             <button type="button"
                     pButton
-                    icon="ui-icon-plus"
+                    icon="fa fa-plus"
                     class="ui-button-icon-left ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Add Meal to this restaurant"
                     (click)="addMeal()">
@@ -70,7 +70,7 @@
           <div class="ui-g-1">
             <button type="button"
                     pButton
-                    icon="ui-icon-close"
+                    icon="fa fa-close"
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Close Meal Overview"
                     (click)="hideMealOverview()">

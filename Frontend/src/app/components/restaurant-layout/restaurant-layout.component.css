@@ -1,0 +1,36 @@
+.rb-block {
+  background-color: white;
+}
+
+body .ui-button {
+  background-color: #22a981;
+  color: #fefefe;
+}
+
+.rb-layout {
+  padding: 0;
+}
+
+.rb-layout-allsides {
+  border-style: solid;
+  border-width: 1px;
+  padding: 0;
+  text-align: center;
+}
+
+.rb-layout-rightleft {
+  border-left: solid;
+  border-right: solid;
+  border-width: 1px;
+  padding: 0;
+  text-align:center;
+}
+
+.rb-layout-rightbottomleft {
+  border-bottom: solid;
+  border-left: solid;
+  border-right: solid;
+  border-width: 1px;
+  padding: 0;
+  text-align:center;
+}

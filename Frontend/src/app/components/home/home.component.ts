@@ -15,6 +15,7 @@ import { LoadRestaurantsAction } from '../../store/restaurants/actions';
 import {
   HideRegisterAction,
   HideLoginAction,
+  HideMenuAction,
 } from '../../store/user-interface/actions';
 import { LoginAction, LogoutAction } from '../../store/user/actions';
 /** Models */
@@ -78,6 +79,10 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.appStore.dispatch(new LoadRestaurantsAction());
     //  this.store.dispatch(new LogoutAction()); // User is logged out
+  }
+
+  onLayoutClick() {
+    this.appStore.dispatch(new HideMenuAction());
   }
 
 }

@@ -1,0 +1,71 @@
+<div class="ui-g-12 rb-block">
+  <div class="ui-g-1">
+    <div *ngFor="let shape of shapes; let i = index" class="ui-g-12 rb-layout">
+      <div *ngIf="(i == 0 || i%2 === 0) && i != (shapes.length - 1) " class="rb-layout-allsides">
+        <img src="{{shape.icon}}" height="64" width="64" (click)="shapeChosen(shape)">
+      </div>
+      <div *ngIf="i != 0 && i != (shapes.length - 1) && i%2 != 0" class="rb-layout-rightleft">
+        <img src="{{shape.icon}}" height="64" width="64" (click)="shapeChosen(shape)">
+      </div>
+      <div *ngIf="i === (shapes.length - 1)" class="rb-layout-rightbottomleft">
+        <img src="{{shape.icon}}" height="64" width="64" (click)="shapeChosen(shape)">
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-9">
+    <div>
+      <div [ngSwitch]="gridTemplate">
+        <ng-template [ngSwitchCase]= "'noGrid'">
+          <div style="{text-align: center}">
+            Please select a shape on the left!
+          </div>
+        </ng-template>
+        <ng-template [ngSwitchCase]= "'grid1'">
+          <p-dataTable>
+            <p-column field="vin" header="Vin"></p-column>
+            <p-column field="year" header="Year"></p-column>
+          </p-dataTable>
+        </ng-template>
+        <ng-template [ngSwitchCase]= "'grid2'">
+          <p-dataTable>
+            <p-column field="vin" header="Vin"></p-column>
+            <p-column field="year" header="Year"></p-column>
+            <p-column field="brand" header="Brand"></p-column>
+          </p-dataTable>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="ui-g-2">
+    <div *ngFor="let table of tables; let inx = index" class="ui-g-12 rb-layout">
+      <div *ngIf="(inx == 0 || inx%2 === 0) && inx != (tables.length - 1) " class="rb-layout-allsides">
+        <img src="{{table.icon}}" height="64" width="64" (click)="tableChosen(table)">
+      </div>
+      <div *ngIf="inx != 0 && inx != (tables.length - 1) && inx%2 != 0" class="rb-layout-rightleft">
+        <img src="{{table.icon}}" height="64" width="64" (click)="tableChosen(table)">
+      </div>
+      <div *ngIf="inx === (tables.length - 1)" class="rb-layout-rightbottomleft">
+        <img src="{{table.icon}}" height="64" width="64" (click)="tableChosen(table)">
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui-g-12 ui-md-3">
+  <span class="md-inputfield">
+    <button pButton type="button"
+            label="Save"
+            (click)="save()"
+            style="margin-bottom:10px;width:auto">
+    </button>
+  </span>
+</div>
+<div class="ui-g-12 ui-md-7"></div>
+<div class="ui-g-12 ui-md-2">
+  <span class="md-inputfield">
+    <button pButton type="button"
+            label="Cancel"
+            (click)="cancel()"
+            style="margin-bottom:10px;width:auto">
+    </button>
+  </span>
+</div>

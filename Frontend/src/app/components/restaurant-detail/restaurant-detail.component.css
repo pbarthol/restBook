@@ -1,3 +1,7 @@
-.rb-restaurant-detail {
-  background-color: #22a981;
+.rb-block {
+  background-color: #cfcfcf;
+}
+body .ui-widget-content {
+  font-size: 14px;
+  border: 0px;
 }

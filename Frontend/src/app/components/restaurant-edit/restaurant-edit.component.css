@@ -14,3 +14,7 @@ button[icon="fa-angle-double-up"] {
 button[icon="fa-angle-double-down"] {
   display: none !important;
 }
+
+.ui-icon-close:before {
+  color: black;
+}

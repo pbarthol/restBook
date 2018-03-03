@@ -1,6 +1,17 @@
 <div class="ui-g-6 ui-md-offset-3">
   <div class="card card-w-title">
-    <h1>{{formTitle}}</h1>
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #bdbdbd">
+      <h1>{{formTitle}}</h1>
+      <button type="button"
+              pButton
+              icon="fa fa-close"
+              class="ui-button-icon-only"
+              pTooltip="Close Edit Restaurant"
+              style="background-color: transparent; color: black"
+              (click)="cancelRestaurantEdit()">
+      </button>
+      <!--<a href="/home"><i img="ui-icon-close"></i></a>-->
+    </div>
     <div class="ui-g form-group">
       <div class="ui-g-12">
         <p-dropdown [options]="restaurantCategories"
@@ -77,7 +88,7 @@
             <ng-template let-openinghour let-i="index" pTemplate="item">
               <div class="ui-g">
                 <div class="ui-g-12">
-                  <h3>{{openinghour.weekday}}</h3>
+                  <h4>{{openinghour.weekday}}</h4>
                 </div>
                 <div class="ui-g-12">
                   <div class="ui-g-2">
@@ -103,7 +114,7 @@
                     Closed
                   </div>
                   <div class="ui-g-1">
-                    <p-checkbox [(ngModel)]="openinghour.allDayClosed" binary="false"></p-checkbox>
+                    <p-checkbox ptooltip="All day closed" [(ngModel)]="openinghour.allDayClosed" binary="false"></p-checkbox>
                   </div>
                 </div>
                 <div class="ui-g-12">
@@ -172,7 +183,7 @@
                 </div>
                 <button type="button"
                         pButton
-                        icon="ui-icon-delete"
+                        icon="fa fa-trash-o"
                         class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only rbOrderListButton"
                         pTooltip="Remove this restaurant image"
                         (click)="removeImageFile(restaurantImage)">
@@ -191,8 +202,8 @@
 
             <p-footer>
               <div class="ui-dialog-buttonpane ui-helper-clearfix">
-                <button type="button" label="Cancel" icon="ui-icon-close" (click)="cancelRemoveImage()" pButton></button>
-                <button type="button" label="Delete" icon="ui-icon-delete" (click)="removeImageFileDefenitly()" pButton></button>
+                <button type="button" label="Cancel" icon="fa fa-close" (click)="cancelRemoveImage()" pButton></button>
+                <button type="button" label="Delete" icon="fa fa-trash-o" (click)="removeImageFileDefenitly()" pButton></button>
               </div>
             </p-footer>
           </p-dialog>

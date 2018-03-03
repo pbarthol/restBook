@@ -73,6 +73,7 @@ import {ToolbarModule} from 'primeng/primeng';
 import {TooltipModule} from 'primeng/primeng';
 import {TreeModule} from 'primeng/primeng';
 import {TreeTableModule} from 'primeng/primeng';
+import {ScrollPanelModule} from 'primeng/primeng';
 import {AdvGrowlModule} from 'primeng-advanced-growl';
 /** Own Components */
 import { AppComponent } from './app.component';
@@ -84,6 +85,7 @@ import { RestaurantEditComponent } from './components/restaurant-edit/restaurant
 import { UserComponent } from './components/user/user.component';
 import { UserEditComponent } from './components/user-edit/user-edit.component';
 import { HeaderComponent } from './components/header/header.component';
+import { RightpanelComponent } from './components/header/rightpanel.component'
 import { FooterComponent } from './components/footer/footer.component';
 import { PasswordChangeComponent } from './components/password-change/password-change.component';
 import { RestaurantTeaserComponent } from './components/restaurant-teaser/restaurant-teaser.component';
@@ -104,6 +106,7 @@ import { RestaurantPipe } from './components/pipes/restaurant';
 import { RestaurantOverviewComponent } from './components/restaurant-overview/restaurant-overview.component';
 import { MenuEditComponent } from './components/meal-edit/meal-edit.component';
 import { MealOverviewComponent } from './components/meal-overview/meal-overview.component';
+import { RestaurantLayoutComponent } from './components/restaurant-layout/restaurant-layout.component';
 
 @NgModule({
   declarations: [
@@ -116,6 +119,7 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
     UserComponent,
     UserEditComponent,
     HeaderComponent,
+    RightpanelComponent,
     FooterComponent,
     RestaurantTeaserComponent,
     RestaurantPipe,
@@ -123,6 +127,7 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
     RestaurantOverviewComponent,
     MenuEditComponent,
     MealOverviewComponent,
+    RestaurantLayoutComponent,
   ],
   imports: [
     RouterModule.forRoot([
@@ -191,6 +196,7 @@ import { MealOverviewComponent } from './components/meal-overview/meal-overview.
     RadioButtonModule,
     RatingModule,
     ScheduleModule,
+    ScrollPanelModule,
     SelectButtonModule,
     SlideMenuModule,
     SliderModule,

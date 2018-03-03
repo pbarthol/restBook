@@ -12,16 +12,20 @@ export const SHOW_PASSWORD_CHANGE = '[Password] Show Change Password';
 export const HIDE_PASSWORD_CHANGE = '[Password] Hide Change Password';
 export const SET_MESSAGE = '[Messages] Set Message';
 export const CLEAR_MESSAGE = '[Messages] Clear Message';
-export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview'
-export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview'
-export const SHOW_RESTAURANT_EDIT = '[Restaurant] Show Edit'
-export const HIDE_RESTAURANT_EDIT = '[Restaurant] Hide Edit'
+export const SHOW_RESTAURANT_OVERVIEW = '[Restaurants] Show Overview';
+export const HIDE_RESTAURANT_OVERVIEW = '[Restaurants] Hide Overview';
+export const SHOW_RESTAURANT_EDIT = '[Restaurant] Show Edit';
+export const HIDE_RESTAURANT_EDIT = '[Restaurant] Hide Edit';
 // export const SHOW_RESTAURANT_DETAIL = '[Restaurant] Show Detail'
 // export const HIDE_RESTAURANT_DETAIL = '[Restaurant] Hide Detail'
-export const SHOW_MEAL_OVERVIEW = '[Meals] Show Overview'
-export const HIDE_MEAL_OVERVIEW = '[Meals] Hide Overview'
-export const SHOW_MEAL_EDIT = '[Meal] Show Edit'
-export const HIDE_MEAL_EDIT = '[Meal] Hide Edit'
+export const SHOW_MEAL_OVERVIEW = '[Meals] Show Overview';
+export const HIDE_MEAL_OVERVIEW = '[Meals] Hide Overview';
+export const SHOW_MEAL_EDIT = '[Meal] Show Edit';
+export const HIDE_MEAL_EDIT = '[Meal] Hide Edit';
+export const SHOW_MENU = '[Menu] Show Menu';
+export const HIDE_MENU = '[Menu] Hide Menu';
+export const SHOW_RESTAURANT_LAYOUT = '[Restaurant] Show Layout';
+export const HIDE_RESTAURANT_LAYOUT = '[Restaurant] Hide Layout';
 
 @Injectable()
 
@@ -123,6 +127,26 @@ export class HideMealEditAction implements Action {
   constructor(public payload: any = null) { }
 }
 
+export class ShowMenuAction implements Action {
+  readonly type = SHOW_MENU;
+  constructor(public payload: any = null) { }
+}
+
+export class HideMenuAction implements Action {
+  readonly type = HIDE_MENU;
+  constructor(public payload: any = null) { }
+}
+
+export class ShowRestaurantLayoutAction implements Action {
+  readonly type = SHOW_RESTAURANT_LAYOUT;
+  constructor(public payload: any = null) { }
+}
+
+export class HideRestaurantLayoutAction implements Action {
+  readonly type = HIDE_RESTAURANT_LAYOUT;
+  constructor(public payload: any = null) { }
+}
+
 export type Actions
   = ShowRegisterAction
   | HideRegisterAction
@@ -142,3 +166,7 @@ export type Actions
   | HideMealOverviewAction
   | ShowMealEditAction
   | HideMealEditAction
+  | ShowMenuAction
+  | HideMenuAction
+  | ShowRestaurantLayoutAction
+  | HideRestaurantLayoutAction

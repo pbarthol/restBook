@@ -16,7 +16,9 @@ import {
   // ShowRestaurantDetailAction,
   ShowRestaurantEditAction,
   HideRestaurantOverviewAction,
-  ShowMealOverviewAction, HideRestaurantEditAction
+  ShowMealOverviewAction,
+  HideRestaurantEditAction,
+  ShowRestaurantLayoutAction
 } from '../../store/user-interface/actions'
 
 @Component({
@@ -75,5 +77,10 @@ export class RestaurantOverviewComponent implements OnInit {
     this.appStore.dispatch(new SetRestaurantForDetailAction(restaurantId));
     this.appStore.dispatch(new HideRestaurantOverviewAction());
     this.appStore.dispatch(new ShowMealOverviewAction());
+  }
+
+  displayRestaurantLayout(restaurantId: string) {
+    this.appStore.dispatch(new HideRestaurantOverviewAction());
+    this.appStore.dispatch(new ShowRestaurantLayoutAction((restaurantId)));
   }
 }

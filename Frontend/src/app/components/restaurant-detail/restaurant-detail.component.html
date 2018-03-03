@@ -1,25 +1,54 @@
 <nav>
   <app-header></app-header>
 </nav>
-<div class="ui-g-12" classe="rb-restaurant-detail">
-  {{detailRestaurant$ | async}}
-</div>
-
-
-<div class="ui-g-12 ui-lg-8">
+<div>
+<div class="ui-g-12 rb-block">
+  <div class="ui-g-8">
+    <div class="card card-w-title">
+      <h2>{{restaurant.teaserTitle}}</h2>
+      {{restaurant.foodType}}
+      <h4>{{restaurant.village}}, {{restaurant.street}}  {{restaurant.streetNumber}}</h4>
+      {{restaurant.teaserDescription}}
+    </div>
     <app-meal-overview
       [restaurantId]="restaurantId"
       [mode]="'detail'">
     </app-meal-overview>
-</div>
-<div class="ui-g-12 ui-lg-4">
-  <div class="card">
-    <h1>Pictures</h1>
-    <p-lightbox [images]="images">
-    </p-lightbox>
+  </div>
+  <div class="ui-g-4">
+    <div class="card">
+      <h1>Pictures</h1>
+      <p-lightbox [images]="images">
+      </p-lightbox>
+    </div>
+    <div class="card card-w-title">
+      <p-dataList [value]="openinghours" [paginator]="false">
+        <ng-template let-openinghour let-i="index" pTemplate="item">
+          <div class="ui-g">
+            <div class="ui-g-12 ui-lg-3">
+              <h4 *ngIf="i==0">Opening hours</h4>
+            </div>
+            <div class="ui-g-12 ui-lg-3">
+              {{openinghour.weekday}}
+            </div>
+            <div class="ui-g-12 ui-lg-3">
+              {{openinghour.fromTimeMorning}} - {{openinghour.toTimeMorning}}
+            </div>
+            <div class="ui-g-12 ui-lg-3">
+              {{openinghour.fromTimeAfternoon}} - {{openinghour.toTimeAfternoon}}
+            </div>
+          </div>
+        </ng-template>
+      </p-dataList>
   </div>
 </div>
-
+<!--<div class="ui-g-12 rb-block">-->
+  <!--<div class="ui-g-8">-->
+  <!--</div>-->
+  <!--<div class="ui-g-4">-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->
 <!--<div class="ui-g-12 ui-md-9"></div>-->
 <!--<div class="ui-g-12 ui-md-3">-->
       <!--<span class="md-inputfield">-->

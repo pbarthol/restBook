@@ -17,6 +17,7 @@ export class Restaurant {
   userId: string;
   thumbnail: string;
   teaserImage: string;
+  chairs: Number;
 }
 
 export class RestaurantImage {

@@ -21,10 +21,13 @@ import {
   ShowMealOverviewAction,
   HideMealOverviewAction,
   ShowMealEditAction,
-  HideMealEditAction
+  HideMealEditAction,
+  ShowMenuAction,
+  ShowRestaurantLayoutAction
 } from '../../store/user-interface/actions';
 import { LogoutAction } from '../../store/user/actions';
 import { User } from '../../store/user/models';
+import {RightpanelComponent} from "./rightpanel.component";
 
 
 @Component({
@@ -46,6 +49,7 @@ export class HeaderComponent implements OnInit {
   private loggedInUser: User;
   private showRestaurantOverview$: Observable<boolean>;
   private showRestaurantEdit$: Observable<boolean>;
+  private showRestaurantLayout$: Observable<boolean>;
   private showRestaurantDetail$: Observable<boolean>;
   private showMealOverview$: Observable<boolean>;
   private showMealEdit$: Observable<boolean>;
@@ -62,6 +66,7 @@ export class HeaderComponent implements OnInit {
     this.loggedInUser$ = this.appStore.select(state => state.user.user)
     this.showRestaurantOverview$ = this.appStore.select(state => state.userinterface.showRestaurantOverview);
     this.showRestaurantEdit$ = this.appStore.select(state => state.userinterface.showRestaurantEdit);
+    this.showRestaurantLayout$ = this.appStore.select(state => state.userinterface.showRestaurantLayout)
     this.showMealOverview$ = this.appStore.select(state => state.userinterface.showMealOverview);
     this.showMealEdit$ = this.appStore.select(state => state.userinterface.showMealEdit);
     this.detailRestaurantId$ = this.appStore.select(state => state.restaurants.detailRestaurantId);
@@ -174,5 +179,9 @@ export class HeaderComponent implements OnInit {
     this.appStore.dispatch(new HideRestaurantOverviewAction());
     this.appStore.dispatch(new HideMealOverviewAction());
     this.appStore.dispatch(new HideMealEditAction());
+  }
+
+  showMenu() {
+    this.appStore.dispatch(new ShowMenuAction());
   }
 }

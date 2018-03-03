@@ -13,3 +13,10 @@ export class Openinghour {
   sortorder: number;
 }
 
+export class OpeninghourDetail {
+  weekday: string;
+  fromTimeMorning: string;
+  toTimeMorning: string;
+  fromTimeAfternoon: string;
+  toTimeAfternoon: string;
+}

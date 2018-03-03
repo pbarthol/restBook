@@ -13,14 +13,14 @@
           <div>
             <button type="button"
                     pButton
-                    icon="ui-icon-plus"
+                    icon="fa fa-plus"
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Register a new additional restaurant"
                     (click)="addRestaurant()">
             </button>
             <button type="button"
                     pButton
-                    icon="ui-icon-delete"
+                    icon="fa fa-trash-o"
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Delete this restaurant">
             </button>
@@ -33,14 +33,21 @@
             </button>
             <button type="button"
                     pButton
-                    icon="ui-icon-edit"
+                    icon="fa fa-edit"
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Make changes of the data of this restaurant"
                     (click)="editRestaurant(restaurant._id)">
             </button>
             <button type="button"
                     pButton
-                    icon="ui-icon-list"
+                    icon="fa fa-qrcode"
+                    class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                    pTooltip="Edit layout of this restaurant"
+                    (click)="displayRestaurantLayout(restaurant._id)">
+            </button>
+            <button type="button"
+                    pButton
+                    icon="fa fa-list"
                     class="ui-button-icon-right ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                     pTooltip="Edit/Add Meals of this restaurant"
                     (click)="displayMealOverview(restaurant._id)">
